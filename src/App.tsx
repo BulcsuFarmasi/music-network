@@ -1,16 +1,18 @@
 import React, { FunctionComponent } from "react";
+import { BrowserRouter } from "react-router-dom";
 import styles from "./App.module.css";
 
-import AddTrack from "./components/tracks/AddTrack/AddTrack";
-import TrackList from "./components/tracks/TrackList/TrackList";
+import Navigation from "./components/navigation/Navgiation";
+import Routes from "./components/routes/Routes";
 
 const App: FunctionComponent = () => {
   return (
-    <div className={styles.app}>
-      <p>First Own React App!</p>
-      <AddTrack />
-      <TrackList />
-    </div>
+    <BrowserRouter>
+      <div className={styles.app}>
+        <Navigation />
+        <Routes />
+      </div>
+    </BrowserRouter>
   );
 };
 
