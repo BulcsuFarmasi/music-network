@@ -1,18 +1,65 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState, ChangeEvent } from "react";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
 
-const AddTrack: FunctionComponent = () => {
+import { Track } from "../../../store/reducers/track";
+import { addTrack, TrackAction } from "../../../store/actions/creators/track";
+
+interface Props {
+  addTrack: any;
+}
+
+const AddTrack: FunctionComponent<Props> = (props: Props) => {
+  const [track, setTrack] = useState<Track>({ id: 0, name: "" });
+
+  const { addTrack } = props;
+
+  const updateTrack = (
+    event: ChangeEvent<HTMLInputElement>,
+    propertyName: string
+  ) => {
+    const updatedTrack: Track = { ...track };
+    updatedTrack[propertyName] = event.target.value;
+    setTrack(updatedTrack);
+  };
+
+  const saveTrack = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    const updatedTrack: Track = { ...track };
+    updatedTrack.id = Date.now();
+    addTrack(updatedTrack);
+    setTrack(updatedTrack);
+  };
+
   return (
     <form>
       <p>
         <label htmlFor="track-name">Name of track</label>
         <br />
-        <input type="text" name="track-name" />
+        <input
+          type="text"
+          name="track-name"
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            updateTrack(event, "name")
+          }
+          value={track.name}
+        />
       </p>
       <p>
-        <button>Add Track</button>
+        <button onClick={saveTrack}>Add Track</button>
       </p>
     </form>
   );
 };
 
-export default AddTrack;
+const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
+  return {
+    addTrack: (track: Track) => {
+      dispatch(addTrack(track));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AddTrack);

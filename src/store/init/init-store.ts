@@ -9,7 +9,7 @@ import {
 import { SagaMiddleware } from "redux-saga";
 
 import initSagaMiddleware from "./init-saga";
-import trackReducer from "../reducers/track";
+import trackReducer, { TrackState } from "../reducers/track";
 
 declare global {
   interface Window {
@@ -19,13 +19,17 @@ declare global {
 
 const development: string = "development";
 
+interface AppState {
+  track: TrackState;
+}
+
 const initStore = (): Store => {
   const composeEnhancers =
     process.env.NODE_ENV === development
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       : null || compose;
 
-  const rootReducer: Reducer = combineReducers({
+  const rootReducer: Reducer<AppState> = combineReducers<AppState>({
     track: trackReducer,
   });
 
