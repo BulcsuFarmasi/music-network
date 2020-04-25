@@ -1,6 +1,7 @@
 import { Reducer } from "redux";
 
 interface Track {
+  id: number;
   name: String;
 }
 
