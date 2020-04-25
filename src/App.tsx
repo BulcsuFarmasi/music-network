@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { BrowserRouter } from "react-router-dom";
-import styles from "./App.module.css";
+import styles from "./App.module.scss";
 
 import Navigation from "./components/navigation/Navgiation";
 import Routes from "./components/routes/Routes";
