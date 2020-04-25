@@ -1,7 +1,44 @@
 import React, { FunctionComponent } from "react";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
 
-const TrackList: FunctionComponent = () => {
-  return <p>I'm Track List!</p>;
+import { AppState } from "../../../store/init/init-store";
+import { Track } from "../../../store/reducers/track";
+import SingleTrack from "../SingleTrack/SingleTrack";
+import {
+  deleteTrack,
+  TrackAction,
+} from "../../../store/actions/creators/track";
+
+interface Props {
+  tracks: Track[];
+  deleteTrack: any;
+}
+
+const TrackList: FunctionComponent<Props> = (props: Props) => {
+  const { tracks, deleteTrack } = props;
+
+  const removeTrack = (id: number) => {
+    deleteTrack(id);
+  };
+
+  const trackList = tracks.map((track: Track) => (
+    <SingleTrack track={track} key={track.id} removeTrack={removeTrack} />
+  ));
+
+  return <div>{trackList}</div>;
 };
 
-export default TrackList;
+const mapStateToProps = (state: AppState) => {
+  return {
+    tracks: state.track.tracks,
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
+  return {
+    deleteTrack: (id: number) => dispatch(deleteTrack(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrackList);

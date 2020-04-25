@@ -19,7 +19,7 @@ declare global {
 
 const development: string = "development";
 
-interface AppState {
+export interface AppState {
   track: TrackState;
 }
 

@@ -21,7 +21,6 @@ const initialState: TrackState = {
 };
 
 const addTrack = (state: TrackState, action: AddTrackAction): TrackState => {
-  console.log(state);
   const tracks: Track[] = [...state.tracks];
   const updatedTracks: Track[] = tracks.concat(action.track);
   return updateObject(state, { tracks: updatedTracks });
@@ -31,11 +30,14 @@ const deleteTrack = (
   state: TrackState,
   action: DeleteTrackAction
 ): TrackState => {
+  console.log(action.id);
+
   const tracks: Track[] = [...state.tracks];
   const updatedTracks: Track[] = tracks.filter(
     (track: Track) => track.id !== action.id
   );
-  return updateObject(state, updatedTracks);
+  console.log(updatedTracks);
+  return updateObject(state, { tracks: updatedTracks });
 };
 
 const trackReducer = (
