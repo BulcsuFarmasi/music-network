@@ -38,6 +38,7 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
 
   return (
     <form>
+      <h2>Add Track</h2>
       <p>
         <label htmlFor="track-name">Name of track</label>
         <br />

@@ -26,7 +26,12 @@ const TrackList: FunctionComponent<Props> = (props: Props) => {
     <SingleTrack track={track} key={track.id} removeTrack={removeTrack} />
   ));
 
-  return <div>{trackList}</div>;
+  return (
+    <div>
+      <h2>Track List</h2>
+      {trackList}
+    </div>
+  );
 };
 
 const mapStateToProps = (state: AppState) => {

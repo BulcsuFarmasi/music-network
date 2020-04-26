@@ -1,0 +1,13 @@
+.button {
+  border: none;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  &.confirm {
+    background-color: #50c878;
+  }
+  &.danger {
+    background-color: #f32013;
+  }
+}
