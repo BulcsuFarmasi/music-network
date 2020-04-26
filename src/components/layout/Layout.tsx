@@ -9,6 +9,7 @@ const Layout: FunctionComponent = () => {
   return (
     <div className={styles.layout}>
       <Navigation />
+      <h1>Music Network</h1>
       <Routes />
     </div>
   );
