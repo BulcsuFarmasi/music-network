@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Track } from "../../../store/reducers/track";
+import { Track } from "../../../models/track";
 import Button, { ButtonState } from "../../button/Button";
 
 import styles from "./SingleTrack.module.scss";

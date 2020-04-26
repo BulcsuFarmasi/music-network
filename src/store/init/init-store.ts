@@ -9,7 +9,8 @@ import {
 import { SagaMiddleware } from "redux-saga";
 
 import initSagaMiddleware from "./init-saga";
-import trackReducer, { TrackState } from "../reducers/track";
+import trackReducer from "../reducers/track";
+import { AppState } from "../../models/app-state";
 
 declare global {
   interface Window {
@@ -18,10 +19,6 @@ declare global {
 }
 
 const development: string = "development";
-
-export interface AppState {
-  track: TrackState;
-}
 
 const initStore = (): Store => {
   const composeEnhancers =

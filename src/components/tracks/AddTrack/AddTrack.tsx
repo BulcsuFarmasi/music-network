@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { History } from "history";
 
 import Button, { ButtonState } from "../../button/Button";
-import { Track } from "../../../store/reducers/track";
+import { Track } from "../../../models/track";
 import { addTrack, TrackAction } from "../../../store/actions/creators/track";
 
 interface Props {

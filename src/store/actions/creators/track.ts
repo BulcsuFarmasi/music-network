@@ -1,4 +1,4 @@
-import { Track } from "../../reducers/track";
+import { Track } from "../../../models/track";
 import { ADD_TRACK, DELETE_TRACK } from "../types/types";
 
 export interface AddTrackAction {

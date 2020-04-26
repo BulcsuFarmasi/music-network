@@ -2,8 +2,8 @@ import React, { FunctionComponent } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
-import { AppState } from "../../../store/init/init-store";
-import { Track } from "../../../store/reducers/track";
+import { AppState } from "../../../models/app-state";
+import { Track } from "../../../models/track";
 import SingleTrack from "../SingleTrack/SingleTrack";
 import {
   deleteTrack,
@@ -12,7 +12,7 @@ import {
 
 interface Props {
   tracks: Track[];
-  deleteTrack: (id: number) => Dispatch<TrackAction>;
+  deleteTrack: (id: number) => void;
 }
 
 const TrackList: FunctionComponent<Props> = (props: Props) => {

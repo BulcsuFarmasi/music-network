@@ -5,16 +5,8 @@ import {
   DeleteTrackAction,
 } from "../actions/creators/track";
 import { updateObject } from "../../utils/object-utils";
-
-export interface Track {
-  id: number;
-  name: string;
-  [key: string]: number | string;
-}
-
-export interface TrackState {
-  tracks: Track[];
-}
+import { Track } from "../../models/track";
+import { TrackState } from "../../models/track-state";
 
 const initialState: TrackState = {
   tracks: [],
