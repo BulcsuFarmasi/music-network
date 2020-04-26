@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { History } from "history";
 
+import Button, { ButtonState } from "../../button/Button";
 import { Track } from "../../../store/reducers/track";
 import { addTrack, TrackAction } from "../../../store/actions/creators/track";
 
@@ -26,9 +27,9 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
   };
 
   const saveTrack = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    event.preventDefault();
+    event?.preventDefault();
     const updatedTrack: Track = { ...track };
     updatedTrack.id = Date.now();
     addTrack(updatedTrack);
@@ -50,7 +51,9 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
         />
       </p>
       <p>
-        <button onClick={saveTrack}>Add Track</button>
+        <Button clicked={saveTrack} state={ButtonState.confirm}>
+          Add Track
+        </Button>
       </p>
     </form>
   );
