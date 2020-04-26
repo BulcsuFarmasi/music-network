@@ -7,7 +7,7 @@ import styles from "./SingleTrack.module.scss";
 
 interface Props {
   track: Track;
-  removeTrack: any;
+  removeTrack: (id: number) => void;
 }
 
 const SingleTrack: FunctionComponent<Props> = (props: Props) => {

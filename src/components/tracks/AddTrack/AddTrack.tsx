@@ -8,7 +8,7 @@ import { Track } from "../../../store/reducers/track";
 import { addTrack, TrackAction } from "../../../store/actions/creators/track";
 
 interface Props {
-  addTrack: any;
+  addTrack: (track: Track) => void;
   history: History;
 }
 

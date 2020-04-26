@@ -12,7 +12,7 @@ import {
 
 interface Props {
   tracks: Track[];
-  deleteTrack: any;
+  deleteTrack: (id: number) => Dispatch<TrackAction>;
 }
 
 const TrackList: FunctionComponent<Props> = (props: Props) => {
