@@ -1,18 +1,20 @@
 import React, { FunctionComponent, useState, ChangeEvent } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
+import { History } from "history";
 
 import { Track } from "../../../store/reducers/track";
 import { addTrack, TrackAction } from "../../../store/actions/creators/track";
 
 interface Props {
   addTrack: any;
+  history: History;
 }
 
 const AddTrack: FunctionComponent<Props> = (props: Props) => {
   const [track, setTrack] = useState<Track>({ id: 0, name: "" });
 
-  const { addTrack } = props;
+  const { addTrack, history } = props;
 
   const updateTrack = (
     event: ChangeEvent<HTMLInputElement>,
@@ -30,7 +32,7 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
     const updatedTrack: Track = { ...track };
     updatedTrack.id = Date.now();
     addTrack(updatedTrack);
-    setTrack(updatedTrack);
+    history.push("/");
   };
 
   return (
