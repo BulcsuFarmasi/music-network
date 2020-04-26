@@ -2,6 +2,8 @@ import React, { FunctionComponent } from "react";
 
 import { Track } from "../../../store/reducers/track";
 
+import styles from "./SingleTrack.module.scss";
+
 interface Props {
   track: Track;
   removeTrack: any;
@@ -10,11 +12,9 @@ interface Props {
 const SingleTrack: FunctionComponent<Props> = (props: Props) => {
   const { track, removeTrack } = props;
   return (
-    <div>
-      <p>{track.name}</p>
-      <p>
-        <button onClick={() => removeTrack(track.id)}>Delete</button>
-      </p>
+    <div className={styles.track}>
+      <h3 className={styles.name}>{track.name}</h3>
+      <button onClick={() => removeTrack(track.id)}>Delete</button>
     </div>
   );
 };
