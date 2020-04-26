@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
-import { AppState } from "../../../models/app-state";
+import { AppState } from "../../../models/state/app-state";
 import { Track } from "../../../models/track";
 import SingleTrack from "../SingleTrack/SingleTrack";
 import {

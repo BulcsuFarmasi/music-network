@@ -10,7 +10,7 @@ import { SagaMiddleware } from "redux-saga";
 
 import initSagaMiddleware from "./init-saga";
 import trackReducer from "../reducers/track";
-import { AppState } from "../../models/app-state";
+import { AppState } from "../../models/state/app-state";
 
 declare global {
   interface Window {

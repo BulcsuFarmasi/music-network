@@ -6,7 +6,7 @@ import {
 } from "../actions/creators/track";
 import { updateObject } from "../../utils/object-utils";
 import { Track } from "../../models/track";
-import { TrackState } from "../../models/track-state";
+import { TrackState } from "../../models/state/track-state";
 
 const initialState: TrackState = {
   tracks: [],
