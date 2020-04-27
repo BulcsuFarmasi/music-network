@@ -12,13 +12,13 @@ import {
 
 interface Props {
   tracks: Track[];
-  deleteTrack: (id: number) => void;
+  deleteTrack: (id?: string) => void;
 }
 
 const TrackList: FunctionComponent<Props> = (props: Props) => {
   const { tracks, deleteTrack } = props;
 
-  const removeTrack = (id: number) => {
+  const removeTrack = (id?: string) => {
     deleteTrack(id);
   };
 
@@ -42,7 +42,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
   return {
-    deleteTrack: (id: number) => dispatch(deleteTrack(id)),
+    deleteTrack: (id?: string) => dispatch(deleteTrack(id)),
   };
 };
 

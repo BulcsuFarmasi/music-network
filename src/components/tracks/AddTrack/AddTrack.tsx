@@ -13,7 +13,7 @@ interface Props {
 }
 
 const AddTrack: FunctionComponent<Props> = (props: Props) => {
-  const [track, setTrack] = useState<Track>({ id: 0, name: "" });
+  const [track, setTrack] = useState<Track>({ name: "" });
 
   const { addTrack, history } = props;
 
@@ -30,9 +30,7 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
     event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event?.preventDefault();
-    const updatedTrack: Track = { ...track };
-    updatedTrack.id = Date.now();
-    addTrack(updatedTrack);
+    addTrack(track);
     history.push("/");
   };
 

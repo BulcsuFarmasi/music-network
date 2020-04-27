@@ -5,20 +5,20 @@ export class Http {
   static POST: string = "POST";
   static DELETE: string = "DELETE";
 
-  static get(path: string) {
+  static get(path: string): Promise<Response> {
     return fetch(this.baseUrl + path, {
       method: this.GET,
     });
   }
 
-  static post(path: string, body: string) {
+  static post(path: string, body: string): Promise<Response> {
     return fetch(this.baseUrl + path, {
       method: this.POST,
       body,
     });
   }
 
-  static delete(path: string, body: string) {
+  static delete(path: string, body: string): Promise<Response> {
     return fetch(this.baseUrl + path, {
       method: this.DELETE,
       body,

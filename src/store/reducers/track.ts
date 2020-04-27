@@ -1,7 +1,7 @@
-import { ADD_TRACK, DELETE_TRACK } from "../actions/types/types";
+import { DELETE_TRACK, ADD_TRACK_SUCCESS } from "../actions/types/types";
 import {
   TrackAction,
-  AddTrackAction,
+  AddTrackSuccessAction,
   DeleteTrackAction,
 } from "../actions/creators/track";
 import { updateObject } from "../../utils/object-utils";
@@ -12,7 +12,10 @@ const initialState: TrackState = {
   tracks: [],
 };
 
-const addTrack = (state: TrackState, action: AddTrackAction): TrackState => {
+const addTrack = (
+  state: TrackState,
+  action: AddTrackSuccessAction
+): TrackState => {
   const tracks: Track[] = [...state.tracks];
   const updatedTracks: Track[] = tracks.concat(action.track);
   return updateObject(state, { tracks: updatedTracks });
@@ -37,7 +40,7 @@ const trackReducer = (
   action: TrackAction
 ): TrackState => {
   switch (action.type) {
-    case ADD_TRACK:
+    case ADD_TRACK_SUCCESS:
       return addTrack(state, action);
     case DELETE_TRACK:
       return deleteTrack(state, action);

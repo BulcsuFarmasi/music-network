@@ -10,6 +10,7 @@ import { SagaMiddleware } from "redux-saga";
 
 import initSagaMiddleware from "./init-saga";
 import trackReducer from "../reducers/track";
+import { watchTrack } from "../sagas";
 import { AppState } from "../../models/state/app-state";
 
 declare global {
@@ -32,10 +33,14 @@ const initStore = (): Store => {
 
   const sagaMiddleware: SagaMiddleware = initSagaMiddleware();
 
-  return createStore(
+  const store: Store = createStore(
     rootReducer,
     composeEnhancers(applyMiddleware(sagaMiddleware))
   );
+
+  sagaMiddleware.run(watchTrack);
+
+  return store;
 };
 
 export default initStore;
