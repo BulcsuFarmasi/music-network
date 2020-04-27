@@ -18,10 +18,9 @@ export class Http {
     });
   }
 
-  static delete(path: string, body: string): Promise<Response> {
+  static delete(path: string): Promise<Response> {
     return fetch(this.baseUrl + path, {
       method: this.DELETE,
-      body,
     });
   }
 }

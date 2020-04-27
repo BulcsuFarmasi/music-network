@@ -5,6 +5,7 @@ import {
   FETCH_TRACK,
   FETCH_TRACK_SUCCESS,
   DELETE_TRACK,
+  DELETE_TRACK_SUCCESS,
 } from "../types/types";
 
 export interface AddTrackAction {
@@ -28,6 +29,11 @@ export interface FetchTrackSuccessAction {
 
 export interface DeleteTrackAction {
   type: typeof DELETE_TRACK;
+  id?: string;
+}
+
+export interface DeleteTrackSuccessAction {
+  type: typeof DELETE_TRACK_SUCCESS;
   id?: string;
 }
 
@@ -57,9 +63,15 @@ export const deleteTrack = (id?: string): DeleteTrackAction => ({
   id,
 });
 
+export const deleteTrackSucces = (id?: string): DeleteTrackSuccessAction => ({
+  type: DELETE_TRACK_SUCCESS,
+  id,
+});
+
 export type TrackAction =
   | AddTrackAction
   | AddTrackSuccessAction
   | DeleteTrackAction
+  | DeleteTrackSuccessAction
   | FetchTrackAction
   | FetchTrackSuccessAction;

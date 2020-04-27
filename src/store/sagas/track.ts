@@ -3,7 +3,9 @@ import { put } from "redux-saga/effects";
 import {
   AddTrackAction,
   FetchTrackAction,
+  DeleteTrackAction,
   addTrackSuccess,
+  deleteTrackSucces,
   fetchTrackSuccess,
 } from "../actions/creators/track";
 import { Track } from "../../models/track";
@@ -35,4 +37,9 @@ export function* fetchTrackSaga(action: FetchTrackAction) {
   }
 
   yield put(fetchTrackSuccess(tracks));
+}
+
+export function* deleteTrackSaga(action: DeleteTrackAction) {
+  yield Http.delete(`tracks/${action.id}.json`);
+  yield put(deleteTrackSucces(action.id));
 }
