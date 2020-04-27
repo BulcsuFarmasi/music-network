@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
@@ -8,15 +8,21 @@ import SingleTrack from "../SingleTrack/SingleTrack";
 import {
   deleteTrack,
   TrackAction,
+  fetchTrack,
 } from "../../../store/actions/creators/track";
 
 interface Props {
   tracks: Track[];
   deleteTrack: (id?: string) => void;
+  fetchTrack: () => void;
 }
 
 const TrackList: FunctionComponent<Props> = (props: Props) => {
-  const { tracks, deleteTrack } = props;
+  const { tracks, deleteTrack, fetchTrack } = props;
+
+  useEffect(() => {
+    fetchTrack();
+  }, [fetchTrack]);
 
   const removeTrack = (id?: string) => {
     deleteTrack(id);
@@ -43,6 +49,7 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
   return {
     deleteTrack: (id?: string) => dispatch(deleteTrack(id)),
+    fetchTrack: () => dispatch(fetchTrack()),
   };
 };
 

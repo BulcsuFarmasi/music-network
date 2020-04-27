@@ -1,5 +1,11 @@
 import { Track } from "../../../models/track";
-import { ADD_TRACK, ADD_TRACK_SUCCESS, DELETE_TRACK } from "../types/types";
+import {
+  ADD_TRACK,
+  ADD_TRACK_SUCCESS,
+  FETCH_TRACK,
+  FETCH_TRACK_SUCCESS,
+  DELETE_TRACK,
+} from "../types/types";
 
 export interface AddTrackAction {
   type: typeof ADD_TRACK;
@@ -11,9 +17,13 @@ export interface AddTrackSuccessAction {
   track: Track;
 }
 
-export interface AddTrackAction {
-  type: typeof ADD_TRACK;
-  track: Track;
+export interface FetchTrackAction {
+  type: typeof FETCH_TRACK;
+}
+
+export interface FetchTrackSuccessAction {
+  type: typeof FETCH_TRACK_SUCCESS;
+  tracks: Track[];
 }
 
 export interface DeleteTrackAction {
@@ -31,6 +41,17 @@ export const addTrackSuccess = (track: Track): AddTrackSuccessAction => ({
   track,
 });
 
+export const fetchTrack = (): FetchTrackAction => ({
+  type: FETCH_TRACK,
+});
+
+export const fetchTrackSuccess = (
+  tracks: Track[]
+): FetchTrackSuccessAction => ({
+  type: FETCH_TRACK_SUCCESS,
+  tracks,
+});
+
 export const deleteTrack = (id?: string): DeleteTrackAction => ({
   type: DELETE_TRACK,
   id,
@@ -39,4 +60,6 @@ export const deleteTrack = (id?: string): DeleteTrackAction => ({
 export type TrackAction =
   | AddTrackAction
   | AddTrackSuccessAction
-  | DeleteTrackAction;
+  | DeleteTrackAction
+  | FetchTrackAction
+  | FetchTrackSuccessAction;
