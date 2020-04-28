@@ -30,6 +30,7 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
     event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event?.preventDefault();
+    track.creationTime = Date.now();
     addTrack(track);
     history.push("/");
   };
