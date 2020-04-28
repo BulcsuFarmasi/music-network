@@ -1,5 +1,6 @@
 export interface Track {
   id?: string;
   name: string;
-  [key: string]: string | undefined;
+  creationTime: number;
+  [key: string]: string | undefined | number;
 }

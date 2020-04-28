@@ -47,6 +47,16 @@ export const addTrackSuccess = (track: Track): AddTrackSuccessAction => ({
   track,
 });
 
+export const deleteTrack = (id?: string): DeleteTrackAction => ({
+  type: DELETE_TRACK,
+  id,
+});
+
+export const deleteTrackSucces = (id?: string): DeleteTrackSuccessAction => ({
+  type: DELETE_TRACK_SUCCESS,
+  id,
+});
+
 export const fetchTrack = (): FetchTrackAction => ({
   type: FETCH_TRACK,
 });
@@ -56,16 +66,6 @@ export const fetchTrackSuccess = (
 ): FetchTrackSuccessAction => ({
   type: FETCH_TRACK_SUCCESS,
   tracks,
-});
-
-export const deleteTrack = (id?: string): DeleteTrackAction => ({
-  type: DELETE_TRACK,
-  id,
-});
-
-export const deleteTrackSucces = (id?: string): DeleteTrackSuccessAction => ({
-  type: DELETE_TRACK_SUCCESS,
-  id,
 });
 
 export type TrackAction =
