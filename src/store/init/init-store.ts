@@ -8,8 +8,8 @@ import {
 } from "redux";
 import { SagaMiddleware } from "redux-saga";
 
-import initSagaMiddleware from "./init-saga";
-import trackReducer from "../reducers/track";
+import { initSagaMiddleware } from "./init-saga";
+import { trackReducer } from "../reducers/track";
 import { watchTrack } from "../sagas";
 import { AppState } from "../../models/state/app-state";
 

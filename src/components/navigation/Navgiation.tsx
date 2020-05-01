@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 import styles from "./Navigation.module.scss";
 
-const Navigation: FunctionComponent = () => {
+export const Navigation: FunctionComponent = () => {
   return (
     <ul className={styles.nav}>
       <li className={styles.navLink}>
@@ -20,5 +20,3 @@ const Navigation: FunctionComponent = () => {
     </ul>
   );
 };
-
-export default Navigation;

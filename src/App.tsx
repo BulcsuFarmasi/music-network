@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from "react";
+
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { Store } from "redux";
-import { Provider } from "react-redux";
-
-import initStore from "./store/init/init-store";
 
 import Layout from "./components/layout/Layout";
+import initStore from "./store/init/init-store";
 
-const App: FunctionComponent = () => {
+export const App: FunctionComponent = () => {
   const store: Store = initStore();
   return (
     <Provider store={store}>
@@ -17,5 +17,3 @@ const App: FunctionComponent = () => {
     </Provider>
   );
 };
-
-export default App;

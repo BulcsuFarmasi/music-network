@@ -1,24 +1,25 @@
 import React, {
-  FunctionComponent,
-  useState,
-  ChangeEvent,
-  MutableRefObject,
   useEffect,
   useRef,
+  useState,
+  ChangeEvent,
+  FunctionComponent,
+  MutableRefObject,
 } from "react";
+
+import { History } from "history";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { History } from "history";
 
-import Button, { ButtonState } from "../../button/Button";
+import { Button, ButtonState } from "../../button/Button";
 import { Track } from "../../../models/track";
-import {
-  addTrack,
-  TrackAction,
-  clearTrackLoading,
-} from "../../../store/actions/creators/track";
 import { AppState } from "../../../models/state/app-state";
 import { LoadingState } from "../../../models/state/loading-state";
+import {
+  addTrack,
+  clearTrackLoading,
+  TrackAction,
+} from "../../../store/actions/creators/track";
 
 interface Props {
   addTrack: (track: Track) => void;
@@ -30,9 +31,9 @@ interface Props {
 const AddTrack: FunctionComponent<Props> = (props: Props) => {
   const { addTrack, clearTrackLoading, history, loading } = props;
 
-  const [track, setTrack] = useState<Track>({ name: "" });
-
   const loadingRef: MutableRefObject<LoadingState> = useRef(loading);
+
+  const [track, setTrack] = useState<Track>({ name: "" });
 
   useEffect(() => {
     if (loading === loadingRef.current && loading === LoadingState.completed) {
@@ -46,6 +47,14 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
     loadingRef.current = loading;
   }, [clearTrackLoading, loading, history]);
 
+  const saveTrack = (
+    event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event?.preventDefault();
+    track.creationTime = Date.now();
+    addTrack(track);
+  };
+
   const updateTrack = (
     event: ChangeEvent<HTMLInputElement>,
     propertyName: string
@@ -53,14 +62,6 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
     const updatedTrack: Track = { ...track };
     updatedTrack[propertyName] = event.target.value;
     setTrack(updatedTrack);
-  };
-
-  const saveTrack = (
-    event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event?.preventDefault();
-    track.creationTime = Date.now();
-    addTrack(track);
   };
 
   return (

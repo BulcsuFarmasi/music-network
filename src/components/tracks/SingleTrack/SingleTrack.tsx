@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
+import { Button, ButtonState } from "../../button/Button";
 import { Track } from "../../../models/track";
-import Button, { ButtonState } from "../../button/Button";
 
 import styles from "./SingleTrack.module.scss";
 

@@ -1,6 +1,6 @@
 export interface Track {
   id?: string;
-  name: string;
   creationTime?: number;
+  name: string;
   [key: string]: string | undefined | number;
 }

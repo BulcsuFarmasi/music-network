@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-import Navigation from "../navigation/Navgiation";
-import Routes from "../routes/Routes";
+import { Navigation } from "../navigation/Navgiation";
+import { Routes } from "../routes/Routes";
 
 import styles from "./Layout.module.scss";
 

@@ -12,7 +12,7 @@ export enum ButtonState {
   danger,
 }
 
-const Button: FunctionComponent<ButtonProps> = (
+export const Button: FunctionComponent<ButtonProps> = (
   props: PropsWithChildren<ButtonProps>
 ) => {
   const { children, clicked, state } = props;
@@ -36,5 +36,3 @@ const Button: FunctionComponent<ButtonProps> = (
     </button>
   );
 };
-
-export default Button;

@@ -1,15 +1,15 @@
 import { put } from "redux-saga/effects";
 
 import {
-  AddTrackAction,
-  DeleteTrackAction,
-  FetchTrackAction,
   addTrackStart,
   addTrackSuccess,
   deleteTrackStart,
   deleteTrackSuccess,
   fetchTrackStart,
   fetchTrackSuccess,
+  AddTrackAction,
+  DeleteTrackAction,
+  FetchTrackAction,
 } from "../actions/creators/track";
 import { Track } from "../../models/track";
 import { Http } from "../../utils/http";
@@ -28,6 +28,12 @@ export function* addTrackSaga(action: AddTrackAction) {
   yield put(addTrackSuccess(track));
 }
 
+export function* deleteTrackSaga(action: DeleteTrackAction) {
+  yield put(deleteTrackStart());
+  yield Http.delete(`tracks/${action.id}.json`);
+  yield put(deleteTrackSuccess(action.id));
+}
+
 export function* fetchTrackSaga(action: FetchTrackAction) {
   yield put(fetchTrackStart());
   const response: Response = yield Http.get("tracks.json");
@@ -42,10 +48,4 @@ export function* fetchTrackSaga(action: FetchTrackAction) {
   }
 
   yield put(fetchTrackSuccess(tracks));
-}
-
-export function* deleteTrackSaga(action: DeleteTrackAction) {
-  yield put(deleteTrackStart());
-  yield Http.delete(`tracks/${action.id}.json`);
-  yield put(deleteTrackSuccess(action.id));
 }

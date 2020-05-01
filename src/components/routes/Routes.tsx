@@ -2,10 +2,10 @@ import React, { FunctionComponent } from "react";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import TrackList from "../tracks/TrackList/TrackList";
 import AddTrack from "../tracks/AddTrack/AddTrack";
+import TrackList from "../tracks/TrackList/TrackList";
 
-const Routes: FunctionComponent = () => {
+export const Routes: FunctionComponent = () => {
   return (
     <Switch>
       <Route path="/" exact component={TrackList} />
@@ -14,5 +14,3 @@ const Routes: FunctionComponent = () => {
     </Switch>
   );
 };
-
-export default Routes;

@@ -1,17 +1,17 @@
 import {
-  TrackAction,
   AddTrackSuccessAction,
   DeleteTrackSuccessAction,
   FetchTrackSuccessAction,
+  TrackAction,
 } from "../actions/creators/track";
 import {
   ADD_TRACK_START,
   ADD_TRACK_SUCCESS,
+  CLEAR_TRACK_LOADING,
   DELETE_TRACK_START,
   DELETE_TRACK_SUCCESS,
   FETCH_TRACK_START,
   FETCH_TRACK_SUCCESS,
-  CLEAR_TRACK_LOADING,
 } from "../actions/types/types";
 import { Track } from "../../models/track";
 import { LoadingState } from "../../models/state/loading-state";
@@ -67,7 +67,7 @@ const startLoading = (state: TrackState): TrackState => {
   return updateObject(state, { loading: LoadingState.onGoing });
 };
 
-const trackReducer = (
+export const trackReducer = (
   state: TrackState = initialState,
   action: TrackAction
 ): TrackState => {
@@ -90,5 +90,3 @@ const trackReducer = (
       return state;
   }
 };
-
-export default trackReducer;

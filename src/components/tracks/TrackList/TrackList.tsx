@@ -1,10 +1,12 @@
-import React, { FunctionComponent, useEffect } from "react";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
+import React, { useEffect, FunctionComponent } from "react";
 
-import { AppState } from "../../../models/state/app-state";
-import { Track } from "../../../models/track";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+
 import SingleTrack from "../SingleTrack/SingleTrack";
+
+import { Track } from "../../../models/track";
+import { AppState } from "../../../models/state/app-state";
 import {
   deleteTrack,
   TrackAction,
@@ -12,9 +14,9 @@ import {
 } from "../../../store/actions/creators/track";
 
 interface Props {
-  tracks: Track[];
   deleteTrack: (id?: string) => void;
   fetchTrack: () => void;
+  tracks: Track[];
 }
 
 const TrackList: FunctionComponent<Props> = (props: Props) => {
