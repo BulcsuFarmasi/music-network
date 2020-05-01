@@ -47,7 +47,6 @@ const deleteTrackSuccess = (
   const updatedTracks: Track[] = tracks.filter(
     (track: Track) => track.id !== action.id
   );
-  console.log(updatedTracks);
   return updateObject(state, {
     tracks: updatedTracks,
     loading: LoadingState.completed,
@@ -72,8 +71,6 @@ const trackReducer = (
   state: TrackState = initialState,
   action: TrackAction
 ): TrackState => {
-  console.log(action);
-
   switch (action.type) {
     case ADD_TRACK_START:
       return startLoading(state);

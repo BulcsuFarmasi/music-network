@@ -35,8 +35,6 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
   const loadingRef: MutableRefObject<LoadingState> = useRef(loading);
 
   useEffect(() => {
-    console.log(loading, loadingRef);
-
     if (loading === loadingRef.current && loading === LoadingState.completed) {
       clearTrackLoading();
     } else if (
