@@ -19,7 +19,8 @@ export class Firebase {
   }
 
   static download(path: string): Promise<string> {
-    const ref: storage.Reference = this.storage.ref(path);
-    return ref.child(path).getDownloadURL();
+    console.log(path);
+
+    return this.storage.ref().child(path).getDownloadURL();
   }
 }

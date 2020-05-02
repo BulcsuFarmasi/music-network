@@ -42,13 +42,18 @@ export function* deleteTrackSaga(action: DeleteTrackAction) {
 
 export function* fetchTrackSaga(action: FetchTrackAction) {
   yield put(fetchTrackStart());
+  if (!Firebase.started) {
+    Firebase.init();
+  }
   const response: Response = yield Http.get("tracks.json");
   const responseData: any = yield response.json();
   const tracks: Track[] = [];
   for (let key in responseData) {
+    const url = yield Firebase.download(responseData[key].path);
     const track: Track = {
       ...responseData[key],
       id: key,
+      url,
     };
     tracks.push(track);
   }
