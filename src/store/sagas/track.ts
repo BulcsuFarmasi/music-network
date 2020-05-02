@@ -13,9 +13,15 @@ import {
 } from "../actions/creators/track";
 import { Track } from "../../models/track";
 import { Http } from "../../utils/http";
+import { Firebase } from "../../utils/firebase";
 
 export function* addTrackSaga(action: AddTrackAction) {
   yield put(addTrackStart());
+  if (!Firebase.started) {
+    Firebase.init();
+  }
+  yield Firebase.upload(action.fileName, action.file);
+  action.track.path = action.fileName;
   const response: Response = yield Http.post(
     "tracks.json",
     JSON.stringify(action.track)

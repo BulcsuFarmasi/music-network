@@ -22,7 +22,7 @@ import {
 } from "../../../store/actions/creators/track";
 
 interface Props {
-  addTrack: (track: Track) => void;
+  addTrack: (track: Track, fileName: string, trackFile?: File) => void;
   clearTrackLoading: () => void;
   history: History;
   loading: LoadingState;
@@ -34,6 +34,7 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
   const loadingRef: MutableRefObject<LoadingState> = useRef(loading);
 
   const [track, setTrack] = useState<Track>({ name: "" });
+  const [trackFile, setTrackFile] = useState<File>();
 
   useEffect(() => {
     if (loading === loadingRef.current && loading === LoadingState.completed) {
@@ -52,7 +53,8 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
   ) => {
     event?.preventDefault();
     track.creationTime = Date.now();
-    addTrack(track);
+    const fileName: string = `tracks/${Date.now()}.mp3`;
+    addTrack(track, fileName, trackFile);
   };
 
   const updateTrack = (
@@ -62,6 +64,12 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
     const updatedTrack: Track = { ...track };
     updatedTrack[propertyName] = event.target.value;
     setTrack(updatedTrack);
+  };
+
+  const updateTrackFile = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setTrackFile(event.target.files[0]);
+    }
   };
 
   return (
@@ -77,6 +85,16 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
             updateTrack(event, "name")
           }
           value={track.name}
+        />
+      </p>
+      <p>
+        <label htmlFor="track-file">Track File</label>
+        <br />
+        <input
+          type="file"
+          name="track-file"
+          accept="audio/mpeg"
+          onChange={updateTrackFile}
         />
       </p>
       <p>
@@ -96,8 +114,8 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
   return {
-    addTrack: (track: Track) => {
-      dispatch(addTrack(track));
+    addTrack: (track: Track, fileName: string, file?: File) => {
+      dispatch(addTrack(track, fileName, file));
     },
     clearTrackLoading: () => {
       dispatch(clearTrackLoading());

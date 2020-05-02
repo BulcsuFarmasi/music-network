@@ -15,6 +15,8 @@ import { Track } from "../../../models/track";
 export interface AddTrackAction {
   type: typeof ADD_TRACK;
   track: Track;
+  file?: File;
+  fileName: string;
 }
 
 export interface AddTrackStartAction {
@@ -58,9 +60,15 @@ export interface DeleteTrackSuccessAction {
   id?: string;
 }
 
-export const addTrack = (track: Track): AddTrackAction => ({
+export const addTrack = (
+  track: Track,
+  fileName: string,
+  file?: File
+): AddTrackAction => ({
   type: ADD_TRACK,
   track,
+  file,
+  fileName,
 });
 
 export const addTrackStart = (): AddTrackStartAction => ({

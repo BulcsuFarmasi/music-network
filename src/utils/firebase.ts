@@ -11,8 +11,10 @@ export class Firebase {
     this.started = true;
   }
 
-  static upload(file: File, path: string) {
-    const ref: storage.Reference = this.storage.ref(path);
-    return ref.put(file);
+  static upload(path: string, file?: File): storage.UploadTask | undefined {
+    if (file) {
+      const ref: storage.Reference = this.storage.ref(path);
+      return ref.put(file);
+    }
   }
 }
