@@ -17,4 +17,9 @@ export class Firebase {
       return ref.put(file);
     }
   }
+
+  static download(path: string): Promise<string> {
+    const ref: storage.Reference = this.storage.ref(path);
+    return ref.child(path).getDownloadURL();
+  }
 }
