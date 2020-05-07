@@ -2,7 +2,7 @@ export interface Track {
   id?: string;
   creationTime?: number;
   name: string;
-  path?: string;
-  url?: string;
+  storagePath?: string;
+  downloadUrl?: string;
   [key: string]: string | undefined | number;
 }

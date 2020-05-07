@@ -21,7 +21,8 @@ export function* addTrackSaga(action: AddTrackAction) {
     Firebase.init();
   }
   yield Firebase.upload(action.fileName, action.file);
-  action.track.path = action.fileName;
+  action.track.storagePath = action.fileName;
+  action.track.downloadUrl = yield Firebase.download(action.fileName);
   const response: Response = yield Http.post(
     "tracks.json",
     JSON.stringify(action.track)
@@ -49,11 +50,9 @@ export function* fetchTrackSaga(action: FetchTrackAction) {
   const responseData: any = yield response.json();
   const tracks: Track[] = [];
   for (let key in responseData) {
-    const url = yield Firebase.download(responseData[key].path);
     const track: Track = {
       ...responseData[key],
       id: key,
-      url,
     };
     tracks.push(track);
   }

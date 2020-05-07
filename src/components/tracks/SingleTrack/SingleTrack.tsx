@@ -25,7 +25,7 @@ const SingleTrack: FunctionComponent<Props> = (props: Props) => {
       <h3 className={styles.name}>{track.name}</h3>
       <p>{creationText}</p>
       <p>
-        <audio src={track.url} controls></audio>
+        <audio src={track.downloadUrl} controls></audio>
       </p>
       <Button clicked={() => removeTrack(track.id)} state={ButtonState.danger}>
         Delete
