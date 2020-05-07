@@ -19,8 +19,12 @@ export class Firebase {
   }
 
   static download(path: string): Promise<string> {
-    console.log(path);
-
     return this.storage.ref().child(path).getDownloadURL();
+  }
+
+  static delete(path?: string): Promise<any> | undefined {
+    if (path) {
+      return this.storage.ref().child(path).delete();
+    }
   }
 }

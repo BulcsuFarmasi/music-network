@@ -37,8 +37,12 @@ export function* addTrackSaga(action: AddTrackAction) {
 
 export function* deleteTrackSaga(action: DeleteTrackAction) {
   yield put(deleteTrackStart());
-  yield Http.delete(`tracks/${action.id}.json`);
-  yield put(deleteTrackSuccess(action.id));
+  yield Http.delete(`tracks/${action.track.id}.json`);
+  if (!Firebase.started) {
+    Firebase.init();
+  }
+  Firebase.delete(action.track.storagePath);
+  yield put(deleteTrackSuccess(action.track.id));
 }
 
 export function* fetchTrackSaga(action: FetchTrackAction) {

@@ -47,7 +47,7 @@ export interface FetchTrackSuccessAction {
 
 export interface DeleteTrackAction {
   type: typeof DELETE_TRACK;
-  id?: string;
+  track: Track;
 }
 
 export interface DeleteTrackStartAction {
@@ -80,9 +80,9 @@ export const addTrackSuccess = (track: Track): AddTrackSuccessAction => ({
   track,
 });
 
-export const deleteTrack = (id?: string): DeleteTrackAction => ({
+export const deleteTrack = (track: Track): DeleteTrackAction => ({
   type: DELETE_TRACK,
-  id,
+  track,
 });
 
 export const clearTrackLoading = (): ClearTrackLoading => ({

@@ -7,7 +7,7 @@ import styles from "./SingleTrack.module.scss";
 
 interface Props {
   track: Track;
-  removeTrack: (id?: string) => void;
+  removeTrack: (track: Track) => void;
 }
 
 const SingleTrack: FunctionComponent<Props> = (props: Props) => {
@@ -27,7 +27,7 @@ const SingleTrack: FunctionComponent<Props> = (props: Props) => {
       <p>
         <audio src={track.downloadUrl} controls></audio>
       </p>
-      <Button clicked={() => removeTrack(track.id)} state={ButtonState.danger}>
+      <Button clicked={() => removeTrack(track)} state={ButtonState.danger}>
         Delete
       </Button>
     </div>

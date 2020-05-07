@@ -14,7 +14,7 @@ import {
 } from "../../../store/actions/creators/track";
 
 interface Props {
-  deleteTrack: (id?: string) => void;
+  deleteTrack: (track: Track) => void;
   fetchTrack: () => void;
   tracks: Track[];
 }
@@ -26,8 +26,8 @@ const TrackList: FunctionComponent<Props> = (props: Props) => {
     fetchTrack();
   }, [fetchTrack]);
 
-  const removeTrack = (id?: string) => {
-    deleteTrack(id);
+  const removeTrack = (track: Track) => {
+    deleteTrack(track);
   };
 
   const trackList = tracks.map((track: Track) => (
@@ -50,7 +50,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
   return {
-    deleteTrack: (id?: string) => dispatch(deleteTrack(id)),
+    deleteTrack: (track: Track) => dispatch(deleteTrack(track)),
     fetchTrack: () => dispatch(fetchTrack()),
   };
 };
