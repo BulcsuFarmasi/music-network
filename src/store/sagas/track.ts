@@ -50,7 +50,7 @@ export function* fetchTrackSaga(action: FetchTrackAction) {
   if (!Firebase.started) {
     Firebase.init();
   }
-  const response: Response = yield Http.get("tracks.json");
+  const response: Response = yield Http.get("tracks.jon");
   const responseData: any = yield response.json();
   const tracks: Track[] = [];
   for (let key in responseData) {

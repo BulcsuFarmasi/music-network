@@ -1,9 +1,10 @@
-import React, { useEffect, FunctionComponent } from "react";
+import React, { useEffect, FunctionComponent, useState } from "react";
 
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import SingleTrack from "../SingleTrack/SingleTrack";
+import { ErrorBanner } from "../../error-banner/ErrorBanner";
 
 import { Track } from "../../../models/track";
 import { AppState } from "../../../models/state/app-state";
@@ -22,9 +23,15 @@ interface Props {
 const TrackList: FunctionComponent<Props> = (props: Props) => {
   const { tracks, deleteTrack, fetchTrack } = props;
 
+  const [error, setError] = useState(true);
+
   useEffect(() => {
     fetchTrack();
   }, [fetchTrack]);
+
+  const clearError = () => {
+    setError(false);
+  };
 
   const removeTrack = (track: Track) => {
     deleteTrack(track);
@@ -37,6 +44,11 @@ const TrackList: FunctionComponent<Props> = (props: Props) => {
   return (
     <div>
       <h2>Track List</h2>
+      {error ? (
+        <ErrorBanner closed={clearError}>
+          Error during loading tracks
+        </ErrorBanner>
+      ) : null}
       {trackList}
     </div>
   );
