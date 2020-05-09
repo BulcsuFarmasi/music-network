@@ -44,12 +44,21 @@ const TrackList: FunctionComponent<Props> = (props: Props) => {
     <SingleTrack track={track} key={track.id} removeTrack={removeTrack} />
   ));
 
+  let errorBanner;
+
+  if (
+    error &&
+    [TrackErrorType.delete && TrackErrorType.fetch].indexOf(error.type)
+  ) {
+    errorBanner = (
+      <ErrorBanner closed={clearError}>{error?.message}</ErrorBanner>
+    );
+  }
+
   return (
     <div>
       <h2>Track List</h2>
-      {error?.type === TrackErrorType.fetch ? (
-        <ErrorBanner closed={clearError}>{error.message}</ErrorBanner>
-      ) : null}
+      {errorBanner}
       {trackList}
     </div>
   );
