@@ -1,4 +1,4 @@
-import React, { useEffect, FunctionComponent, useState } from "react";
+import React, { useEffect, FunctionComponent } from "react";
 
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -9,12 +9,14 @@ import { Track } from "../../../models/track";
 import { TrackError, TrackErrorType } from "../../../models/track-error";
 import { AppState } from "../../../models/state/app-state";
 import {
+  clearTrackError,
   deleteTrack,
   TrackAction,
   fetchTrack,
 } from "../../../store/actions/creators/track";
 
 interface Props {
+  clearTrackError: () => void;
   error?: TrackError;
   deleteTrack: (track: Track) => void;
   fetchTrack: () => void;
@@ -22,14 +24,16 @@ interface Props {
 }
 
 const TrackList: FunctionComponent<Props> = (props: Props) => {
-  const { error, tracks, deleteTrack, fetchTrack } = props;
+  const { clearTrackError, error, tracks, deleteTrack, fetchTrack } = props;
 
   useEffect(() => {
     fetchTrack();
   }, [fetchTrack]);
 
   const clearError = () => {
-    // setError(false);
+    console.log("clear");
+
+    clearTrackError();
   };
 
   const removeTrack = (track: Track) => {
@@ -60,6 +64,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
   return {
+    clearTrackError: () => dispatch(clearTrackError()),
     deleteTrack: (track: Track) => dispatch(deleteTrack(track)),
     fetchTrack: () => dispatch(fetchTrack()),
   };

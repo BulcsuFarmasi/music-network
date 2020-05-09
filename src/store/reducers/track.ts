@@ -11,6 +11,7 @@ import {
   ADD_TRACK_ERROR,
   ADD_TRACK_START,
   ADD_TRACK_SUCCESS,
+  CLEAR_TRACK_ERROR,
   CLEAR_TRACK_LOADING,
   DELETE_TRACK_ERROR,
   DELETE_TRACK_START,
@@ -46,6 +47,10 @@ const addTrackSuccess = (
     tracks: updatedTracks,
     loading: LoadingState.completed,
   });
+};
+
+const clearTrackError = (state: TrackState): TrackState => {
+  return updateObject(state, { error: undefined });
 };
 
 const clearTrackLoading = (state: TrackState): TrackState => {
@@ -94,7 +99,10 @@ const fetchTrackSuccess = (
 };
 
 const startLoading = (state: TrackState): TrackState => {
-  return updateObject(state, { loading: LoadingState.onGoing });
+  return updateObject(state, {
+    error: undefined,
+    loading: LoadingState.onGoing,
+  });
 };
 
 export const trackReducer = (
@@ -108,6 +116,8 @@ export const trackReducer = (
       return startLoading(state);
     case ADD_TRACK_SUCCESS:
       return addTrackSuccess(state, action);
+    case CLEAR_TRACK_ERROR:
+      return clearTrackError(state);
     case CLEAR_TRACK_LOADING:
       return clearTrackLoading(state);
     case DELETE_TRACK_ERROR:

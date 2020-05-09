@@ -3,6 +3,7 @@ import {
   ADD_TRACK_ERROR,
   ADD_TRACK_START,
   ADD_TRACK_SUCCESS,
+  CLEAR_TRACK_ERROR,
   CLEAR_TRACK_LOADING,
   DELETE_TRACK,
   DELETE_TRACK_ERROR,
@@ -37,7 +38,11 @@ export interface AddTrackSuccessAction {
   track: Track;
 }
 
-export interface ClearTrackLoading {
+export interface ClearTrackErrorAction {
+  type: typeof CLEAR_TRACK_ERROR;
+}
+
+export interface ClearTrackLoadingAction {
   type: typeof CLEAR_TRACK_LOADING;
 }
 
@@ -104,7 +109,11 @@ export const addTrackSuccess = (track: Track): AddTrackSuccessAction => ({
   track,
 });
 
-export const clearTrackLoading = (): ClearTrackLoading => ({
+export const clearTrackError = (): ClearTrackErrorAction => ({
+  type: CLEAR_TRACK_ERROR,
+});
+
+export const clearTrackLoading = (): ClearTrackLoadingAction => ({
   type: CLEAR_TRACK_LOADING,
 });
 
@@ -154,7 +163,8 @@ export type TrackAction =
   | AddTrackErrorAction
   | AddTrackStartAction
   | AddTrackSuccessAction
-  | ClearTrackLoading
+  | ClearTrackErrorAction
+  | ClearTrackLoadingAction
   | DeleteTrackAction
   | DeleteTrackErrorAction
   | DeleteTrackStartAction
