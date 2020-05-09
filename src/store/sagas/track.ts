@@ -1,10 +1,13 @@
 import { put } from "redux-saga/effects";
 
 import {
+  addTrackError,
   addTrackStart,
   addTrackSuccess,
+  deleteTrackError,
   deleteTrackStart,
   deleteTrackSuccess,
+  fetchTrackError,
   fetchTrackStart,
   fetchTrackSuccess,
   AddTrackAction,
@@ -12,54 +15,82 @@ import {
   FetchTrackAction,
 } from "../actions/creators/track";
 import { Track } from "../../models/track";
+import { TrackErrorType } from "../../models/track-error";
 import { Http } from "../../utils/http";
 import { Firebase } from "../../utils/firebase";
 
 export function* addTrackSaga(action: AddTrackAction) {
   yield put(addTrackStart());
-  if (!Firebase.started) {
-    Firebase.init();
+  try {
+    if (!Firebase.started) {
+      Firebase.init();
+    }
+    yield Firebase.upload(action.fileName, action.file);
+    action.track.storagePath = action.fileName;
+    action.track.downloadUrl = yield Firebase.download(action.fileName);
+    const response: Response = yield Http.post(
+      "tracks.json",
+      JSON.stringify(action.track)
+    );
+    const responseData: any = yield response.json();
+    const track: Track = {
+      ...action.track,
+      id: responseData.name,
+    };
+    yield put(addTrackSuccess(track));
+  } catch {
+    yield put(
+      addTrackError({
+        type: TrackErrorType.add,
+        message: "Error during adding the track",
+      })
+    );
   }
-  yield Firebase.upload(action.fileName, action.file);
-  action.track.storagePath = action.fileName;
-  action.track.downloadUrl = yield Firebase.download(action.fileName);
-  const response: Response = yield Http.post(
-    "tracks.json",
-    JSON.stringify(action.track)
-  );
-  const responseData: any = yield response.json();
-  const track: Track = {
-    ...action.track,
-    id: responseData.name,
-  };
-  yield put(addTrackSuccess(track));
 }
 
 export function* deleteTrackSaga(action: DeleteTrackAction) {
   yield put(deleteTrackStart());
-  yield Http.delete(`tracks/${action.track.id}.json`);
-  if (!Firebase.started) {
-    Firebase.init();
+  try {
+    yield Http.delete(`tracks/${action.track.id}.json`);
+    if (!Firebase.started) {
+      Firebase.init();
+    }
+    Firebase.delete(action.track.storagePath);
+    yield put(deleteTrackSuccess(action.track.id));
+  } catch {
+    yield put(
+      deleteTrackError({
+        type: TrackErrorType.delete,
+        message: "Error during deleting the track",
+      })
+    );
   }
-  Firebase.delete(action.track.storagePath);
-  yield put(deleteTrackSuccess(action.track.id));
 }
 
 export function* fetchTrackSaga(action: FetchTrackAction) {
   yield put(fetchTrackStart());
-  if (!Firebase.started) {
-    Firebase.init();
-  }
-  const response: Response = yield Http.get("tracks.jon");
-  const responseData: any = yield response.json();
-  const tracks: Track[] = [];
-  for (let key in responseData) {
-    const track: Track = {
-      ...responseData[key],
-      id: key,
-    };
-    tracks.push(track);
-  }
+  try {
+    if (!Firebase.started) {
+      Firebase.init();
+    }
+    const response: Response = yield Http.get("tracks.jon");
+    const responseData: any = yield response.json();
+    const tracks: Track[] = [];
+    for (let key in responseData) {
+      const track: Track = {
+        ...responseData[key],
+        id: key,
+      };
+      tracks.push(track);
+    }
 
-  yield put(fetchTrackSuccess(tracks));
+    yield put(fetchTrackSuccess(tracks));
+  } catch {
+    yield put(
+      fetchTrackError({
+        type: TrackErrorType.fetch,
+        message: "Error during fetching the tracks",
+      })
+    );
+  }
 }
