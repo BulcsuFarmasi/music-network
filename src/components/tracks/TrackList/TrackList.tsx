@@ -5,8 +5,8 @@ import { Dispatch } from "redux";
 
 import SingleTrack from "../SingleTrack/SingleTrack";
 import { ErrorBanner } from "../../error-banner/ErrorBanner";
-
 import { Track } from "../../../models/track";
+import { TrackError, TrackErrorType } from "../../../models/track-error";
 import { AppState } from "../../../models/state/app-state";
 import {
   deleteTrack,
@@ -15,22 +15,21 @@ import {
 } from "../../../store/actions/creators/track";
 
 interface Props {
+  error?: TrackError;
   deleteTrack: (track: Track) => void;
   fetchTrack: () => void;
   tracks: Track[];
 }
 
 const TrackList: FunctionComponent<Props> = (props: Props) => {
-  const { tracks, deleteTrack, fetchTrack } = props;
-
-  const [error, setError] = useState(true);
+  const { error, tracks, deleteTrack, fetchTrack } = props;
 
   useEffect(() => {
     fetchTrack();
   }, [fetchTrack]);
 
   const clearError = () => {
-    setError(false);
+    // setError(false);
   };
 
   const removeTrack = (track: Track) => {
@@ -44,10 +43,8 @@ const TrackList: FunctionComponent<Props> = (props: Props) => {
   return (
     <div>
       <h2>Track List</h2>
-      {error ? (
-        <ErrorBanner closed={clearError}>
-          Error during loading tracks
-        </ErrorBanner>
+      {error?.type === TrackErrorType.fetch ? (
+        <ErrorBanner closed={clearError}>{error.message}</ErrorBanner>
       ) : null}
       {trackList}
     </div>
@@ -56,6 +53,7 @@ const TrackList: FunctionComponent<Props> = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
+    error: state.track.error,
     tracks: state.track.tracks,
   };
 };
