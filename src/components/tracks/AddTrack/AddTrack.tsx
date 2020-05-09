@@ -13,23 +13,35 @@ import { connect } from "react-redux";
 
 import { Button, ButtonState } from "../../button/Button";
 import { Track } from "../../../models/track";
+import { TrackError, TrackErrorType } from "../../../models/track-error";
 import { AppState } from "../../../models/state/app-state";
 import { LoadingState } from "../../../models/state/loading-state";
 import {
   addTrack,
+  clearTrackError,
   clearTrackLoading,
   TrackAction,
 } from "../../../store/actions/creators/track";
+import { ErrorBanner } from "../../error-banner/ErrorBanner";
 
 interface Props {
   addTrack: (track: Track, fileName: string, trackFile?: File) => void;
+  clearTrackError: () => void;
   clearTrackLoading: () => void;
+  error?: TrackError;
   history: History;
   loading: LoadingState;
 }
 
 const AddTrack: FunctionComponent<Props> = (props: Props) => {
-  const { addTrack, clearTrackLoading, history, loading } = props;
+  const {
+    addTrack,
+    clearTrackError,
+    clearTrackLoading,
+    error,
+    history,
+    loading,
+  } = props;
 
   const loadingRef: MutableRefObject<LoadingState> = useRef(loading);
 
@@ -41,12 +53,17 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
       clearTrackLoading();
     } else if (
       loading === LoadingState.completed &&
-      loadingRef.current === LoadingState.onGoing
+      loadingRef.current === LoadingState.onGoing &&
+      !error
     ) {
       history.push("/");
     }
     loadingRef.current = loading;
-  }, [clearTrackLoading, loading, history]);
+  }, [error, clearTrackLoading, loading, history]);
+
+  const clearError = () => {
+    clearTrackError();
+  };
 
   const saveTrack = (
     event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -75,6 +92,9 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
   return (
     <form>
       <h2>Add Track</h2>
+      {error?.type === TrackErrorType.add ? (
+        <ErrorBanner closed={clearError}>{error.message}</ErrorBanner>
+      ) : null}
       <p>
         <label htmlFor="track-name">Name of track</label>
         <br />
@@ -108,6 +128,7 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
+    error: state.track.error,
     loading: state.track.loading,
   };
 };
@@ -116,6 +137,9 @@ const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
   return {
     addTrack: (track: Track, fileName: string, file?: File) => {
       dispatch(addTrack(track, fileName, file));
+    },
+    clearTrackError: () => {
+      dispatch(clearTrackError());
     },
     clearTrackLoading: () => {
       dispatch(clearTrackLoading());
