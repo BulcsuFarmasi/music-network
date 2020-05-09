@@ -17,7 +17,9 @@ const SingleTrack: FunctionComponent<Props> = (props: Props) => {
 
   if (track.creationTime) {
     const creationDate = new Date(track.creationTime);
-    creationText = `${creationDate.getFullYear()}. ${creationDate.getMonth()}. ${creationDate.getDate()}. ${creationDate.getHours()}:${creationDate.getMinutes()}`;
+    creationText = `${creationDate.getFullYear()}. ${
+      creationDate.getMonth() + 1
+    }. ${creationDate.getDate()}. ${creationDate.getHours()}:${creationDate.getMinutes()}`;
   }
 
   return (
