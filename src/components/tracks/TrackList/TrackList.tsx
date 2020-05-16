@@ -31,8 +31,6 @@ const TrackList: FunctionComponent<Props> = (props: Props) => {
   }, [fetchTrack]);
 
   const clearError = () => {
-    console.log("clear");
-
     clearTrackError();
   };
 
@@ -40,16 +38,27 @@ const TrackList: FunctionComponent<Props> = (props: Props) => {
     deleteTrack(track);
   };
 
-  const trackList = tracks.map((track: Track) => (
-    <SingleTrack track={track} key={track.id} removeTrack={removeTrack} />
-  ));
+  const trackList = tracks.map((track: Track) => {
+    let trackError: TrackError | undefined =
+      error &&
+      error.type === TrackErrorType.delete &&
+      error.trackId === track.id
+        ? error
+        : undefined;
+    return (
+      <SingleTrack
+        track={track}
+        key={track.id}
+        removeTrack={removeTrack}
+        error={trackError}
+        clearError={clearError}
+      />
+    );
+  });
 
   let errorBanner;
 
-  if (
-    error &&
-    [TrackErrorType.delete && TrackErrorType.fetch].indexOf(error.type)
-  ) {
+  if (error && TrackErrorType.fetch === error.type) {
     errorBanner = (
       <ErrorBanner closed={clearError}>{error?.message}</ErrorBanner>
     );

@@ -1,17 +1,21 @@
 import React, { FunctionComponent } from "react";
 
 import { Button, ButtonState } from "../../button/Button";
+import { ErrorBanner } from "../../error-banner/ErrorBanner";
 import { Track } from "../../../models/track";
+import { TrackError } from "../../../models/track-error";
 
 import styles from "./SingleTrack.module.scss";
 
 interface Props {
+  clearError: () => void;
+  error?: TrackError;
   track: Track;
   removeTrack: (track: Track) => void;
 }
 
 const SingleTrack: FunctionComponent<Props> = (props: Props) => {
-  const { track, removeTrack } = props;
+  const { clearError, error, track, removeTrack } = props;
 
   let creationText: string = "";
 
@@ -24,6 +28,9 @@ const SingleTrack: FunctionComponent<Props> = (props: Props) => {
 
   return (
     <div className={styles.track}>
+      {error ? (
+        <ErrorBanner closed={clearError}>{error.message}</ErrorBanner>
+      ) : null}
       <h3 className={styles.name}>{track.name}</h3>
       <p>{creationText}</p>
       <p>
