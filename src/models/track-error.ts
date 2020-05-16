@@ -7,4 +7,5 @@ export enum TrackErrorType {
 export interface TrackError {
   type: TrackErrorType;
   message: string;
+  trackId?: string;
 }

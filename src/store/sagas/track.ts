@@ -51,7 +51,7 @@ export function* addTrackSaga(action: AddTrackAction) {
 export function* deleteTrackSaga(action: DeleteTrackAction) {
   yield put(deleteTrackStart());
   try {
-    yield Http.delete(`tracks/${action.track.id}.json`);
+    yield Http.delete(`tracks/${action.track.id}.jon`);
     if (!Firebase.started) {
       Firebase.init();
     }
@@ -62,6 +62,7 @@ export function* deleteTrackSaga(action: DeleteTrackAction) {
       deleteTrackError({
         type: TrackErrorType.delete,
         message: "Error during deleting the track",
+        trackId: action.track.id,
       })
     );
   }
