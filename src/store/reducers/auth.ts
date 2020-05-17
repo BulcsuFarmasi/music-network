@@ -2,7 +2,7 @@ import { AuthAction } from "../actions/creators/auth";
 import { AuthState } from "../../models/state/auth-state";
 
 const initialState: AuthState = {
-  authed: true,
+  authed: false,
 };
 
 export const authReducer = (
