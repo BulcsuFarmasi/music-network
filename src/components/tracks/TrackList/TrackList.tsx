@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import SingleTrack from "../SingleTrack/SingleTrack";
-import { ErrorBanner } from "../../error-banner/ErrorBanner";
+import { ErrorBanner } from "../../UI/ErrorBanner/ErrorBanner";
 import { Track } from "../../../models/track";
 import { TrackError, TrackErrorType } from "../../../models/track-error";
 import { AppState } from "../../../models/state/app-state";

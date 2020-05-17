@@ -2,8 +2,8 @@ import React, { FunctionComponent } from "react";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import AddTrack from "../tracks/AddTrack/AddTrack";
-import TrackList from "../tracks/TrackList/TrackList";
+import AddTrack from "../Tracks/AddTrack/AddTrack";
+import TrackList from "../Tracks/TrackList/TrackList";
 
 export const Routes: FunctionComponent = () => {
   return (

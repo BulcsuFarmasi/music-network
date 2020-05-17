@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-import { Button, ButtonState } from "../../button/Button";
-import { ErrorBanner } from "../../error-banner/ErrorBanner";
+import { Button, ButtonState } from "../../UI/Button/Button";
+import { ErrorBanner } from "../../UI/ErrorBanner/ErrorBanner";
 import { Track } from "../../../models/track";
 import { TrackError } from "../../../models/track-error";
 

@@ -11,7 +11,8 @@ import { History } from "history";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
-import { Button, ButtonState } from "../../button/Button";
+import { Button, ButtonState } from "../../UI/Button/Button";
+import { ErrorBanner } from "../../UI/ErrorBanner/ErrorBanner";
 import { Track } from "../../../models/track";
 import { TrackError, TrackErrorType } from "../../../models/track-error";
 import { AppState } from "../../../models/state/app-state";
@@ -22,7 +23,6 @@ import {
   clearTrackLoading,
   TrackAction,
 } from "../../../store/actions/creators/track";
-import { ErrorBanner } from "../../error-banner/ErrorBanner";
 
 interface Props {
   addTrack: (track: Track, fileName: string, trackFile?: File) => void;
