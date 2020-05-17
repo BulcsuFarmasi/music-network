@@ -8,7 +8,7 @@ export const Navigation: FunctionComponent = () => {
   return (
     <ul className={styles.nav}>
       <li className={styles.navLink}>
-        <NavLink to="/" exact>
+        <NavLink to="/track-list" exact>
           List Tracks
         </NavLink>
       </li>
