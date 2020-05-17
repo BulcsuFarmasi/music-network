@@ -28,6 +28,7 @@ export function* addTrackSaga(action: AddTrackAction) {
     yield Firebase.upload(action.fileName, action.file);
     action.track.storagePath = action.fileName;
     action.track.downloadUrl = yield Firebase.download(action.fileName);
+    Http.setDatabaseUrl();
     const response: Response = yield Http.post(
       "tracks.json",
       JSON.stringify(action.track)
@@ -51,6 +52,7 @@ export function* addTrackSaga(action: AddTrackAction) {
 export function* deleteTrackSaga(action: DeleteTrackAction) {
   yield put(deleteTrackStart());
   try {
+    Http.setDatabaseUrl();
     yield Http.delete(`tracks/${action.track.id}.json`);
     if (!Firebase.started) {
       Firebase.init();
@@ -74,6 +76,7 @@ export function* fetchTrackSaga(action: FetchTrackAction) {
     if (!Firebase.started) {
       Firebase.init();
     }
+    Http.setDatabaseUrl();
     const response: Response = yield Http.get("tracks.json");
     const responseData: any = yield response.json();
     const tracks: Track[] = [];

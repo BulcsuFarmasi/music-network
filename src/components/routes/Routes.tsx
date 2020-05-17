@@ -29,18 +29,16 @@ const Routes: FunctionComponent<Props> = (props: Props) => {
   const authedRoutes = (
     <Switch>
       <Route path="/" exact component={Login} />
-      <Suspense fallback={<p>Loading...</p>}>
-        <Route path="/add-track" render={() => <AddTrack {...props} />} />
-        <Route path="/track-list" exact render={() => <TrackList />} />
-      </Suspense>
       <Route path="/register" component={Register} />
+      <Route path="/add-track" render={() => <AddTrack {...props} />} />
+      <Route path="/track-list" exact render={() => <TrackList />} />
       <Redirect to="/track-list" />
     </Switch>
   );
 
   const routes = authed ? authedRoutes : unauthedRoutes;
 
-  return routes;
+  return <Suspense fallback={<p>Loading...</p>}>{routes}</Suspense>;
 };
 
 const mapStateToProps = (state: AppState) => {

@@ -1,6 +1,10 @@
 export class Http {
-  private static baseUrl: string =
+  private static baseUrl: string;
+
+  private static databaseUrl: string =
     "https://music-network-d3a77.firebaseio.com/";
+  private static authUrl: string =
+    "https://identitytoolkit.googleapis.com/v1/accounts:";
 
   private static DELETE: string = "DELETE";
   private static GET: string = "GET";
@@ -23,6 +27,18 @@ export class Http {
       method: this.POST,
       body,
     }).then(this.processResponse);
+  }
+
+  static setAuthUrl() {
+    if (this.baseUrl !== this.authUrl) {
+      this.baseUrl = this.authUrl;
+    }
+  }
+
+  static setDatabaseUrl() {
+    if (this.baseUrl !== this.databaseUrl) {
+      this.baseUrl = this.databaseUrl;
+    }
   }
 
   private static processResponse(response: Response): Promise<Response> {
