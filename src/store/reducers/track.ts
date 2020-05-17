@@ -19,7 +19,7 @@ import {
   FETCH_TRACK_ERROR,
   FETCH_TRACK_START,
   FETCH_TRACK_SUCCESS,
-} from "../actions/types/types";
+} from "../actions/types/track";
 import { Track } from "../../models/track";
 import { LoadingState } from "../../models/state/loading-state";
 import { TrackState } from "../../models/state/track-state";

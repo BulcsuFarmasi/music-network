@@ -13,7 +13,7 @@ import {
   FETCH_TRACK_ERROR,
   FETCH_TRACK_START,
   FETCH_TRACK_SUCCESS,
-} from "../types/types";
+} from "../types/track";
 import { Track } from "../../../models/track";
 import { TrackError } from "../../../models/track-error";
 

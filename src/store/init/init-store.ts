@@ -9,10 +9,10 @@ import {
 import { SagaMiddleware } from "redux-saga";
 
 import { initSagaMiddleware } from "./init-saga";
+import { authReducer } from "../reducers/auth";
 import { trackReducer } from "../reducers/track";
 import { watchTrack } from "../sagas";
 import { AppState } from "../../models/state/app-state";
-
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose;
@@ -28,6 +28,7 @@ const initStore = (): Store => {
       : null || compose;
 
   const rootReducer: Reducer<AppState> = combineReducers<AppState>({
+    auth: authReducer,
     track: trackReducer,
   });
 
