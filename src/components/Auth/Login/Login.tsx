@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import { Link } from "react-router-dom";
 
-const Login: FunctionComponent = () => {
+export const Login: FunctionComponent = () => {
   return (
     <p>
       I am Login!
@@ -11,3 +11,5 @@ const Login: FunctionComponent = () => {
     </p>
   );
 };
+
+export default Login;

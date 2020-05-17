@@ -1,16 +1,52 @@
-import React, { FunctionComponent } from "react";
+import React, { lazy, FunctionComponent, Suspense } from "react";
 
-import { Redirect, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import { Redirect, Route, Switch, withRouter } from "react-router-dom";
+import { History } from "history";
 
-import AddTrack from "../Tracks/AddTrack/AddTrack";
-import TrackList from "../Tracks/TrackList/TrackList";
+import Login from "../Auth/Login/Login";
+import Register from "../Auth/Register/Register";
+import { AppState } from "../../models/state/app-state";
 
-export const Routes: FunctionComponent = () => {
-  return (
+const AddTrack = lazy(() => import("../Tracks/AddTrack/AddTrack"));
+const TrackList = lazy(() => import("../Tracks/TrackList/TrackList"));
+
+interface Props {
+  authed: boolean;
+  history: History;
+}
+
+const Routes: FunctionComponent<Props> = (props: Props) => {
+  const { authed } = props;
+
+  const unauthedRoutes = (
     <Switch>
-      <Route path="/" exact component={TrackList} />
-      <Route path="/add-track" component={AddTrack} />
+      <Route path="/" exact component={Login} />
+      <Route path="/register" component={Register} />
       <Redirect to="/" />
     </Switch>
   );
+  const authedRoutes = (
+    <Switch>
+      <Route path="/" exact component={Login} />
+      <Suspense fallback={<p>Loading...</p>}>
+        <Route path="/add-track" render={() => <AddTrack {...props} />} />
+        <Route path="/track-list" exact render={() => <TrackList />} />
+      </Suspense>
+      <Route path="/register" component={Register} />
+      <Redirect to="/track-list" />
+    </Switch>
+  );
+
+  const routes = authed ? authedRoutes : unauthedRoutes;
+
+  return routes;
 };
+
+const mapStateToProps = (state: AppState) => {
+  return {
+    authed: state.auth.authed,
+  };
+};
+
+export default withRouter(connect(mapStateToProps)(Routes));
