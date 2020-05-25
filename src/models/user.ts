@@ -4,4 +4,5 @@ export interface User {
   email: string;
   password: string;
   username?: string;
+  [key: string]: string | undefined;
 }
