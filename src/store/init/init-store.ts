@@ -11,7 +11,7 @@ import { SagaMiddleware } from "redux-saga";
 import { initSagaMiddleware } from "./init-saga";
 import { authReducer } from "../reducers/auth";
 import { trackReducer } from "../reducers/track";
-import { watchTrack } from "../sagas";
+import { watchAuth, watchTrack } from "../sagas";
 import { AppState } from "../../models/state/app-state";
 declare global {
   interface Window {
@@ -39,6 +39,7 @@ const initStore = (): Store => {
     composeEnhancers(applyMiddleware(sagaMiddleware))
   );
 
+  sagaMiddleware.run(watchAuth);
   sagaMiddleware.run(watchTrack);
 
   return store;

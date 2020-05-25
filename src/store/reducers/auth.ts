@@ -13,11 +13,11 @@ const initialState: AuthState = {
 };
 
 const authRegisterSuccess = (state: AuthState): AuthState => {
-  return updateObject(state, { loading: LoadingState.onGoing });
+  return updateObject(state, { loading: LoadingState.completed });
 };
 
 const startLoading = (state: AuthState): AuthState => {
-  return updateObject(state, { loading: LoadingState.completed });
+  return updateObject(state, { loading: LoadingState.onGoing });
 };
 
 export const authReducer = (
@@ -26,11 +26,9 @@ export const authReducer = (
 ) => {
   switch (action.type) {
     case AUTH_REGISTER_START:
-      startLoading(state);
-      break;
+      return startLoading(state);
     case AUTH_REGISTER_SUCCESS:
-      authRegisterSuccess(state);
-      break;
+      return authRegisterSuccess(state);
   }
   return state;
 };

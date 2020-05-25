@@ -1,9 +1,25 @@
-import React, { useState, ChangeEvent, FunctionComponent } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  FunctionComponent,
+  Dispatch,
+} from "react";
 
-import { User } from "../../../models/user";
 import { Button, ButtonState } from "../../UI/Button/Button";
+import { User } from "../../../models/user";
+import { AppState } from "../../../models/state/app-state";
+import { LoadingState } from "../../../models/state/loading-state";
+import { AuthAction, authRegister } from "../../../store/actions/creators/auth";
+import { connect } from "react-redux";
 
-export const Register: FunctionComponent = () => {
+interface Props {
+  authRegister: (user: User) => void;
+  loading: LoadingState;
+}
+
+export const Register: FunctionComponent<Props> = (props: Props) => {
+  const { authRegister, loading } = props;
+
   const [user, setUser] = useState<User>({
     email: "",
     password: "",
@@ -14,7 +30,7 @@ export const Register: FunctionComponent = () => {
     event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event?.preventDefault();
-    console.log(user);
+    authRegister(user);
   };
 
   const updateUser = (
@@ -73,4 +89,16 @@ export const Register: FunctionComponent = () => {
   );
 };
 
-export default Register;
+const mapStateToProps = (state: AppState) => {
+  return {
+    loading: state.auth.loading,
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch<AuthAction>) => {
+  return {
+    authRegister: (user: User) => dispatch(authRegister(user)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
