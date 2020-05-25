@@ -1,9 +1,12 @@
 import React, {
+  useEffect,
   useState,
   ChangeEvent,
   FunctionComponent,
-  Dispatch,
 } from "react";
+
+import { Dispatch } from "redux";
+import { History } from "history";
 
 import { Button, ButtonState } from "../../UI/Button/Button";
 import { User } from "../../../models/user";
@@ -14,17 +17,24 @@ import { connect } from "react-redux";
 
 interface Props {
   authRegister: (user: User) => void;
+  history: History;
   loading: LoadingState;
 }
 
 export const Register: FunctionComponent<Props> = (props: Props) => {
-  const { authRegister, loading } = props;
+  const { authRegister, history, loading } = props;
 
   const [user, setUser] = useState<User>({
     email: "",
     password: "",
     username: "",
   });
+
+  useEffect(() => {
+    if (loading == LoadingState.completed) {
+      history.push("/");
+    }
+  }, [history, loading]);
 
   const register = (
     event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
