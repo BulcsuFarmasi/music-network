@@ -54,7 +54,7 @@ export const authRegister = (user: User): AuthRegisterAction => ({
   user,
 });
 
-export const authRegsiterStart = (): AuthRegisterStartAction => ({
+export const authRegisterStart = (): AuthRegisterStartAction => ({
   type: AUTH_REGISTER_START,
 });
 

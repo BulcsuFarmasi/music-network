@@ -1,15 +1,25 @@
 import React, { useState, ChangeEvent, FunctionComponent } from "react";
 
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Dispatch } from "redux";
 
 import { Button, ButtonState } from "../../UI/Button/Button";
 import { User } from "../../../models/user";
+import { AuthAction, authLogin } from "../../../store/actions/creators/auth";
 
-export const Login: FunctionComponent = () => {
+interface Props {
+  authLogin: (user: User) => void;
+}
+
+export const Login: FunctionComponent<Props> = (props: Props) => {
+  const { authLogin } = props;
+
   const [user, setUser] = useState<User>({ email: "", password: "" });
+
   const login = (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event?.preventDefault();
-    console.log(user);
+    authLogin(user);
   };
 
   const updateUser = (
@@ -20,6 +30,7 @@ export const Login: FunctionComponent = () => {
     updatedUser[propertyName] = event.target.value;
     setUser(updatedUser);
   };
+
   return (
     <form>
       <p>
@@ -58,4 +69,10 @@ export const Login: FunctionComponent = () => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch: Dispatch<AuthAction>) => {
+  return {
+    authLogin: (user: User) => dispatch(authLogin(user)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);
