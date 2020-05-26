@@ -31,7 +31,7 @@ export const Register: FunctionComponent<Props> = (props: Props) => {
   });
 
   useEffect(() => {
-    if (loading == LoadingState.completed) {
+    if (loading === LoadingState.completed) {
       history.push("/");
     }
   }, [history, loading]);
