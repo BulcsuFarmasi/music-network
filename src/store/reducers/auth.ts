@@ -11,7 +11,6 @@ import { updateObject } from "../../utils/object-utils";
 
 const initialState: AuthState = {
   authed: false,
-
   loading: LoadingState.initial,
 };
 
@@ -20,6 +19,7 @@ const authLoginSuccess = (
   action: AuthLoginSuccessAction
 ): AuthState => {
   return updateObject(state, {
+    authed: true,
     loggedInUser: action.user,
     loading: LoadingState.completed,
   });
