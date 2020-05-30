@@ -16,8 +16,8 @@ import {
 } from "../actions/creators/track";
 import { Track } from "../../models/track";
 import { TrackErrorType } from "../../models/track-error";
-import { Http } from "../../utils/http";
 import { Firebase } from "../../utils/firebase";
+import { Http } from "../../utils/http";
 
 export function* addTrackSaga(action: AddTrackAction) {
   yield put(addTrackStart());

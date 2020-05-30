@@ -5,16 +5,16 @@ import React, {
   FunctionComponent,
 } from "react";
 
+import { History } from "history";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
 
 import { Button, ButtonState } from "../../UI/Button/Button";
 import { User } from "../../../models/user";
-import { AuthAction, authLogin } from "../../../store/actions/creators/auth";
 import { AppState } from "../../../models/state/app-state";
 import { LoadingState } from "../../../models/state/loading-state";
-import { History } from "history";
+import { AuthAction, authLogin } from "../../../store/actions/creators/auth";
 
 interface Props {
   authLogin: (user: User) => void;

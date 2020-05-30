@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { connect } from "react-redux";
 
-import { Navigation } from "../Navigation/Navgiation";
+import { Navigation } from "../Navigation/Navigation";
 import Routes from "../../Routes/Routes";
 import { AppState } from "../../../models/state/app-state";
 

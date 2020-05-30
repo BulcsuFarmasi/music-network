@@ -1,15 +1,15 @@
 import React, { lazy, FunctionComponent, Suspense } from "react";
 
 import { connect } from "react-redux";
-import { Redirect, Route, Switch, withRouter } from "react-router-dom";
+import { withRouter, Redirect, Route, Switch } from "react-router-dom";
 import { History } from "history";
 
 import Login from "../Auth/Login/Login";
 import Register from "../Auth/Register/Register";
 import { AppState } from "../../models/state/app-state";
 
-const AddTrack = lazy(() => import("../Tracks/AddTrack/AddTrack"));
 const Profile = lazy(() => import("../Profile/Profile"));
+const AddTrack = lazy(() => import("../Tracks/AddTrack/AddTrack"));
 
 interface Props {
   authed: boolean;
