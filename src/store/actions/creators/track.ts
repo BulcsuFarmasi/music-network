@@ -68,6 +68,7 @@ export interface DeleteTrackSuccessAction {
 
 export interface FetchTrackAction {
   type: typeof FETCH_TRACK;
+  userId?: string;
 }
 
 export interface FetchTrackErrorAction {
@@ -138,8 +139,9 @@ export const deleteTrackSuccess = (id?: string): DeleteTrackSuccessAction => ({
   id,
 });
 
-export const fetchTrack = (): FetchTrackAction => ({
+export const fetchTrack = (userId?: string): FetchTrackAction => ({
   type: FETCH_TRACK,
+  userId,
 });
 
 export const fetchTrackError = (error: TrackError): FetchTrackErrorAction => ({

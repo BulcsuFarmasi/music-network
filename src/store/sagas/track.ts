@@ -77,7 +77,9 @@ export function* fetchTrackSaga(action: FetchTrackAction) {
       Firebase.init();
     }
     Http.setDatabaseUrl();
-    const response: Response = yield Http.get("tracks.json");
+    const response: Response = yield Http.get(
+      `tracks.json?orderBy="authorId"&equalTo="${action.userId}"`
+    );
     const responseData: any = yield response.json();
     const tracks: Track[] = [];
     for (let key in responseData) {

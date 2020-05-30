@@ -6,6 +6,7 @@ import { Dispatch } from "redux";
 import SingleTrack from "../SingleTrack/SingleTrack";
 import { ErrorBanner } from "../../UI/ErrorBanner/ErrorBanner";
 import { Track } from "../../../models/track";
+import { User } from "../../../models/user";
 import { TrackError, TrackErrorType } from "../../../models/track-error";
 import { AppState } from "../../../models/state/app-state";
 import {
@@ -19,16 +20,24 @@ interface Props {
   clearTrackError: () => void;
   error?: TrackError;
   deleteTrack: (track: Track) => void;
-  fetchTrack: () => void;
+  fetchTrack: (userId?: string) => void;
+  loggedInUser?: User;
   tracks: Track[];
 }
 
 const TrackList: FunctionComponent<Props> = (props: Props) => {
-  const { clearTrackError, error, tracks, deleteTrack, fetchTrack } = props;
+  const {
+    clearTrackError,
+    error,
+    tracks,
+    deleteTrack,
+    fetchTrack,
+    loggedInUser,
+  } = props;
 
   useEffect(() => {
-    fetchTrack();
-  }, [fetchTrack]);
+    fetchTrack(loggedInUser?.id);
+  }, [fetchTrack, loggedInUser]);
 
   const clearError = () => {
     clearTrackError();
@@ -76,6 +85,7 @@ const TrackList: FunctionComponent<Props> = (props: Props) => {
 const mapStateToProps = (state: AppState) => {
   return {
     error: state.track.error,
+    loggedInUser: state.auth.loggedInUser,
     tracks: state.track.tracks,
   };
 };
@@ -84,7 +94,7 @@ const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
   return {
     clearTrackError: () => dispatch(clearTrackError()),
     deleteTrack: (track: Track) => dispatch(deleteTrack(track)),
-    fetchTrack: () => dispatch(fetchTrack()),
+    fetchTrack: (userId?: string) => dispatch(fetchTrack(userId)),
   };
 };
 
