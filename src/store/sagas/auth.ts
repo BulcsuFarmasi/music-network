@@ -27,7 +27,10 @@ export function* authLoginSaga(action: AuthLoginAction) {
   Http.setDatabaseUrl();
   response = yield Http.get(`users.json?orderBy="authId"&equalTo="${authId}"`);
   responseData = yield response.json();
-  const user: User = responseData[Object.keys(responseData)[0]];
+  const user: User = {
+    ...responseData[Object.keys(responseData)[0]],
+    id: Object.keys(responseData)[0],
+  };
   yield put(authLoginSuccess(user));
 }
 

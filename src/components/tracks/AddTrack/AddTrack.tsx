@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 
 import { Button, ButtonState } from "../../UI/Button/Button";
 import { ErrorBanner } from "../../UI/ErrorBanner/ErrorBanner";
+import { User } from "../../../models/user";
 import { Track } from "../../../models/track";
 import { TrackError, TrackErrorType } from "../../../models/track-error";
 import { AppState } from "../../../models/state/app-state";
@@ -31,6 +32,7 @@ interface Props {
   error?: TrackError;
   history: History;
   loading: LoadingState;
+  loggedInUser?: User;
 }
 
 const AddTrack: FunctionComponent<Props> = (props: Props) => {
@@ -41,6 +43,7 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
     error,
     history,
     loading,
+    loggedInUser,
   } = props;
 
   const loadingRef: MutableRefObject<LoadingState> = useRef(loading);
@@ -69,6 +72,7 @@ const AddTrack: FunctionComponent<Props> = (props: Props) => {
     event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event?.preventDefault();
+    track.authorId = loggedInUser?.id;
     track.creationTime = Date.now();
     const fileName: string = `tracks/${Date.now()}.mp3`;
     addTrack(track, fileName, trackFile);
@@ -130,6 +134,7 @@ const mapStateToProps = (state: AppState) => {
   return {
     error: state.track.error,
     loading: state.track.loading,
+    loggedInUser: state.auth.loggedInUser,
   };
 };
 

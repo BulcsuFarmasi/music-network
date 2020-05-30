@@ -1,5 +1,6 @@
 export interface Track {
   id?: string;
+  authorId?: string;
   creationTime?: number;
   name: string;
   storagePath?: string;
