@@ -75,7 +75,7 @@ const TrackList: FunctionComponent<Props> = (props: Props) => {
 
   return (
     <div>
-      <h2>Track List</h2>
+      <h2>My Tracks</h2>
       {errorBanner}
       {trackList}
     </div>
