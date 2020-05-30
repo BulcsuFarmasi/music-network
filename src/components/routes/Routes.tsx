@@ -9,7 +9,7 @@ import Register from "../Auth/Register/Register";
 import { AppState } from "../../models/state/app-state";
 
 const AddTrack = lazy(() => import("../Tracks/AddTrack/AddTrack"));
-const TrackList = lazy(() => import("../Tracks/TrackList/TrackList"));
+const Profile = lazy(() => import("../Profile/Profile"));
 
 interface Props {
   authed: boolean;
@@ -31,8 +31,8 @@ const Routes: FunctionComponent<Props> = (props: Props) => {
       <Route path="/" exact component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/add-track" render={() => <AddTrack {...props} />} />
-      <Route path="/track-list" exact render={() => <TrackList />} />
-      <Redirect to="/track-list" />
+      <Route path="/profile" exact render={() => <Profile />} />
+      <Redirect to="/profile" />
     </Switch>
   );
 

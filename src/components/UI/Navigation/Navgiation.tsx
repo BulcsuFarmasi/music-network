@@ -8,8 +8,8 @@ export const Navigation: FunctionComponent = () => {
   return (
     <ul className={styles.nav}>
       <li className={styles.navLink}>
-        <NavLink to="/track-list" exact>
-          List Tracks
+        <NavLink to="/profile" exact>
+          Profile
         </NavLink>
       </li>
       <li className={styles.navLink}>
