@@ -1,9 +1,10 @@
+import { File } from "./file";
+
 export interface Track {
   id?: string;
   authorId?: string;
   creationTime?: number;
   name: string;
-  storagePath?: string;
-  downloadUrl?: string;
-  [key: string]: string | undefined | number;
+  file?: File;
+  [key: string]: string | undefined | number | File;
 }

@@ -34,7 +34,7 @@ const SingleTrack: FunctionComponent<Props> = (props: Props) => {
       <h3 className={styles.name}>{track.name}</h3>
       <p>{creationText}</p>
       <p>
-        <audio src={track.downloadUrl} controls></audio>
+        <audio src={track?.file?.downloadUrl} controls></audio>
       </p>
       <Button clicked={() => removeTrack(track)} state={ButtonState.danger}>
         Delete

@@ -57,7 +57,7 @@ export function* deleteTrackSaga(action: DeleteTrackAction) {
     if (!Firebase.started) {
       Firebase.init();
     }
-    Firebase.delete(action.track.storagePath);
+    Firebase.delete(action.track?.file?.storagePath);
     yield put(deleteTrackSuccess(action.track.id));
   } catch {
     yield put(
