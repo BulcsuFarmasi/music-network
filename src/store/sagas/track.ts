@@ -26,8 +26,12 @@ export function* addTrackSaga(action: AddTrackAction) {
       Firebase.init();
     }
     yield Firebase.upload(action.fileName, action.file);
-    action.track.storagePath = action.fileName;
-    action.track.downloadUrl = yield Firebase.download(action.fileName);
+    const storagePath: string = action.fileName;
+    const downloadUrl: string = yield Firebase.download(action.fileName);
+    action.track.file = {
+      storagePath,
+      downloadUrl,
+    };
     Http.setDatabaseUrl();
     const response: Response = yield Http.post(
       "tracks.json",
