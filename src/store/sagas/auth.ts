@@ -2,19 +2,21 @@ import { put } from "redux-saga/effects";
 
 import {
   authLoginStart,
+  authLoginSuccess,
   authRegisterStart,
   authRegisterSuccess,
+  updateUserSuccess,
   AuthLoginAction,
   AuthRegisterAction,
-  authLoginSuccess,
+  UpdateProfilePictureAction,
 } from "../actions/creators/auth";
 import { User } from "../../models/user";
+import { Firebase } from "../../utils/firebase";
 import { firebaseConfig } from "../../utils/firebase-config";
 import { Http } from "../../utils/http";
+import { File } from "../../models/file";
 
 export function* authLoginSaga(action: AuthLoginAction) {
-  console.log("login");
-
   yield put(authLoginStart());
   Http.setAuthUrl();
   let response: Response = yield Http.post(
@@ -35,8 +37,6 @@ export function* authLoginSaga(action: AuthLoginAction) {
 }
 
 export function* authRegisterSaga(action: AuthRegisterAction) {
-  console.log("register");
-
   yield put(authRegisterStart());
 
   Http.setAuthUrl();
@@ -56,4 +56,19 @@ export function* authRegisterSaga(action: AuthRegisterAction) {
 
   yield Http.post("users.json", JSON.stringify(signupUser));
   yield put(authRegisterSuccess());
+}
+
+export function* updateProfilePictureSaga(action: UpdateProfilePictureAction) {
+  if (!Firebase.started) {
+    Firebase.init();
+  }
+  yield Firebase.upload(action.fileName, action.file);
+  const profilePicture: File = {
+    storagePath: action.fileName,
+    downloadUrl: yield Firebase.download(action.fileName),
+  };
+  const user: User = {
+    profilePicture,
+  };
+  yield put(updateUserSuccess(user));
 }

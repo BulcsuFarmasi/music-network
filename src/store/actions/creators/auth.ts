@@ -5,6 +5,9 @@ import {
   AUTH_REGISTER,
   AUTH_REGISTER_START,
   AUTH_REGISTER_SUCCESS,
+  UPDATE_PROFILE_PICTURE,
+  UPDATE_USER,
+  UPDATE_USER_SUCCESS,
 } from "../types/auth";
 import { User } from "../../../models/user";
 
@@ -35,6 +38,23 @@ export interface AuthRegisterSuccessAction {
   type: typeof AUTH_REGISTER_SUCCESS;
 }
 
+export interface UpdateProfilePictureAction {
+  type: typeof UPDATE_PROFILE_PICTURE;
+  userId: string;
+  file: File;
+  fileName: string;
+}
+
+export interface UpdateUserAction {
+  type: typeof UPDATE_USER;
+  user: User;
+}
+
+export interface UpdateUserSuccessAction {
+  type: typeof UPDATE_USER_SUCCESS;
+  user: User;
+}
+
 export const authLogin = (user: User): AuthLoginAction => ({
   type: AUTH_LOGIN,
   user,
@@ -62,10 +82,21 @@ export const authRegisterSuccess = (): AuthRegisterSuccessAction => ({
   type: AUTH_REGISTER_SUCCESS,
 });
 
+export const updateUser = (user: User): UpdateUserAction => ({
+  type: UPDATE_USER,
+  user,
+});
+
+export const updateUserSuccess = (user: User): UpdateUserSuccessAction => ({
+  type: UPDATE_USER_SUCCESS,
+  user,
+});
+
 export type AuthAction =
   | AuthLoginAction
   | AuthLoginStartAction
   | AuthLoginSuccessAction
   | AuthRegisterAction
   | AuthRegisterStartAction
-  | AuthRegisterSuccessAction;
+  | AuthRegisterSuccessAction
+  | UpdateUserSuccessAction;

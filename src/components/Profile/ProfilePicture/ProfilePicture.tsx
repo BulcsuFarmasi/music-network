@@ -1,17 +1,18 @@
-import React, { useState, FunctionComponent } from "react";
+import React, { useState, ChangeEvent, FunctionComponent } from "react";
 
 import { connect } from "react-redux";
 
+import { User } from "../../../models/user";
 import { AppState } from "../../../models/state/app-state";
 
 import styles from "./ProfilePicture.module.scss";
 
 interface Props {
-  profilePictureUrl?: string;
+  loggedInUser: User;
 }
 
 const ProfilePicture: FunctionComponent<Props> = (props: Props) => {
-  const { profilePictureUrl } = props;
+  const { loggedInUser } = props;
 
   const [showUpload, setShowUpload] = useState(false);
 
@@ -19,8 +20,16 @@ const ProfilePicture: FunctionComponent<Props> = (props: Props) => {
     setShowUpload(!showUpload);
   };
 
-  let source = profilePictureUrl
-    ? profilePictureUrl
+  const updateProfilePicture = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const profilePicture: File = event.target.files[0];
+      console.log(profilePicture);
+      setShowUpload(false);
+    }
+  };
+
+  let source = loggedInUser.profilePicture?.downloadUrl
+    ? loggedInUser.profilePicture.downloadUrl
     : "images/default-profile.png";
   return (
     <div className={styles.profilePictureContainer}>
@@ -30,14 +39,14 @@ const ProfilePicture: FunctionComponent<Props> = (props: Props) => {
         onClick={toggleUpload}
         className={styles.profilePicture}
       />
-      {showUpload && <input type="file" />}
+      {showUpload && <input type="file" onChange={updateProfilePicture} />}
     </div>
   );
 };
 
 const mapStateToProps = (state: AppState) => {
   return {
-    profilePictureUrl: state.auth.loggedInUser?.profilePicture?.downloadUrl,
+    loggedInUser: state.auth.loggedInUser,
   };
 };
 
