@@ -40,7 +40,6 @@ export interface AuthRegisterSuccessAction {
 
 export interface UpdateProfilePictureAction {
   type: typeof UPDATE_PROFILE_PICTURE;
-  userId: string;
   file: File;
   fileName: string;
 }
@@ -80,6 +79,12 @@ export const authRegisterStart = (): AuthRegisterStartAction => ({
 
 export const authRegisterSuccess = (): AuthRegisterSuccessAction => ({
   type: AUTH_REGISTER_SUCCESS,
+});
+
+export const updateProfilePicture = (file: File, fileName: string) => ({
+  type: UPDATE_PROFILE_PICTURE,
+  file,
+  fileName,
 });
 
 export const updateUser = (user: User): UpdateUserAction => ({
