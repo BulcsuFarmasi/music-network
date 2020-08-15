@@ -1,14 +1,16 @@
-import { put } from "redux-saga/effects";
+import { call, put } from "redux-saga/effects";
 
 import {
   authLoginStart,
   authLoginSuccess,
   authRegisterStart,
   authRegisterSuccess,
+  updateUser,
   updateUserSuccess,
   AuthLoginAction,
   AuthRegisterAction,
   UpdateProfilePictureAction,
+  UpdateUserAction,
 } from "../actions/creators/auth";
 import { User } from "../../models/user";
 import { Firebase } from "../../utils/firebase";
@@ -68,7 +70,17 @@ export function* updateProfilePictureSaga(action: UpdateProfilePictureAction) {
     downloadUrl: yield Firebase.download(action.fileName),
   };
   const user: User = {
+    id: action.userId,
     profilePicture,
   };
+  const updateUserAction: UpdateUserAction = updateUser(user);
+  yield call(updateUserSaga, updateUserAction);
   yield put(updateUserSuccess(user));
+}
+
+export function* updateUserSaga(action: UpdateUserAction) {
+  const userId = action.user.id;
+  delete action.user.id;
+  Http.setDatabaseUrl();
+  yield Http.patch(`users/${userId}.json`, JSON.stringify(action.user));
 }

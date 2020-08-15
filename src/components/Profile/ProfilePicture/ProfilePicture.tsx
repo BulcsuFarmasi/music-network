@@ -12,7 +12,11 @@ import { getExtensionForMimeType } from "../../../utils/file";
 
 interface Props {
   loggedInUser: User | undefined;
-  updateProfilePicture: (file: File, fileName: string) => void;
+  updateProfilePicture: (
+    userId: string | undefined,
+    file: File,
+    fileName: string
+  ) => void;
 }
 
 const ProfilePicture: FunctionComponent<Props> = (props: Props) => {
@@ -31,7 +35,7 @@ const ProfilePicture: FunctionComponent<Props> = (props: Props) => {
       const now = Date.now();
       const extension = getExtensionForMimeType(profilePicture.type);
       const fileName = `profile-pictures/${loggedInUser?.id}/${now}.${extension}`;
-      updateProfilePicture(profilePicture, fileName);
+      updateProfilePicture(loggedInUser?.id, profilePicture, fileName);
     }
   };
 
@@ -59,8 +63,11 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    updateProfilePicture: (file: File, fileName: string) =>
-      dispatch(updateProfilePicture(file, fileName)),
+    updateProfilePicture: (
+      userId: string | undefined,
+      file: File,
+      fileName: string
+    ) => dispatch(updateProfilePicture(userId, file, fileName)),
   };
 };
 

@@ -8,6 +8,7 @@ export class Http {
 
   private static DELETE: string = "DELETE";
   private static GET: string = "GET";
+  private static PATCH: string = "PATCH";
   private static POST: string = "POST";
 
   static delete(path: string): Promise<Response> {
@@ -19,6 +20,13 @@ export class Http {
   static get(path: string): Promise<Response> {
     return fetch(this.baseUrl + path, {
       method: this.GET,
+    }).then(this.processResponse);
+  }
+
+  static patch(path: string, body: string): Promise<Response> {
+    return fetch(this.baseUrl + path, {
+      method: this.PATCH,
+      body,
     }).then(this.processResponse);
   }
 
