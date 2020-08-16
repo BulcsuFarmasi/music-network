@@ -17,6 +17,7 @@ import { Firebase } from "../../utils/firebase";
 import { firebaseConfig } from "../../utils/firebase-config";
 import { Http } from "../../utils/http";
 import { File } from "../../models/file";
+import { LocalStorageKeys } from "../../utils/localstorage-keys";
 
 export function* authLoginSaga(action: AuthLoginAction) {
   yield put(authLoginStart());
@@ -28,6 +29,24 @@ export function* authLoginSaga(action: AuthLoginAction) {
   let responseData: any = yield response.json();
 
   const authId = responseData.localId;
+
+  const expirationDate: Date = new Date(
+    Date.now() + responseData.expiresIn * 1000
+  );
+
+  const loggedInUser: User = {
+    authId,
+    token: {
+      expirationDate,
+      body: responseData.idToken,
+    },
+  };
+
+  localStorage.setItem(
+    LocalStorageKeys.loggedInUser,
+    JSON.stringify(loggedInUser)
+  );
+
   Http.setDatabaseUrl();
   response = yield Http.get(`users.json?orderBy="authId"&equalTo="${authId}"`);
   responseData = yield response.json();

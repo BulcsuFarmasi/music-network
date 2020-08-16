@@ -1,4 +1,5 @@
 import { File } from "./file";
+import { Token } from "./token";
 
 export interface User {
   id?: string;
@@ -7,5 +8,6 @@ export interface User {
   password?: string;
   username?: string;
   profilePicture?: File;
-  [key: string]: string | undefined | File;
+  token?: Token;
+  [key: string]: string | undefined | File | Token;
 }
