@@ -5,6 +5,7 @@ import {
   AUTH_REGISTER,
   AUTH_REGISTER_START,
   AUTH_REGISTER_SUCCESS,
+  CHECK_AUTH,
   UPDATE_PROFILE_PICTURE,
   UPDATE_USER,
   UPDATE_USER_SUCCESS,
@@ -36,6 +37,10 @@ export interface AuthRegisterStartAction {
 
 export interface AuthRegisterSuccessAction {
   type: typeof AUTH_REGISTER_SUCCESS;
+}
+
+export interface CheckAuthAction {
+  type: typeof CHECK_AUTH;
 }
 
 export interface UpdateProfilePictureAction {
@@ -80,6 +85,10 @@ export const authRegisterStart = (): AuthRegisterStartAction => ({
 
 export const authRegisterSuccess = (): AuthRegisterSuccessAction => ({
   type: AUTH_REGISTER_SUCCESS,
+});
+
+export const checkAuth = (): CheckAuthAction => ({
+  type: CHECK_AUTH,
 });
 
 export const updateProfilePicture = (
