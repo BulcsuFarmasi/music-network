@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { Store } from "redux";
 
-import { Main } from "./components/Main/Main";
+import Main from "./components/Main/Main";
 import initStore from "./store/init/init-store";
 
 export const App: FunctionComponent = () => {
