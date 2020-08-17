@@ -1,3 +1,5 @@
+export const CHECK_AUTH = "CHECK_AUTH";
+
 export const AUTH_LOGIN = "AUTH_LOGIN";
 export const AUTH_LOGIN_START = "AUTH_LOGIN_START";
 export const AUTH_LOGIN_SUCCESS = "AUTH_LOGIN_SUCCESS";
