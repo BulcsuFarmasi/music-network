@@ -11,6 +11,7 @@ import {
   AuthRegisterAction,
   UpdateProfilePictureAction,
   UpdateUserAction,
+  CheckAuthAction,
 } from "../actions/creators/auth";
 import { User } from "../../models/user";
 import { Firebase } from "../../utils/firebase";
@@ -77,6 +78,22 @@ export function* authRegisterSaga(action: AuthRegisterAction) {
 
   yield Http.post("users.json", JSON.stringify(signupUser));
   yield put(authRegisterSuccess());
+}
+
+export function* checkAuthSaga(action: CheckAuthAction) {
+  const item: string | null = yield localStorage.getItem(
+    LocalStorageKeys.loggedInUser
+  );
+  if (item) {
+    const loggedInUser: User = JSON.parse(item);
+    if (loggedInUser?.token?.body && loggedInUser?.token?.expirationDate) {
+      const expirationDate = new Date(loggedInUser.token.expirationDate);
+      const now = new Date();
+      if (now < expirationDate) {
+        console.log("loggedIn");
+      }
+    }
+  }
 }
 
 export function* updateProfilePictureSaga(action: UpdateProfilePictureAction) {
