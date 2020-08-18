@@ -16,22 +16,23 @@ import { AppState } from "../../../models/state/app-state";
 import { LoadingState } from "../../../models/state/loading-state";
 import { AuthAction, authLogin } from "../../../store/actions/creators/auth";
 
-interface Props {
+interface LoginProps {
+  authed: boolean;
   authLogin: (user: User) => void;
   history: History;
   loading: LoadingState;
 }
 
-export const Login: FunctionComponent<Props> = (props: Props) => {
-  const { authLogin, history, loading } = props;
+export const Login: FunctionComponent<LoginProps> = (props: LoginProps) => {
+  const { authed, authLogin, history, loading } = props;
 
   const [user, setUser] = useState<User>({ email: "", password: "" });
 
   useEffect(() => {
-    if (loading === LoadingState.completed) {
-      history.push("/track-list");
+    if (loading === LoadingState.completed && authed) {
+      history.push("/profile");
     }
-  }, [history, loading]);
+  }, [authed, history, loading]);
 
   const login = (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event?.preventDefault();
@@ -87,6 +88,7 @@ export const Login: FunctionComponent<Props> = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
+    authed: state.auth.authed,
     loading: state.auth.loading,
   };
 };
