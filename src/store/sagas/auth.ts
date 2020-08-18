@@ -48,13 +48,7 @@ export function* authLoginSaga(action: AuthLoginAction) {
     JSON.stringify(loggedInUser)
   );
 
-  Http.setDatabaseUrl();
-  response = yield Http.get(`users.json?orderBy="authId"&equalTo="${authId}"`);
-  responseData = yield response.json();
-  const user: User = {
-    ...responseData[Object.keys(responseData)[0]],
-    id: Object.keys(responseData)[0],
-  };
+  const user: User = yield getUserByAuthId(authId);
   yield put(authLoginSuccess(user));
 }
 
@@ -86,11 +80,12 @@ export function* checkAuthSaga(action: CheckAuthAction) {
   );
   if (item) {
     const loggedInUser: User = JSON.parse(item);
-    if (loggedInUser?.token?.body && loggedInUser?.token?.expirationDate) {
+    if (loggedInUser && loggedInUser?.token) {
       const expirationDate = new Date(loggedInUser.token.expirationDate);
       const now = new Date();
       if (now < expirationDate) {
-        console.log("loggedIn");
+        const user: User = yield getUserByAuthId(loggedInUser.authId ?? "");
+        yield put(authLoginSuccess(user));
       }
     }
   }
@@ -120,3 +115,16 @@ export function* updateUserSaga(action: UpdateUserAction) {
   Http.setDatabaseUrl();
   yield Http.patch(`users/${userId}.json`, JSON.stringify(action.user));
 }
+
+const getUserByAuthId = async (authId: string): Promise<User> => {
+  Http.setDatabaseUrl();
+  const response = await Http.get(
+    `users.json?orderBy="authId"&equalTo="${authId}"`
+  );
+  const responseData = await response.json();
+  const user: User = {
+    ...responseData[Object.keys(responseData)[0]],
+    id: Object.keys(responseData)[0],
+  };
+  return user;
+};
