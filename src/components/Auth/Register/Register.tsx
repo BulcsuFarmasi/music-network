@@ -15,13 +15,15 @@ import { LoadingState } from "../../../models/state/loading-state";
 import { AuthAction, authRegister } from "../../../store/actions/creators/auth";
 import { connect } from "react-redux";
 
-interface Props {
+interface RegisterProps {
   authRegister: (user: User) => void;
   history: History;
   loading: LoadingState;
 }
 
-export const Register: FunctionComponent<Props> = (props: Props) => {
+export const Register: FunctionComponent<RegisterProps> = (
+  props: RegisterProps
+) => {
   const { authRegister, history, loading } = props;
 
   const [user, setUser] = useState<User>({

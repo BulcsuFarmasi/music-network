@@ -25,7 +25,7 @@ import {
   TrackAction,
 } from "../../../store/actions/creators/track";
 
-interface Props {
+interface AddTrackProps {
   addTrack: (track: Track, fileName: string, trackFile?: File) => void;
   clearTrackError: () => void;
   clearTrackLoading: () => void;
@@ -35,7 +35,7 @@ interface Props {
   loggedInUser?: User;
 }
 
-const AddTrack: FunctionComponent<Props> = (props: Props) => {
+const AddTrack: FunctionComponent<AddTrackProps> = (props: AddTrackProps) => {
   const {
     addTrack,
     clearTrackError,

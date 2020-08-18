@@ -16,7 +16,7 @@ import {
   TrackAction,
 } from "../../../store/actions/creators/track";
 
-interface Props {
+interface TrackListProps {
   clearTrackError: () => void;
   error?: TrackError;
   deleteTrack: (track: Track) => void;
@@ -25,7 +25,9 @@ interface Props {
   tracks: Track[];
 }
 
-const TrackList: FunctionComponent<Props> = (props: Props) => {
+const TrackList: FunctionComponent<TrackListProps> = (
+  props: TrackListProps
+) => {
   const {
     clearTrackError,
     error,

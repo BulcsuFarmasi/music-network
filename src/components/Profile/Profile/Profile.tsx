@@ -9,11 +9,11 @@ import { AppState } from "../../../models/state/app-state";
 
 import styles from "./Profile.module.scss";
 
-interface Props {
+interface ProfileProps {
   loggedInUser?: User;
 }
 
-const Profile: FunctionComponent<Props> = (props: Props) => {
+const Profile: FunctionComponent<ProfileProps> = (props: ProfileProps) => {
   const { loggedInUser } = props;
   return (
     <Fragment>

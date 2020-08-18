@@ -10,7 +10,7 @@ import { AppState } from "../../../models/state/app-state";
 import styles from "./ProfilePicture.module.scss";
 import { getExtensionForMimeType } from "../../../utils/file";
 
-interface Props {
+interface ProfilePictureProps {
   loggedInUser: User | undefined;
   updateProfilePicture: (
     userId: string | undefined,
@@ -19,7 +19,9 @@ interface Props {
   ) => void;
 }
 
-const ProfilePicture: FunctionComponent<Props> = (props: Props) => {
+const ProfilePicture: FunctionComponent<ProfilePictureProps> = (
+  props: ProfilePictureProps
+) => {
   const { loggedInUser, updateProfilePicture } = props;
 
   const [showUpload, setShowUpload] = useState(false);

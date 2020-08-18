@@ -7,14 +7,16 @@ import { TrackError } from "../../../models/track-error";
 
 import styles from "./SingleTrack.module.scss";
 
-interface Props {
+interface SingleTrackProps {
   clearError: () => void;
   error?: TrackError;
   track: Track;
   removeTrack: (track: Track) => void;
 }
 
-const SingleTrack: FunctionComponent<Props> = (props: Props) => {
+const SingleTrack: FunctionComponent<SingleTrackProps> = (
+  props: SingleTrackProps
+) => {
   const { clearError, error, track, removeTrack } = props;
 
   let creationText: string = "";
