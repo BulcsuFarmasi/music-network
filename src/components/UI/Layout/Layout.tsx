@@ -7,11 +7,11 @@ import { AppState } from "../../../models/state/app-state";
 
 import styles from "./Layout.module.scss";
 
-interface Props {
+interface LayoutProps {
   authed: boolean;
 }
 
-const Layout: FunctionComponent<Props> = (props: Props) => {
+const Layout: FunctionComponent<LayoutProps> = (props: LayoutProps) => {
   const { authed } = props;
   return (
     <div className={styles.layout}>

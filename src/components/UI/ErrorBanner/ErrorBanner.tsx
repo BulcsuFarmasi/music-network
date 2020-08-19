@@ -2,12 +2,12 @@ import React, { FunctionComponent, PropsWithChildren } from "react";
 
 import styles from "./ErrorBanner.module.scss";
 
-interface Props {
+interface ErrorBannerProps {
   closed: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
 }
 
-export const ErrorBanner: FunctionComponent<Props> = (
-  props: PropsWithChildren<Props>
+export const ErrorBanner: FunctionComponent<ErrorBannerProps> = (
+  props: PropsWithChildren<ErrorBannerProps>
 ) => {
   const { children, closed } = props;
   return (

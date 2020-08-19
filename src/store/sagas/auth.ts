@@ -40,6 +40,7 @@ export function* authLoginSaga(action: AuthLoginAction) {
     token: {
       expirationDate,
       body: responseData.idToken,
+      refreshToken: responseData.refreshToken,
     },
   };
 
