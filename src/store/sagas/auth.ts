@@ -12,6 +12,8 @@ import {
   UpdateProfilePictureAction,
   UpdateUserAction,
   CheckAuthAction,
+  AuthLogoutAction,
+  authLogoutSuccess,
 } from "../actions/creators/auth";
 import { User } from "../../models/user";
 import { Firebase } from "../../utils/firebase";
@@ -51,6 +53,11 @@ export function* authLoginSaga(action: AuthLoginAction) {
 
   const user: User = yield getUserByAuthId(authId);
   yield put(authLoginSuccess(user));
+}
+
+export function* authLogutSaga(action: AuthLogoutAction) {
+  yield localStorage.removeItem(LocalStorageKeys.loggedInUser);
+  yield put(authLogoutSuccess());
 }
 
 export function* authRegisterSaga(action: AuthRegisterAction) {

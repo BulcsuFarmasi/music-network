@@ -2,6 +2,8 @@ import {
   AUTH_LOGIN,
   AUTH_LOGIN_START,
   AUTH_LOGIN_SUCCESS,
+  AUTH_LOGOUT,
+  AUTH_LOGOUT_SUCCESS,
   AUTH_REGISTER,
   AUTH_REGISTER_START,
   AUTH_REGISTER_SUCCESS,
@@ -24,6 +26,14 @@ export interface AuthLoginStartAction {
 export interface AuthLoginSuccessAction {
   type: typeof AUTH_LOGIN_SUCCESS;
   user: User;
+}
+
+export interface AuthLogoutAction {
+  type: typeof AUTH_LOGOUT;
+}
+
+export interface AuthLogoutSuccessAction {
+  type: typeof AUTH_LOGOUT_SUCCESS;
 }
 
 export interface AuthRegisterAction {
@@ -74,6 +84,14 @@ export const authLoginSuccess = (user: User): AuthLoginSuccessAction => ({
   user,
 });
 
+export const authLogout = (): AuthLogoutAction => ({
+  type: AUTH_LOGOUT,
+});
+
+export const authLogoutSuccess = (): AuthLogoutSuccessAction => ({
+  type: AUTH_LOGOUT_SUCCESS,
+});
+
 export const authRegister = (user: User): AuthRegisterAction => ({
   type: AUTH_REGISTER,
   user,
@@ -116,6 +134,7 @@ export type AuthAction =
   | AuthLoginAction
   | AuthLoginStartAction
   | AuthLoginSuccessAction
+  | AuthLogoutSuccessAction
   | AuthRegisterAction
   | AuthRegisterStartAction
   | AuthRegisterSuccessAction

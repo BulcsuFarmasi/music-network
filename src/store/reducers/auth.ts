@@ -8,6 +8,7 @@ import {
   AUTH_REGISTER_SUCCESS,
   AUTH_LOGIN_START,
   AUTH_LOGIN_SUCCESS,
+  AUTH_LOGOUT_SUCCESS,
   UPDATE_USER_SUCCESS,
 } from "../actions/types/auth";
 import { AuthState } from "../../models/state/auth-state";
@@ -27,6 +28,13 @@ const authLoginSuccess = (
     authed: true,
     loggedInUser: action.user,
     loading: LoadingState.completed,
+  });
+};
+
+const authLogoutSuccess = (state: AuthState): AuthState => {
+  return updateObject(state, {
+    authed: false,
+    loggedInUser: null,
   });
 };
 
@@ -56,6 +64,8 @@ export const authReducer = (
       return startLoading(state);
     case AUTH_LOGIN_SUCCESS:
       return authLoginSuccess(state, action);
+    case AUTH_LOGOUT_SUCCESS:
+      return authLogoutSuccess(state);
     case AUTH_REGISTER_START:
       return startLoading(state);
     case AUTH_REGISTER_SUCCESS:
