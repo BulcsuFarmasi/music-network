@@ -6,6 +6,7 @@ import Routes from "../../Routes/Routes";
 import { AppState } from "../../../models/state/app-state";
 
 import styles from "./Layout.module.scss";
+import Logout from "../../Auth/Logout/Logout";
 
 interface LayoutProps {
   authed: boolean;
@@ -15,7 +16,12 @@ const Layout: FunctionComponent<LayoutProps> = (props: LayoutProps) => {
   const { authed } = props;
   return (
     <div className={styles.layout}>
-      {authed ? <Navigation /> : null}
+      {authed ? (
+        <div className="header">
+          <Navigation />
+          <Logout />
+        </div>
+      ) : null}
       <h1>Music Network</h1>
       <Routes />
     </div>
