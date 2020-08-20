@@ -134,6 +134,7 @@ export type AuthAction =
   | AuthLoginAction
   | AuthLoginStartAction
   | AuthLoginSuccessAction
+  | AuthLogoutAction
   | AuthLogoutSuccessAction
   | AuthRegisterAction
   | AuthRegisterStartAction

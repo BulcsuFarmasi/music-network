@@ -55,7 +55,7 @@ export function* authLoginSaga(action: AuthLoginAction) {
   yield put(authLoginSuccess(user));
 }
 
-export function* authLogutSaga(action: AuthLogoutAction) {
+export function* authLogoutSaga(action: AuthLogoutAction) {
   yield localStorage.removeItem(LocalStorageKeys.loggedInUser);
   yield put(authLogoutSuccess());
 }

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { Button, ButtonState } from "../../UI/Button/Button";
-import { authLogout } from "../../../store/actions/creators/auth";
+import { authLogout, AuthAction } from "../../../store/actions/creators/auth";
 
 interface LogoutProps {
   authLogout: () => void;
@@ -22,12 +22,12 @@ const Logout: FunctionComponent<LogoutProps> = (props: LogoutProps) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch<AuthAction>) => {
   return {
     authLogout: () => {
-      authLogout();
+      dispatch(authLogout());
     },
   };
 };
 
-export default connect(mapDispatchToProps)(Logout);
+export default connect(null, mapDispatchToProps)(Logout);
