@@ -7,6 +7,7 @@ import {
   AUTH_REGISTER,
   AUTH_REGISTER_START,
   AUTH_REGISTER_SUCCESS,
+  AUTH_REFRESH,
   CHECK_AUTH,
   UPDATE_PROFILE_PICTURE,
   UPDATE_USER,
@@ -47,6 +48,12 @@ export interface AuthRegisterStartAction {
 
 export interface AuthRegisterSuccessAction {
   type: typeof AUTH_REGISTER_SUCCESS;
+}
+
+export interface AuthRefreshAction {
+  type: typeof AUTH_REFRESH;
+  refreshToken: string;
+  expiresIn: number;
 }
 
 export interface CheckAuthAction {
@@ -103,6 +110,15 @@ export const authRegisterStart = (): AuthRegisterStartAction => ({
 
 export const authRegisterSuccess = (): AuthRegisterSuccessAction => ({
   type: AUTH_REGISTER_SUCCESS,
+});
+
+export const authRefresh = (
+  expiresIn: number,
+  refreshToken: string
+): AuthRefreshAction => ({
+  type: AUTH_REFRESH,
+  expiresIn,
+  refreshToken,
 });
 
 export const checkAuth = (): CheckAuthAction => ({
