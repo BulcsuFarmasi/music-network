@@ -5,6 +5,7 @@ import {
   authLoginSuccess,
   authRegisterStart,
   authRegisterSuccess,
+  authRefresh,
   authLogoutSuccess,
   updateUser,
   updateUserSuccess,
@@ -52,6 +53,8 @@ export function* authLoginSaga(action: AuthLoginAction) {
     JSON.stringify(loggedInUser)
   );
 
+  yield put(authRefresh(60000, loggedInUser.token?.refreshToken ?? ""));
+
   const user: User = yield getUserByAuthId(authId);
   yield put(authLoginSuccess(user));
 }
@@ -82,8 +85,8 @@ export function* authRegisterSaga(action: AuthRegisterAction) {
   yield put(authRegisterSuccess());
 }
 
-export function* authRefresh(action: AuthRefreshAction) {
-  setTimeout(async () => {
+export function* authRefreshSaga(action: AuthRefreshAction) {
+  yield setTimeout(async () => {
     Http.setRefreshTokenUrl();
     const response: Response = await Http.post(
       "",
@@ -93,7 +96,7 @@ export function* authRefresh(action: AuthRefreshAction) {
       })
     );
     const responseData: any = await response.json();
-    const loggedInUser:User | null = getLoggedInUserFromStorage();
+    const loggedInUser: User | null = getLoggedInUserFromStorage();
     if (loggedInUser && loggedInUser?.token) {
       const expirationDate: Date = new Date(
         Date.now() + responseData.expiresIn * 1000
@@ -101,24 +104,25 @@ export function* authRefresh(action: AuthRefreshAction) {
       loggedInUser.token = {
         body: responseData.id_token,
         expirationDate,
-        refreshToken: responseData.refresh_token 
-      }
-      localStorage.setItem(LocalStorageKeys.loggedInUser, JSON.stringify(loggedInUser));
-
+        refreshToken: responseData.refresh_token,
+      };
+      localStorage.setItem(
+        LocalStorageKeys.loggedInUser,
+        JSON.stringify(loggedInUser)
+      );
     }
   }, action.expiresIn);
 }
 
 export function* checkAuthSaga(action: CheckAuthAction) {
-  const loggedInUser:User | null = getLoggedInUserFromStorage();
+  const loggedInUser: User | null = getLoggedInUserFromStorage();
 
-    if (loggedInUser && loggedInUser?.token) {
-      const expirationDate = new Date(loggedInUser.token.expirationDate);
-      const now = new Date();
-      if (now < expirationDate) {
-        const user: User = yield getUserByAuthId(loggedInUser.authId ?? "");
-        yield put(authLoginSuccess(user));
-      }
+  if (loggedInUser && loggedInUser?.token) {
+    const expirationDate = new Date(loggedInUser.token.expirationDate);
+    const now = new Date();
+    if (now < expirationDate) {
+      const user: User = yield getUserByAuthId(loggedInUser.authId ?? "");
+      yield put(authLoginSuccess(user));
     }
   }
 }
@@ -148,12 +152,12 @@ export function* updateUserSaga(action: UpdateUserAction) {
   yield Http.patch(`users/${userId}.json`, JSON.stringify(action.user));
 }
 
-const getLoggedInUserFromStorage = ():User | null => {
-  const item: string | null = yield localStorage.getItem(
+const getLoggedInUserFromStorage = (): User | null => {
+  const item: string | null = localStorage.getItem(
     LocalStorageKeys.loggedInUser
   );
-  return (item) ? JSON.parse(item) as User : null; 
-}
+  return item ? (JSON.parse(item) as User) : null;
+};
 
 const getUserByAuthId = async (authId: string): Promise<User> => {
   Http.setDatabaseUrl();
