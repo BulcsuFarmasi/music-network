@@ -1,3 +1,5 @@
+import { firebaseConfig } from "./firebase-config";
+
 export class Http {
   private static baseUrl: string;
 
@@ -5,6 +7,7 @@ export class Http {
     "https://music-network-d3a77.firebaseio.com/";
   private static authUrl: string =
     "https://identitytoolkit.googleapis.com/v1/accounts:";
+  private static refreshTokenUrl: string = `https://securetoken.googleapis.com/v1/token?key=${firebaseConfig.apiKey}`;
 
   private static DELETE: string = "DELETE";
   private static GET: string = "GET";
@@ -46,6 +49,12 @@ export class Http {
   static setDatabaseUrl() {
     if (this.baseUrl !== this.databaseUrl) {
       this.baseUrl = this.databaseUrl;
+    }
+  }
+
+  static setRefreshTokenUrl() {
+    if (this.baseUrl !== this.refreshTokenUrl) {
+      this.baseUrl = this.refreshTokenUrl;
     }
   }
 
