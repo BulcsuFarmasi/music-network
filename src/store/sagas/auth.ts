@@ -55,7 +55,11 @@ export function* authLoginSaga(action: AuthLoginAction) {
 
   yield put(authRefresh(60000, loggedInUser.token?.refreshToken ?? ""));
 
-  const user: User = yield getUserByAuthId(authId);
+  const user: User = yield getUserByAuthId(
+    authId,
+    loggedInUser.token?.body ?? ""
+  );
+
   yield put(authLoginSuccess(user));
 }
 
@@ -121,7 +125,10 @@ export function* checkAuthSaga(action: CheckAuthAction) {
     const expirationDate = new Date(loggedInUser.token.expirationDate);
     const now = new Date();
     if (now < expirationDate) {
-      const user: User = yield getUserByAuthId(loggedInUser.authId ?? "");
+      const user: User = yield getUserByAuthId(
+        loggedInUser.authId ?? "",
+        loggedInUser.token.body
+      );
       yield put(authLoginSuccess(user));
     }
   }
@@ -159,10 +166,13 @@ const getLoggedInUserFromStorage = (): User | null => {
   return item ? (JSON.parse(item) as User) : null;
 };
 
-const getUserByAuthId = async (authId: string): Promise<User> => {
+const getUserByAuthId = async (
+  authId: string,
+  token: string
+): Promise<User> => {
   Http.setDatabaseUrl();
   const response = await Http.get(
-    `users.json?orderBy="authId"&equalTo="${authId}"`
+    `users.json?orderBy="authId"&equalTo="${authId}"&auth=${token}`
   );
   const responseData = await response.json();
   const user: User = {
