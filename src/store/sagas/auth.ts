@@ -55,10 +55,15 @@ export function* authLoginSaga(action: AuthLoginAction) {
 
   yield put(authRefresh(60000, loggedInUser.token?.refreshToken ?? ""));
 
-  const user: User = yield getUserByAuthId(
+  let user: User = yield getUserByAuthId(
     authId,
     loggedInUser.token?.body ?? ""
   );
+
+  user = {
+    ...loggedInUser,
+    ...user,
+  };
 
   yield put(authLoginSuccess(user));
 }
@@ -82,10 +87,11 @@ export function* authRegisterSaga(action: AuthRegisterAction) {
   delete signupUser.password;
   signupUser.username = action.user.username;
   signupUser.authId = responseData.localId;
+  const token = responseData.idToken;
 
   Http.setDatabaseUrl();
 
-  yield Http.post("users.json", JSON.stringify(signupUser));
+  yield Http.post(`users.json?auth=${token}`, JSON.stringify(signupUser));
   yield put(authRegisterSuccess());
 }
 
@@ -125,10 +131,14 @@ export function* checkAuthSaga(action: CheckAuthAction) {
     const expirationDate = new Date(loggedInUser.token.expirationDate);
     const now = new Date();
     if (now < expirationDate) {
-      const user: User = yield getUserByAuthId(
+      let user: User = yield getUserByAuthId(
         loggedInUser.authId ?? "",
         loggedInUser.token.body
       );
+      user = {
+        ...user,
+        ...loggedInUser,
+      };
       yield put(authLoginSuccess(user));
     }
   }
@@ -144,10 +154,13 @@ export function* updateProfilePictureSaga(action: UpdateProfilePictureAction) {
     downloadUrl: yield Firebase.download(action.fileName),
   };
   const user: User = {
-    id: action.userId,
+    id: action.user?.id,
     profilePicture,
   };
-  const updateUserAction: UpdateUserAction = updateUser(user);
+  const updateUserAction: UpdateUserAction = updateUser(
+    user,
+    action.user?.token?.body ?? ""
+  );
   yield call(updateUserSaga, updateUserAction);
   yield put(updateUserSuccess(user));
 }
@@ -156,7 +169,10 @@ export function* updateUserSaga(action: UpdateUserAction) {
   const userId = action.user.id;
   delete action.user.id;
   Http.setDatabaseUrl();
-  yield Http.patch(`users/${userId}.json`, JSON.stringify(action.user));
+  yield Http.patch(
+    `users/${userId}.json?auth=${action.token}`,
+    JSON.stringify(action.user)
+  );
 }
 
 const getLoggedInUserFromStorage = (): User | null => {

@@ -62,7 +62,7 @@ export interface CheckAuthAction {
 
 export interface UpdateProfilePictureAction {
   type: typeof UPDATE_PROFILE_PICTURE;
-  userId: string;
+  user: User | undefined;
   file: File;
   fileName: string;
 }
@@ -70,6 +70,7 @@ export interface UpdateProfilePictureAction {
 export interface UpdateUserAction {
   type: typeof UPDATE_USER;
   user: User;
+  token: string;
 }
 
 export interface UpdateUserSuccessAction {
@@ -126,19 +127,20 @@ export const checkAuth = (): CheckAuthAction => ({
 });
 
 export const updateProfilePicture = (
-  userId: string | undefined,
+  user: User | undefined,
   file: File,
   fileName: string
 ) => ({
   type: UPDATE_PROFILE_PICTURE,
-  userId,
+  user,
   file,
   fileName,
 });
 
-export const updateUser = (user: User): UpdateUserAction => ({
+export const updateUser = (user: User, token: string): UpdateUserAction => ({
   type: UPDATE_USER,
   user,
+  token,
 });
 
 export const updateUserSuccess = (user: User): UpdateUserSuccessAction => ({
