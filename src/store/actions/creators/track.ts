@@ -22,6 +22,7 @@ export interface AddTrackAction {
   track: Track;
   file?: File;
   fileName: string;
+  token: string;
 }
 
 export interface AddTrackErrorAction {
@@ -49,6 +50,7 @@ export interface ClearTrackLoadingAction {
 export interface DeleteTrackAction {
   type: typeof DELETE_TRACK;
   track: Track;
+  token: string;
 }
 
 export interface DeleteTrackErrorAction {
@@ -69,6 +71,7 @@ export interface DeleteTrackSuccessAction {
 export interface FetchTrackAction {
   type: typeof FETCH_TRACK;
   userId?: string;
+  token: string;
 }
 
 export interface FetchTrackErrorAction {
@@ -88,12 +91,14 @@ export interface FetchTrackSuccessAction {
 export const addTrack = (
   track: Track,
   fileName: string,
+  token: string,
   file?: File
 ): AddTrackAction => ({
   type: ADD_TRACK,
   track,
   file,
   fileName,
+  token,
 });
 
 export const addTrackError = (error: TrackError): AddTrackErrorAction => ({
@@ -118,9 +123,13 @@ export const clearTrackLoading = (): ClearTrackLoadingAction => ({
   type: CLEAR_TRACK_LOADING,
 });
 
-export const deleteTrack = (track: Track): DeleteTrackAction => ({
+export const deleteTrack = (
+  track: Track,
+  token: string
+): DeleteTrackAction => ({
   type: DELETE_TRACK,
   track,
+  token,
 });
 
 export const deleteTrackError = (
@@ -139,9 +148,13 @@ export const deleteTrackSuccess = (id?: string): DeleteTrackSuccessAction => ({
   id,
 });
 
-export const fetchTrack = (userId?: string): FetchTrackAction => ({
+export const fetchTrack = (
+  token: string,
+  userId?: string
+): FetchTrackAction => ({
   type: FETCH_TRACK,
   userId,
+  token,
 });
 
 export const fetchTrackError = (error: TrackError): FetchTrackErrorAction => ({

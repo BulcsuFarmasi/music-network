@@ -19,8 +19,8 @@ import {
 interface TrackListProps {
   clearTrackError: () => void;
   error?: TrackError;
-  deleteTrack: (track: Track) => void;
-  fetchTrack: (userId?: string) => void;
+  deleteTrack: (track: Track, token: string) => void;
+  fetchTrack: (token: string, userId?: string) => void;
   loggedInUser?: User;
   tracks: Track[];
 }
@@ -38,7 +38,7 @@ const TrackList: FunctionComponent<TrackListProps> = (
   } = props;
 
   useEffect(() => {
-    fetchTrack(loggedInUser?.id);
+    fetchTrack(loggedInUser?.token?.body ?? "", loggedInUser?.id);
   }, [fetchTrack, loggedInUser]);
 
   const clearError = () => {
@@ -46,7 +46,7 @@ const TrackList: FunctionComponent<TrackListProps> = (
   };
 
   const removeTrack = (track: Track) => {
-    deleteTrack(track);
+    deleteTrack(track, loggedInUser?.token?.body ?? "");
   };
 
   const trackList = tracks.map((track: Track) => {
@@ -95,8 +95,10 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
   return {
     clearTrackError: () => dispatch(clearTrackError()),
-    deleteTrack: (track: Track) => dispatch(deleteTrack(track)),
-    fetchTrack: (userId?: string) => dispatch(fetchTrack(userId)),
+    deleteTrack: (track: Track, token: string) =>
+      dispatch(deleteTrack(track, token)),
+    fetchTrack: (token: string, userId?: string) =>
+      dispatch(fetchTrack(token, userId)),
   };
 };
 

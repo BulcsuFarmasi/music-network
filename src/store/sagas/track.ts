@@ -34,7 +34,7 @@ export function* addTrackSaga(action: AddTrackAction) {
     };
     Http.setDatabaseUrl();
     const response: Response = yield Http.post(
-      "tracks.json",
+      `tracks.json?auth=${action.token}`,
       JSON.stringify(action.track)
     );
     const responseData: any = yield response.json();
@@ -57,7 +57,7 @@ export function* deleteTrackSaga(action: DeleteTrackAction) {
   yield put(deleteTrackStart());
   try {
     Http.setDatabaseUrl();
-    yield Http.delete(`tracks/${action.track.id}.json`);
+    yield Http.delete(`tracks/${action.track.id}.json?auth=${action.token}`);
     if (!Firebase.started) {
       Firebase.init();
     }
@@ -82,7 +82,7 @@ export function* fetchTrackSaga(action: FetchTrackAction) {
     }
     Http.setDatabaseUrl();
     const response: Response = yield Http.get(
-      `tracks.json?orderBy="authorId"&equalTo="${action.userId}"`
+      `tracks.json?orderBy="authorId"&equalTo="${action.userId}"&auth=${action.token}`
     );
     const responseData: any = yield response.json();
     const tracks: Track[] = [];

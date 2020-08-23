@@ -26,7 +26,12 @@ import {
 } from "../../../store/actions/creators/track";
 
 interface AddTrackProps {
-  addTrack: (track: Track, fileName: string, trackFile?: File) => void;
+  addTrack: (
+    track: Track,
+    fileName: string,
+    token: string,
+    trackFile?: File
+  ) => void;
   clearTrackError: () => void;
   clearTrackLoading: () => void;
   error?: TrackError;
@@ -75,7 +80,7 @@ const AddTrack: FunctionComponent<AddTrackProps> = (props: AddTrackProps) => {
     track.authorId = loggedInUser?.id;
     track.creationTime = Date.now();
     const fileName: string = `tracks/${Date.now()}.mp3`;
-    addTrack(track, fileName, trackFile);
+    addTrack(track, fileName, loggedInUser?.token?.body ?? "", trackFile);
   };
 
   const updateTrack = (
@@ -140,8 +145,8 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
   return {
-    addTrack: (track: Track, fileName: string, file?: File) => {
-      dispatch(addTrack(track, fileName, file));
+    addTrack: (track: Track, fileName: string, token: string, file?: File) => {
+      dispatch(addTrack(track, fileName, token, file));
     },
     clearTrackError: () => {
       dispatch(clearTrackError());
