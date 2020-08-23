@@ -53,7 +53,12 @@ export function* authLoginSaga(action: AuthLoginAction) {
     JSON.stringify(loggedInUser)
   );
 
-  yield put(authRefresh(60000, loggedInUser.token?.refreshToken ?? ""));
+  yield put(
+    authRefresh(
+      responseData.expiresIn * 1000,
+      loggedInUser.token?.refreshToken ?? ""
+    )
+  );
 
   let user: User = yield getUserByAuthId(
     authId,
@@ -109,7 +114,7 @@ export function* authRefreshSaga(action: AuthRefreshAction) {
     const loggedInUser: User | null = getLoggedInUserFromStorage();
     if (loggedInUser && loggedInUser?.token) {
       const expirationDate: Date = new Date(
-        Date.now() + responseData.expiresIn * 1000
+        Date.now() + responseData.expires_in * 1000
       );
       loggedInUser.token = {
         body: responseData.id_token,
@@ -120,6 +125,7 @@ export function* authRefreshSaga(action: AuthRefreshAction) {
         LocalStorageKeys.loggedInUser,
         JSON.stringify(loggedInUser)
       );
+      put(updateUserSuccess(loggedInUser));
     }
   }, action.expiresIn);
 }
@@ -139,6 +145,8 @@ export function* checkAuthSaga(action: CheckAuthAction) {
         ...user,
         ...loggedInUser,
       };
+      const expiresIn: number = expirationDate.getTime() - now.getTime();
+      yield put(authRefresh(expiresIn, loggedInUser.token.refreshToken));
       yield put(authLoginSuccess(user));
     }
   }
