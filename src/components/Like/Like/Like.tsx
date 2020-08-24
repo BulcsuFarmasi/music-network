@@ -1,5 +1,7 @@
 import React, { useState, FunctionComponent } from "react";
 
+import styles from "./Like.module.scss";
+
 const Like: FunctionComponent = () => {
   const [like, setLike] = useState<boolean>(false);
   const [heartImage, setHeartImage] = useState<string>(
@@ -18,8 +20,13 @@ const Like: FunctionComponent = () => {
   };
 
   return (
-    <div>
-      <img src={heartImage} alt={heartImageAlt} onClick={toggleLike} />
+    <div className={styles.like}>
+      <img
+        src={heartImage}
+        alt={heartImageAlt}
+        onClick={toggleLike}
+        className={styles.likeImage}
+      />
       {likeNumber}
     </div>
   );
