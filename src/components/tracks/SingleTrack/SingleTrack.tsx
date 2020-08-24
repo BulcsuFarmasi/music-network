@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { Button, ButtonState } from "../../UI/Button/Button";
+import Like from "../../Like/Like/Like";
 import { ErrorBanner } from "../../UI/ErrorBanner/ErrorBanner";
 import { Track } from "../../../models/track";
 import { TrackError } from "../../../models/track-error";
@@ -41,6 +42,7 @@ const SingleTrack: FunctionComponent<SingleTrackProps> = (
       <Button clicked={() => removeTrack(track)} state={ButtonState.danger}>
         Delete
       </Button>
+      <Like></Like>
     </div>
   );
 };
