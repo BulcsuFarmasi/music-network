@@ -6,5 +6,6 @@ export interface Track {
   creationTime?: number;
   name: string;
   file?: File;
-  [key: string]: string | undefined | number | File;
+  likers?: string[];
+  [key: string]: string | string[] | undefined | number | File;
 }

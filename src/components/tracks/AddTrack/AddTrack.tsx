@@ -79,7 +79,7 @@ const AddTrack: FunctionComponent<AddTrackProps> = (props: AddTrackProps) => {
     event?.preventDefault();
     track.authorId = loggedInUser?.id;
     track.creationTime = Date.now();
-    const fileName: string = `tracks/${Date.now()}.mp3`;
+    const fileName: string = `tracks/${loggedInUser?.id}/${Date.now()}.mp3`;
     addTrack(track, fileName, loggedInUser?.token?.body ?? "", trackFile);
   };
 
