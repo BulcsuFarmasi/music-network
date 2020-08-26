@@ -2,6 +2,7 @@ export enum TrackErrorType {
   add,
   delete,
   fetch,
+  update,
 }
 
 export interface TrackError {

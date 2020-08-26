@@ -95,6 +95,7 @@ export interface FetchTrackSuccessAction {
 export interface UpdateTrackAction {
   type: typeof UPDATE_TRACK;
   track: Track;
+  token: string;
 }
 
 export interface UpdateTrackErrorAction {
@@ -106,8 +107,9 @@ export interface UpdateTrackStartAction {
   type: typeof UPDATE_TRACK_START;
 }
 
-export interface UpdateSuccessAction {
+export interface UpdateTrackSuccessAction {
   type: typeof UPDATE_TRACK_SUCCESS;
+  track: Track;
 }
 
 export const addTrack = (
@@ -195,6 +197,31 @@ export const fetchTrackSuccess = (
   tracks,
 });
 
+export const updateTrack = (
+  token: string,
+  track: Track
+): UpdateTrackAction => ({
+  type: UPDATE_TRACK,
+  track,
+  token,
+});
+
+export const updateTrackError = (
+  error: TrackError
+): UpdateTrackErrorAction => ({
+  type: UPDATE_TRACK_ERROR,
+  error,
+});
+
+export const updateTrackStart = (): UpdateTrackStartAction => ({
+  type: UPDATE_TRACK_START,
+});
+
+export const updateTrackSuccess = (track: Track): UpdateTrackSuccessAction => ({
+  type: UPDATE_TRACK_SUCCESS,
+  track,
+});
+
 export type TrackAction =
   | AddTrackAction
   | AddTrackErrorAction
@@ -209,4 +236,8 @@ export type TrackAction =
   | FetchTrackAction
   | FetchTrackErrorAction
   | FetchTrackStartAction
-  | FetchTrackSuccessAction;
+  | FetchTrackSuccessAction
+  | UpdateTrackAction
+  | UpdateTrackErrorAction
+  | UpdateTrackStartAction
+  | UpdateTrackSuccessAction;

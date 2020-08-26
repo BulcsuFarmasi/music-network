@@ -10,9 +10,14 @@ import {
   fetchTrackError,
   fetchTrackStart,
   fetchTrackSuccess,
+  updateTrack,
   AddTrackAction,
   DeleteTrackAction,
   FetchTrackAction,
+  UpdateTrackAction,
+  updateTrackStart,
+  updateTrackSuccess,
+  updateTrackError,
 } from "../actions/creators/track";
 import { Track } from "../../models/track";
 import { TrackErrorType } from "../../models/track-error";
@@ -100,6 +105,26 @@ export function* fetchTrackSaga(action: FetchTrackAction) {
       fetchTrackError({
         type: TrackErrorType.fetch,
         message: "Error during fetching the tracks",
+      })
+    );
+  }
+}
+export function* updateTrackSaga(action: UpdateTrackAction) {
+  yield put(updateTrackStart());
+  try {
+    Http.setDatabaseUrl();
+    const sendTrack = { ...action.track };
+    delete sendTrack.id;
+    yield Http.patch(
+      `tracks/${action.track.id}.json?auth=${action.token}`,
+      JSON.stringify(sendTrack)
+    );
+    yield put(updateTrackSuccess(action.track));
+  } catch {
+    put(
+      updateTrackError({
+        type: TrackErrorType.update,
+        message: "Error during updating the track",
       })
     );
   }
