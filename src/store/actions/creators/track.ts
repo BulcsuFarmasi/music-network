@@ -13,6 +13,10 @@ import {
   FETCH_TRACK_ERROR,
   FETCH_TRACK_START,
   FETCH_TRACK_SUCCESS,
+  UPDATE_TRACK,
+  UPDATE_TRACK_ERROR,
+  UPDATE_TRACK_START,
+  UPDATE_TRACK_SUCCESS,
 } from "../types/track";
 import { Track } from "../../../models/track";
 import { TrackError } from "../../../models/track-error";
@@ -86,6 +90,24 @@ export interface FetchTrackStartAction {
 export interface FetchTrackSuccessAction {
   type: typeof FETCH_TRACK_SUCCESS;
   tracks: Track[];
+}
+
+export interface UpdateTrackAction {
+  type: typeof UPDATE_TRACK;
+  track: Track;
+}
+
+export interface UpdateTrackErrorAction {
+  type: typeof UPDATE_TRACK_ERROR;
+  error: TrackError;
+}
+
+export interface UpdateTrackStartAction {
+  type: typeof UPDATE_TRACK_START;
+}
+
+export interface UpdateSuccessAction {
+  type: typeof UPDATE_TRACK_SUCCESS;
 }
 
 export const addTrack = (
