@@ -5,6 +5,8 @@ import {
   DeleteTrackSuccessAction,
   FetchTrackErrorAction,
   FetchTrackSuccessAction,
+  UpdateTrackErrorAction,
+  UpdateTrackSuccessAction,
   TrackAction,
 } from "../actions/creators/track";
 import {
@@ -98,6 +100,34 @@ const fetchTrackSuccess = (
   });
 };
 
+const updateTrackError = (
+  state: TrackState,
+  action: UpdateTrackErrorAction
+) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: LoadingState.completed,
+  });
+};
+
+const updateTrackSuccess = (
+  state: TrackState,
+  action: UpdateTrackSuccessAction
+): TrackState => {
+  const updateTracks = [...state.tracks];
+  const trackIndex = updateTracks.findIndex(
+    (track: Track) => track.id === action.track.id
+  );
+  const updateTrack = updateObject(updateTracks[trackIndex], action.track);
+
+  updateTracks[trackIndex] = updateTrack;
+
+  return updateObject(state, {
+    tracks: updateTracks,
+    loading: LoadingState.completed,
+  });
+};
+
 const startLoading = (state: TrackState): TrackState => {
   return updateObject(state, {
     error: undefined,
@@ -131,6 +161,12 @@ export const trackReducer = (
     case FETCH_TRACK_START:
       return startLoading(state);
     case FETCH_TRACK_SUCCESS:
+      return fetchTrackSuccess(state, action);
+    case UPDATE_TRACK_ERROR:
+      return fetchTrackError(state, action);
+    case UPDATE_TRACK_START:
+      return startLoading(state);
+    case UPDATE_TRACK_SUCCESS:
       return fetchTrackSuccess(state, action);
     default:
       return state;
