@@ -1,8 +1,27 @@
 import React, { useState, FunctionComponent } from "react";
 
-import styles from "./Like.module.scss";
+import { connect } from "react-redux";
 
-const Like: FunctionComponent = () => {
+import styles from "./Like.module.scss";
+import { AppState } from "../../../models/state/app-state";
+import { Dispatch } from "redux";
+import { Track } from "../../../models/track";
+import { User } from "../../../models/user";
+import { updateTrack } from "../../../store/actions/creators/track";
+
+
+interface LikeProps {
+  loggedInUser: User,
+  track:Track,
+  updateTrack: (token:string, track:Track),
+}
+
+const Like: FunctionComponent<LikeProps> = (props:LikeProps) => {
+
+  const { loggedInUser, track, updateTrack } = props;
+
+
+
   const [like, setLike] = useState<boolean>(false);
   const [heartImage, setHeartImage] = useState<string>(
     "images/heart-black.png"
@@ -30,6 +49,20 @@ const Like: FunctionComponent = () => {
       {likeNumber}
     </div>
   );
+};
+
+const mapStateToProps = (state: AppState) => {
+  return {
+    loggedInUser: state.auth.loggedInUser,
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    updateTrack: (token: string, track: Track) => {
+      dispatch(updateTrack(token, track));
+    },
+  };
 };
 
 export default Like;
