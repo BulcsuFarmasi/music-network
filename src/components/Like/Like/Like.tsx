@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent } from "react";
+import React, { useCallback, useEffect, useState, FunctionComponent } from "react";
 
 import { connect } from "react-redux";
 
@@ -13,40 +13,55 @@ import { updateTrack } from "../../../store/actions/creators/track";
 interface LikeProps {
   loggedInUser: User,
   track:Track,
-  updateTrack: (token:string, track:Track),
+  updateTrack: (token:string, track:Track) => void,
+}
+
+interface LikeState {
+  liked: boolean,
+  imageSrc: string,
+  imageAlt: string
 }
 
 const Like: FunctionComponent<LikeProps> = (props:LikeProps) => {
 
   const { loggedInUser, track, updateTrack } = props;
 
+  const getLikeStateFromLikers = useCallback((likers:string[], userId:string):LikeState => {
+    const liked = likers.includes(userId);
+    return {
+      liked,
+      imageSrc: (liked) ? 'images/heart-red.png' : 'images/heart-black',
+      imageAlt: (liked) ? 'Like' : "Don't like";
+    };
 
+  },[]);
 
-  const [like, setLike] = useState<boolean>(false);
-  const [heartImage, setHeartImage] = useState<string>(
-    "images/heart-black.png"
-  );
-  const [heartImageAlt, setHeartImageAlt] = useState<string>("Don't like");
-  const [likeNumber, setLikeNumber] = useState<number>(0);
+  const [likeState, setLikeState] = useState(getLikeStateFromLikers(track.likers ?? [], loggedInUser.id ?? ""));
+
+  useEffect(() => {
+    setLikeState(getLikeStateFromLikers(track.likers ?? [], loggedInUser.id ?? ""));
+  }, [track.likers])
+
 
   const toggleLike = () => {
-    setLike(!like);
-    setHeartImage(
-      !like === true ? "images/heart-red.png" : "images/heart-black.png"
-    );
-    setHeartImageAlt(!like === true ? "Like" : "Don't like");
-    setLikeNumber(!like === true ? likeNumber + 1 : likeNumber - 1);
+    const futureLike = !likeState.liked;
+
+
+    const updateTrack:Partial<Track> = {
+      id: track.id,
+    }
+    updateTrack(updateTrack as Track);
   };
 
   return (
     <div className={styles.like}>
       <img
-        src={heartImage}
-        alt={heartImageAlt}
+        src={likeState.imageSrc}
+        alt={likeState.imageAlt}
         onClick={toggleLike}
         className={styles.likeImage}
       />
-      {likeNumber}
+      {track.likers?.length ?? 0}
     </div>
   );
 };
