@@ -21,6 +21,9 @@ import {
   FETCH_TRACK_ERROR,
   FETCH_TRACK_START,
   FETCH_TRACK_SUCCESS,
+  UPDATE_TRACK_ERROR,
+  UPDATE_TRACK_START,
+  UPDATE_TRACK_SUCCESS,
 } from "../actions/types/track";
 import { Track } from "../../models/track";
 import { LoadingState } from "../../models/state/loading-state";
@@ -163,11 +166,11 @@ export const trackReducer = (
     case FETCH_TRACK_SUCCESS:
       return fetchTrackSuccess(state, action);
     case UPDATE_TRACK_ERROR:
-      return fetchTrackError(state, action);
+      return updateTrackError(state, action);
     case UPDATE_TRACK_START:
       return startLoading(state);
     case UPDATE_TRACK_SUCCESS:
-      return fetchTrackSuccess(state, action);
+      return updateTrackSuccess(state, action);
     default:
       return state;
   }
