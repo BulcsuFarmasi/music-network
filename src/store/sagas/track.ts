@@ -19,7 +19,7 @@ import {
   updateTrackError,
 } from "../actions/creators/track";
 import { Track } from "../../models/track";
-import { TrackErrorType } from "../../models/track-error";
+import { TrackErrorType } from "../../models/error/track-error";
 import { Firebase } from "../../utils/firebase";
 import { Http } from "../../utils/http";
 

@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 import SingleTrack from "../SingleTrack/SingleTrack";
 import { ErrorBanner } from "../../UI/ErrorBanner/ErrorBanner";
 import { Track } from "../../../models/track";
-import { TrackError, TrackErrorType } from "../../../models/track-error";
+import { TrackError, TrackErrorType } from "../../../models/error/track-error";
 import { User } from "../../../models/user";
 import { AppState } from "../../../models/state/app-state";
 import {

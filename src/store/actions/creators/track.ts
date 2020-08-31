@@ -19,7 +19,7 @@ import {
   UPDATE_TRACK_SUCCESS,
 } from "../types/track";
 import { Track } from "../../../models/track";
-import { TrackError } from "../../../models/track-error";
+import { TrackError } from "../../../models/error/track-error";
 
 export interface AddTrackAction {
   type: typeof ADD_TRACK;

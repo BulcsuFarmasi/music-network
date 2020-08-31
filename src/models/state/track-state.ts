@@ -1,5 +1,5 @@
 import { LoadingState } from "./loading-state";
-import { TrackError } from "../track-error";
+import { TrackError } from "../error/track-error";
 import { Track } from "../track";
 
 export interface TrackState {

@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { Button, ButtonState } from "../../UI/Button/Button";
 import { ErrorBanner } from "../../UI/ErrorBanner/ErrorBanner";
 import { Track } from "../../../models/track";
-import { TrackError, TrackErrorType } from "../../../models/track-error";
+import { TrackError, TrackErrorType } from "../../../models/error/track-error";
 import { User } from "../../../models/user";
 import { AppState } from "../../../models/state/app-state";
 import { LoadingState } from "../../../models/state/loading-state";

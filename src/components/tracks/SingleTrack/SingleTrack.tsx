@@ -5,7 +5,7 @@ import Like from "../../Like/Like/Like";
 import Likers from "../../Like/Likers/Likers";
 import { ErrorBanner } from "../../UI/ErrorBanner/ErrorBanner";
 import { Track } from "../../../models/track";
-import { TrackError } from "../../../models/track-error";
+import { TrackError } from "../../../models/error/track-error";
 
 import styles from "./SingleTrack.module.scss";
 
