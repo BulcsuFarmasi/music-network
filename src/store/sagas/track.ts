@@ -10,7 +10,6 @@ import {
   fetchTrackError,
   fetchTrackStart,
   fetchTrackSuccess,
-  updateTrack,
   AddTrackAction,
   DeleteTrackAction,
   FetchTrackAction,

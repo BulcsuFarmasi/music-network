@@ -43,7 +43,7 @@ const SingleTrack: FunctionComponent<SingleTrackProps> = (
       <Button clicked={() => removeTrack(track)} state={ButtonState.danger}>
         Delete
       </Button>
-      <Like></Like>
+      <Like track={track}></Like>
       <Likers></Likers>
     </div>
   );

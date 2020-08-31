@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useState, FunctionComponent } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  FunctionComponent,
+} from "react";
 
 import { connect } from "react-redux";
 
@@ -9,48 +14,60 @@ import { Track } from "../../../models/track";
 import { User } from "../../../models/user";
 import { updateTrack } from "../../../store/actions/creators/track";
 
-
 interface LikeProps {
-  loggedInUser: User,
-  track:Track,
-  updateTrack: (token:string, track:Track) => void,
+  loggedInUser?: User;
+  track: Track;
+  updateTrack: (token: string, track: Track) => void;
 }
 
 interface LikeState {
-  liked: boolean,
-  imageSrc: string,
-  imageAlt: string
+  liked: boolean;
+  imageSrc: string;
+  imageAlt: string;
 }
 
-const Like: FunctionComponent<LikeProps> = (props:LikeProps) => {
-
+const Like: FunctionComponent<LikeProps> = (props: LikeProps) => {
   const { loggedInUser, track, updateTrack } = props;
 
-  const getLikeStateFromLikers = useCallback((likers:string[], userId:string):LikeState => {
-    const liked = likers.includes(userId);
-    return {
-      liked,
-      imageSrc: (liked) ? 'images/heart-red.png' : 'images/heart-black',
-      imageAlt: (liked) ? 'Like' : "Don't like";
-    };
+  const getLikeStateFromLikers = useCallback(
+    (likers: string[], userId: string): LikeState => {
+      const liked = likers.includes(userId);
+      return {
+        liked,
+        imageSrc: liked ? "images/heart-red.png" : "images/heart-black.png",
+        imageAlt: liked ? "Like" : "Don't like",
+      };
+    },
+    []
+  );
 
-  },[]);
-
-  const [likeState, setLikeState] = useState(getLikeStateFromLikers(track.likers ?? [], loggedInUser.id ?? ""));
+  const [likeState, setLikeState] = useState(
+    getLikeStateFromLikers(track.likers ?? [], loggedInUser?.id ?? "")
+  );
 
   useEffect(() => {
-    setLikeState(getLikeStateFromLikers(track.likers ?? [], loggedInUser.id ?? ""));
-  }, [track.likers])
-
+    setLikeState(
+      getLikeStateFromLikers(track.likers ?? [], loggedInUser?.id ?? "")
+    );
+  }, [getLikeStateFromLikers, loggedInUser, track.likers]);
 
   const toggleLike = () => {
     const futureLike = !likeState.liked;
-
-
-    const updateTrack:Partial<Track> = {
-      id: track.id,
+    const likers = [...(track.likers ?? [])];
+    if (futureLike) {
+      likers.push(loggedInUser?.id ?? "");
+    } else {
+      const likerIndex = likers.findIndex(
+        (liker: string) => liker === loggedInUser?.id
+      );
+      likers.splice(likerIndex, 1);
     }
-    updateTrack(updateTrack as Track);
+
+    const futureTrack: Track = {
+      id: track.id,
+      likers,
+    };
+    updateTrack(loggedInUser?.token?.body ?? "", futureTrack);
   };
 
   return (
@@ -80,4 +97,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   };
 };
 
-export default Like;
+export default connect(mapStateToProps, mapDispatchToProps)(Like);
