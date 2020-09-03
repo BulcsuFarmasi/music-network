@@ -1,5 +1,5 @@
 import { Profile } from "../profile";
 
 export interface ProfileState {
-  profiles: Profile;
+  profiles: Map<string, Profile>;
 }
