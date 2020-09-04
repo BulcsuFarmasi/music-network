@@ -24,7 +24,7 @@ export interface FetchProfileStartAction {
 
 export interface FetchProfileSuccessAction {
   type: typeof FETCH_PROFILE_SUCCESS;
-  profiles: Profile[];
+  profiles: Map<string, Profile>;
 }
 
 export const fetchProfile = (profileIds: string[]): FetchProfileAction => ({
@@ -44,7 +44,7 @@ export const fetchProfileStart = (): FetchProfileStartAction => ({
 });
 
 export const fetchProfileSuccess = (
-  profiles: Profile[]
+  profiles: Map<string, Profile>
 ): FetchProfileSuccessAction => ({
   type: FETCH_PROFILE_SUCCESS,
   profiles,
