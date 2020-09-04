@@ -10,6 +10,7 @@ import { ProfileError } from "../../../models/error/profile-error";
 
 export interface FetchProfileAction {
   type: typeof FETCH_PROFILE;
+  token: string;
   profileIds: string[];
 }
 
