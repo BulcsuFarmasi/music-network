@@ -8,6 +8,7 @@ import {
   updateProfilePictureSaga,
   authRefreshSaga,
 } from "./auth";
+import { fetchProfileSaga } from "./profile";
 import {
   addTrackSaga,
   deleteTrackSaga,
@@ -22,6 +23,7 @@ import {
   AUTH_LOGOUT,
   AUTH_REFRESH,
 } from "../actions/types/auth";
+import { FETCH_PROFILE } from "../actions/types/profile";
 import {
   ADD_TRACK,
   DELETE_TRACK,
@@ -36,6 +38,10 @@ export function* watchAuth() {
   yield takeEvery(AUTH_REFRESH, authRefreshSaga);
   yield takeEvery(CHECK_AUTH, checkAuthSaga);
   yield takeEvery(UPDATE_PROFILE_PICTURE, updateProfilePictureSaga);
+}
+
+export function* watchProfile() {
+  yield takeEvery(FETCH_PROFILE, fetchProfileSaga);
 }
 
 export function* watchTrack() {
