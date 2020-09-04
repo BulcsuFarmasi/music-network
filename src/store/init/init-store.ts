@@ -12,7 +12,7 @@ import { initSagaMiddleware } from "./init-saga";
 import { authReducer } from "../reducers/auth";
 import { profileReducer } from "../reducers/profile";
 import { trackReducer } from "../reducers/track";
-import { watchAuth, watchTrack } from "../sagas";
+import { watchAuth, watchProfile, watchTrack } from "../sagas";
 import { AppState } from "../../models/state/app-state";
 
 declare global {
@@ -43,6 +43,7 @@ const initStore = (): Store => {
   );
 
   sagaMiddleware.run(watchAuth);
+  sagaMiddleware.run(watchProfile);
   sagaMiddleware.run(watchTrack);
 
   return store;
