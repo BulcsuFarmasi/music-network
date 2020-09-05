@@ -1,0 +1,10 @@
+.miniProfile {
+  display: flex;
+  .miniProfileImage {
+    width: 20px;
+    border-radius: 50%;
+  }
+  .miniProfileName {
+    margin-left: 10px;
+  }
+}
