@@ -5,23 +5,26 @@ import { Dispatch } from "redux";
 
 import SingleTrack from "../SingleTrack/SingleTrack";
 import { ErrorBanner } from "../../UI/ErrorBanner/ErrorBanner";
+import { Profile } from "../../../models/profile";
 import { Track } from "../../../models/track";
 import { TrackError, TrackErrorType } from "../../../models/error/track-error";
 import { User } from "../../../models/user";
 import { AppState } from "../../../models/state/app-state";
+import { fetchProfile } from "../../../store/actions/creators/profile";
 import {
   clearTrackError,
   deleteTrack,
   fetchTrack,
-  TrackAction,
 } from "../../../store/actions/creators/track";
 
 interface TrackListProps {
   clearTrackError: () => void;
   error?: TrackError;
   deleteTrack: (track: Track, token: string) => void;
+  fetchProfile: (profileIds: string[], token: string) => void;
   fetchTrack: (token: string, userId?: string) => void;
   loggedInUser?: User;
+  profiles: Map<string, Profile>;
   tracks: Track[];
 }
 
@@ -31,15 +34,32 @@ const TrackList: FunctionComponent<TrackListProps> = (
   const {
     clearTrackError,
     error,
-    tracks,
     deleteTrack,
+    fetchProfile,
     fetchTrack,
     loggedInUser,
+    profiles,
+    tracks,
   } = props;
 
   useEffect(() => {
     fetchTrack(loggedInUser?.token?.body ?? "", loggedInUser?.id);
   }, [fetchTrack, loggedInUser]);
+
+  useEffect(() => {
+    const authorIds: string[] = [];
+    tracks.forEach((track: Track) => {
+      authorIds.push(track.authorId ?? "");
+    });
+    const queryAuthorIds = authorIds.filter((authorId: string) => {
+      return !profiles.has(authorId);
+    });
+    fetchProfile(queryAuthorIds, loggedInUser?.token?.body ?? "");
+  }, [fetchProfile, tracks]);
+
+  // useEffect(() => {
+  //   console.log("profiles changed", profiles);
+  // }, [profiles]);
 
   const clearError = () => {
     clearTrackError();
@@ -88,15 +108,18 @@ const mapStateToProps = (state: AppState) => {
   return {
     error: state.track.error,
     loggedInUser: state.auth.loggedInUser,
+    profiles: state.profile.profiles,
     tracks: state.track.tracks,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<TrackAction>) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     clearTrackError: () => dispatch(clearTrackError()),
     deleteTrack: (track: Track, token: string) =>
       dispatch(deleteTrack(track, token)),
+    fetchProfile: (profileIds: string[], token: string) =>
+      dispatch(fetchProfile(profileIds, token)),
     fetchTrack: (token: string, userId?: string) =>
       dispatch(fetchTrack(token, userId)),
   };

@@ -28,9 +28,13 @@ export interface FetchProfileSuccessAction {
   profiles: Map<string, Profile>;
 }
 
-export const fetchProfile = (profileIds: string[]): FetchProfileAction => ({
+export const fetchProfile = (
+  profileIds: string[],
+  token: string
+): FetchProfileAction => ({
   type: FETCH_PROFILE,
   profileIds,
+  token,
 });
 
 export const fetchProfileError = (
