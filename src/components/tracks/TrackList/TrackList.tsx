@@ -1,4 +1,4 @@
-import React, { useEffect, FunctionComponent } from "react";
+import React, { useEffect, FunctionComponent, useCallback } from "react";
 
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -42,6 +42,13 @@ const TrackList: FunctionComponent<TrackListProps> = (
     tracks,
   } = props;
 
+  const isProfileNotFetched = useCallback(
+    (profileId) => {
+      return !profiles.has(profileId);
+    },
+    [profiles]
+  );
+
   useEffect(() => {
     fetchTrack(loggedInUser?.token?.body ?? "", loggedInUser?.id);
   }, [fetchTrack, loggedInUser]);
@@ -51,11 +58,15 @@ const TrackList: FunctionComponent<TrackListProps> = (
     tracks.forEach((track: Track) => {
       authorIds.push(track.authorId ?? "");
     });
-    const queryAuthorIds = authorIds.filter((authorId: string) => {
-      return !profiles.has(authorId);
-    });
+
+    let queryAuthorIds = authorIds.filter(isProfileNotFetched);
+    queryAuthorIds = queryAuthorIds.filter(
+      (authorId: string, index: number, array) => {
+        return array.indexOf(authorId) !== index;
+      }
+    );
     fetchProfile(queryAuthorIds, loggedInUser?.token?.body ?? "");
-  }, [fetchProfile, tracks]);
+  }, [fetchProfile, loggedInUser, isProfileNotFetched, tracks]);
 
   // useEffect(() => {
   //   console.log("profiles changed", profiles);

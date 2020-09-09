@@ -16,24 +16,26 @@ export function* fetchProfileSaga(action: FetchProfileAction) {
 
   try {
     const requests: Promise<Response>[] = action.profileIds.map((profileId) =>
-      Http.get(`users/${profileId}.json=${action.token}`)
+      Http.get(`users/${profileId}.json?auth=${action.token}`)
     );
-    let responseDataPromises: Promise<any>[] = [];
-    Promise.all(requests).then((responses: Response[]) => {
-      responseDataPromises = responses.map((response: Response) =>
-        response.json()
-      );
-    });
-    const profiles: Map<string, Profile> = new Map<string, Profile>();
 
-    Promise.all(responseDataPromises).then((responseData: any[]) => {
-      responseData.forEach((value: any) => {
-        profiles.set(Object.keys(value)[0], {
-          ...value[Object.keys(value)[0]],
-          id: Object.keys(value)[0],
-        });
+    const responses: Response[] = yield Promise.all(requests);
+    console.log(responses);
+    const responseDataPromises = responses.map((response: Response) =>
+      response.json()
+    );
+    const responseData: any[] = yield Promise.all(responseDataPromises);
+    console.log(responseData);
+
+    const profiles = new Map<string, Profile>();
+    action.profileIds.forEach((profileId: string, index: number) => {
+      profiles.set(profileId, {
+        id: profileId,
+        ...responseData[index],
       });
     });
+    console.log(profiles);
+
     yield put(fetchProfileSuccess(profiles));
   } catch {
     yield put(
