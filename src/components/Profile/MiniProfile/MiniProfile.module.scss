@@ -1,10 +1,12 @@
 .miniProfile {
   display: flex;
+  align-items: center;
   .miniProfileImage {
-    width: 20px;
+    width: 40px;
     border-radius: 50%;
   }
   .miniProfileName {
     margin-left: 10px;
+    font-weight: bold;
   }
 }

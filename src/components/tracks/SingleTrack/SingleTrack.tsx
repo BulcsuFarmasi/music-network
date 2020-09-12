@@ -8,6 +8,7 @@ import { Track } from "../../../models/track";
 import { TrackError } from "../../../models/error/track-error";
 
 import styles from "./SingleTrack.module.scss";
+import { MiniProfile } from "../../Profile/MiniProfile/MiniProfile";
 
 interface SingleTrackProps {
   clearError: () => void;
@@ -35,6 +36,7 @@ const SingleTrack: FunctionComponent<SingleTrackProps> = (
       {error ? (
         <ErrorBanner closed={clearError}>{error.message}</ErrorBanner>
       ) : null}
+      <MiniProfile profile={track.author ?? {}}></MiniProfile>
       <h3 className={styles.name}>{track.name}</h3>
       <p>{creationText}</p>
       <p>

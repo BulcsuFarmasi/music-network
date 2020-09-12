@@ -12,14 +12,16 @@ export const MiniProfile: FunctionComponent<MiniProfileProps> = (
   props: MiniProfileProps
 ) => {
   const { profile } = props;
+  const profilePictureSource =
+    profile.profilePicture?.downloadUrl ?? "images/default-profile.png";
   return (
-    <div className={styles.MiniProfile}>
+    <div className={styles.miniProfile}>
       <img
-        src={profile.profilePicture?.downloadUrl}
+        src={profilePictureSource}
         alt={profile.username}
         className={styles.miniProfileImage}
       />
-      <p className={styles.miniProfileImage}>{profile.username}</p>
+      <p className={styles.miniProfileName}>{profile.username}</p>
     </div>
   );
 };
