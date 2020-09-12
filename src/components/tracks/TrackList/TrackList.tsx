@@ -1,4 +1,4 @@
-import React, { useEffect, FunctionComponent, useCallback } from "react";
+import React, { useEffect, FunctionComponent } from "react";
 
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -42,13 +42,6 @@ const TrackList: FunctionComponent<TrackListProps> = (
     tracks,
   } = props;
 
-  const isProfileNotFetched = useCallback(
-    (profileId) => {
-      return !profiles.has(profileId);
-    },
-    [profiles]
-  );
-
   useEffect(() => {
     fetchTrack(loggedInUser?.token?.body ?? "", loggedInUser?.id);
   }, [fetchTrack, loggedInUser]);
@@ -59,18 +52,20 @@ const TrackList: FunctionComponent<TrackListProps> = (
       authorIds.push(track.authorId ?? "");
     });
 
-    let queryAuthorIds = authorIds.filter(isProfileNotFetched);
+    let queryAuthorIds = authorIds.filter((authorId: string) => {
+      return !profiles.has(authorId);
+    });
     queryAuthorIds = queryAuthorIds.filter(
       (authorId: string, index: number, array) => {
         return array.indexOf(authorId) !== index;
       }
     );
-    fetchProfile(queryAuthorIds, loggedInUser?.token?.body ?? "");
-  }, [fetchProfile, loggedInUser, isProfileNotFetched, tracks]);
+    if (queryAuthorIds.length > 0) {
+      fetchProfile(queryAuthorIds, loggedInUser?.token?.body ?? "");
+    }
+  }, [fetchProfile, loggedInUser, profiles, tracks]);
 
-  // useEffect(() => {
-  //   console.log("profiles changed", profiles);
-  // }, [profiles]);
+  useEffect(() => {}, [profiles]);
 
   const clearError = () => {
     clearTrackError();

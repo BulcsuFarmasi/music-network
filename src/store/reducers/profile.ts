@@ -46,7 +46,7 @@ const fetchProfileSucces = (
 
   return updateObject(state, {
     loading: LoadingState.completed,
-    profiles: new Map(),
+    profiles: updateProfiles,
   });
 };
 
