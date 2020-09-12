@@ -9,5 +9,13 @@ export interface Track {
   name?: string;
   file?: File;
   likers?: string[];
-  [key: string]: string | string[] | undefined | number | File | Profile;
+  likerProfiles?: Profile[];
+  [key: string]:
+    | number
+    | string
+    | string[]
+    | undefined
+    | File
+    | Profile
+    | Profile[];
 }

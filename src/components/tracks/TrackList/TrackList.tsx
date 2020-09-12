@@ -50,31 +50,50 @@ const TrackList: FunctionComponent<TrackListProps> = (
   }, [fetchTrack, loggedInUser]);
 
   useEffect(() => {
-    const authorIds: string[] = [];
+    const profileIds: string[] = [];
     tracks.forEach((track: Track) => {
-      authorIds.push(track.authorId ?? "");
+      profileIds.push(track.authorId ?? "");
+      profileIds.push(...(track?.likers ?? []));
     });
 
-    let queryAuthorIds = authorIds.filter((authorId: string) => {
+    let queryProfileIds = profileIds.filter((authorId: string) => {
       return !profiles.has(authorId);
     });
-    queryAuthorIds = queryAuthorIds.filter(
+    queryProfileIds = queryProfileIds.filter(
       (authorId: string, index: number, array) => {
         return array.indexOf(authorId) !== index;
       }
     );
-    if (queryAuthorIds.length > 0) {
-      fetchProfile(queryAuthorIds, loggedInUser?.token?.body ?? "");
+    if (queryProfileIds.length > 0) {
+      fetchProfile(queryProfileIds, loggedInUser?.token?.body ?? "");
     }
   }, [fetchProfile, loggedInUser, profiles, tracks]);
 
   useEffect(() => {
     tracks.forEach((track: Track) => {
+      let canUpdate: boolean = false;
+      let updatedTrack: Track = {
+        id: track.id,
+      };
       if (profiles.has(track.authorId ?? "") && !track.author) {
-        const updatedTrack: Track = {
-          id: track.id,
-          author: profiles.get(track?.authorId ?? ""),
-        };
+        updatedTrack.author = profiles.get(track?.authorId ?? "");
+        canUpdate = true;
+      }
+      let allLikersAvailable = true;
+      track.likers?.forEach((likerId: string) => {
+        if (!profiles.has(likerId)) {
+          allLikersAvailable = false;
+        }
+      });
+      if (allLikersAvailable && !track.likerProfiles) {
+        const likerProfiles: Profile[] = [];
+        track.likers?.forEach((likerId: string) => {
+          likerProfiles.push(profiles.get(likerId) ?? {});
+        });
+        updatedTrack.likerProfiles = likerProfiles;
+        canUpdate = true;
+      }
+      if (canUpdate) {
         updateTrack(updatedTrack);
       }
     });
