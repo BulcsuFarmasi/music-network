@@ -20,12 +20,10 @@ export function* fetchProfileSaga(action: FetchProfileAction) {
     );
 
     const responses: Response[] = yield Promise.all(requests);
-    console.log(responses);
     const responseDataPromises = responses.map((response: Response) =>
       response.json()
     );
     const responseData: any[] = yield Promise.all(responseDataPromises);
-    console.log(responseData);
 
     const profiles = new Map<string, Profile>();
     action.profileIds.forEach((profileId: string, index: number) => {
@@ -34,7 +32,6 @@ export function* fetchProfileSaga(action: FetchProfileAction) {
         ...responseData[index],
       });
     });
-    console.log(profiles);
 
     yield put(fetchProfileSuccess(profiles));
   } catch {
