@@ -15,6 +15,7 @@ import {
   clearTrackError,
   deleteTrack,
   fetchTrack,
+  updateTrackSuccess,
 } from "../../../store/actions/creators/track";
 
 interface TrackListProps {
@@ -26,6 +27,7 @@ interface TrackListProps {
   loggedInUser?: User;
   profiles: Map<string, Profile>;
   tracks: Track[];
+  updateTrack: (track: Track) => void;
 }
 
 const TrackList: FunctionComponent<TrackListProps> = (
@@ -40,6 +42,7 @@ const TrackList: FunctionComponent<TrackListProps> = (
     loggedInUser,
     profiles,
     tracks,
+    updateTrack,
   } = props;
 
   useEffect(() => {
@@ -65,7 +68,17 @@ const TrackList: FunctionComponent<TrackListProps> = (
     }
   }, [fetchProfile, loggedInUser, profiles, tracks]);
 
-  useEffect(() => {}, [profiles]);
+  useEffect(() => {
+    tracks.forEach((track: Track) => {
+      if (profiles.has(track.authorId ?? "") && !track.author) {
+        const updatedTrack: Track = {
+          id: track.id,
+          author: profiles.get(track?.authorId ?? ""),
+        };
+        updateTrack(updatedTrack);
+      }
+    });
+  }, [profiles, tracks, updateTrack]);
 
   const clearError = () => {
     clearTrackError();
@@ -128,6 +141,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(fetchProfile(profileIds, token)),
     fetchTrack: (token: string, userId?: string) =>
       dispatch(fetchTrack(token, userId)),
+    updateTrack: (track: Track) => dispatch(updateTrackSuccess(track)),
   };
 };
 
