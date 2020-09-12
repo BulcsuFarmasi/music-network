@@ -46,7 +46,7 @@ const SingleTrack: FunctionComponent<SingleTrackProps> = (
         Delete
       </Button>
       <Like track={track}></Like>
-      <Likers></Likers>
+      <Likers likers={track.likerProfiles ?? []}></Likers>
     </div>
   );
 };
