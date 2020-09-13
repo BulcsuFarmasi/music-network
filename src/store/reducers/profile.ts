@@ -36,13 +36,11 @@ const fetchProfileSucces = (
   state: ProfileState,
   action: FetchProfileSuccessAction
 ) => {
-  console.log(action.profiles);
 
   const updateProfiles = new Map<string, Profile>(state.profiles);
   action.profiles.forEach((value: Profile, key: string) => {
     updateProfiles.set(key, value);
   });
-  console.log(updateProfiles);
 
   return updateObject(state, {
     loading: LoadingState.completed,
