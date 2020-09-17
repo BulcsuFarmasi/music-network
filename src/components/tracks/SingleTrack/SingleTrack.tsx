@@ -1,14 +1,15 @@
 import React, { FunctionComponent } from "react";
 
-import { Button, ButtonState } from "../../UI/Button/Button";
+import { CommentList } from "../../Comment/CommentList/CommentList";
 import Like from "../../Like/Like/Like";
 import Likers from "../../Like/Likers/Likers";
+import { MiniProfile } from "../../Profile/MiniProfile/MiniProfile";
+import { Button, ButtonState } from "../../UI/Button/Button";
 import { ErrorBanner } from "../../UI/ErrorBanner/ErrorBanner";
 import { Track } from "../../../models/track";
 import { TrackError } from "../../../models/error/track-error";
 
 import styles from "./SingleTrack.module.scss";
-import { MiniProfile } from "../../Profile/MiniProfile/MiniProfile";
 
 interface SingleTrackProps {
   clearError: () => void;
@@ -45,8 +46,11 @@ const SingleTrack: FunctionComponent<SingleTrackProps> = (
       <Button clicked={() => removeTrack(track)} state={ButtonState.danger}>
         Delete
       </Button>
-      <Like track={track}></Like>
-      <Likers likers={track.likerProfiles ?? []}></Likers>
+      <div className={styles.userContent}>
+        <Like track={track}></Like>
+        <Likers likers={track.likerProfiles ?? []}></Likers>
+        <CommentList></CommentList>
+      </div>
     </div>
   );
 };
