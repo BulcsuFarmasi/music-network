@@ -3,6 +3,8 @@ import React, { FunctionComponent, useState } from "react";
 import { Profile } from "../../../models/profile";
 import { MiniProfile } from "../../Profile/MiniProfile/MiniProfile";
 
+import styles from "./Likers.module.scss";
+
 interface LikersProps {
   likers: Profile[];
 }
@@ -21,11 +23,11 @@ const Likers: FunctionComponent<LikersProps> = (props: LikersProps) => {
   ));
 
   const likerListContainer = likersVisible ? (
-    <div className="likers-list">{likerList}</div>
+    <div className={styles.likerList}>{likerList}</div>
   ) : null;
 
   return (
-    <div className="likers">
+    <div className={styles.likers}>
       <p onClick={toggleLikersVisible}>Likers</p>
       {likerListContainer}
     </div>

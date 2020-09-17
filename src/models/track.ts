@@ -10,7 +10,7 @@ export interface Track {
   file?: File;
   likers?: string[];
   likerProfiles?: Profile[];
-  comments: Comment[];
+  comments?: Comment[];
   [key: string]:
     | number
     | string
