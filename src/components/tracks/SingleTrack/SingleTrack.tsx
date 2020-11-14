@@ -49,7 +49,7 @@ const SingleTrack: FunctionComponent<SingleTrackProps> = (
       <div className={styles.userContent}>
         <Like track={track}></Like>
         <Likers likers={track.likerProfiles ?? []}></Likers>
-        <CommentList></CommentList>
+        <CommentList trackId={track?.id ?? ""}></CommentList>
       </div>
     </div>
   );

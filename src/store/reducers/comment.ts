@@ -20,19 +20,19 @@ const addCommentStart = (state:CommentState) => {
 const addCommentSuccess = (state:CommentState, action:AddCommentSuccessAction) => {
     const comments:Comment[] = [...state.comments];
     const updatedComments:Comment[] = comments.concat(action.comment);
-    return updateObject(state, {comments: comments});
+    return updateObject(state, {comments: updatedComments});
 }
 
 
 
-export const commmentReducer = (state:CommentState = initialState, action:CommentAction) {
+export const commmentReducer = (state:CommentState = initialState, action:CommentAction) => {
     switch(action.type) {
         case ADD_COMMENT_ERROR:
-            addCommentError(state, action as AddCommentErrorAction);
+            return addCommentError(state, action as AddCommentErrorAction);
         case ADD_COMMENT_START:
-            addCommentStart(state);
+            return addCommentStart(state);
         case ADD_COMMENT_SUCCESS:
-                addCommentSuccess(state, action as AddCommentSuccessAction);
+               return addCommentSuccess(state, action as AddCommentSuccessAction);
         
 
     }

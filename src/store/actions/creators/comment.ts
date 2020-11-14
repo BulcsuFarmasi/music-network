@@ -41,7 +41,7 @@ export const addCommentStart = () : AddCommentStartAction => ({
 
 
 export const addCommentSuccess = (comment:Comment) : AddCommentSuccessAction => ({
-    type: ADD_COMMENT_ERROR,
+    type: ADD_COMMENT_SUCCESS,
     comment
 });
 
@@ -49,4 +49,4 @@ export const addCommentSuccess = (comment:Comment) : AddCommentSuccessAction => 
 
 
 
-export type CommentAction = AddCommentAction | AddCommentErrorAction | AddCommentStartAction | AddCommentSuccesAction;
+export type CommentAction = AddCommentAction | AddCommentErrorAction | AddCommentStartAction | AddCommentSuccessAction;

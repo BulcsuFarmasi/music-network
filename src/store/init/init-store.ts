@@ -13,7 +13,7 @@ import { authReducer } from "../reducers/auth";
 import { commmentReducer } from "../reducers/comment";
 import { profileReducer } from "../reducers/profile";
 import { trackReducer } from "../reducers/track";
-import { watchAuth, watchProfile, watchTrack } from "../sagas";
+import { watchAuth, watchComment, watchProfile, watchTrack } from "../sagas";
 import { AppState } from "../../models/state/app-state";
 
 
@@ -46,6 +46,7 @@ const initStore = (): Store => {
   );
 
   sagaMiddleware.run(watchAuth);
+  sagaMiddleware.run(watchComment);
   sagaMiddleware.run(watchProfile);
   sagaMiddleware.run(watchTrack);
 

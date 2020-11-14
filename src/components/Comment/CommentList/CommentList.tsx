@@ -1,8 +1,15 @@
 import React, { FunctionComponent, useState } from "react";
 
-import { AddComment } from "../AddComment/AddComment";
+import  AddComment  from "../AddComment/AddComment";
 
-export const CommentList: FunctionComponent = () => {
+interface CommentListProps  {
+  trackId:string
+}
+
+export const CommentList: FunctionComponent<CommentListProps> = (props:CommentListProps) => {
+
+  const { trackId } = props;
+
   const [displayComments, setDisplayComments] = useState<boolean>(false);
 
   const toggleDisplayComments = () => {
@@ -11,7 +18,7 @@ export const CommentList: FunctionComponent = () => {
 
   const commentList = displayComments ? (
     <div>
-      <AddComment></AddComment>
+      <AddComment trackId={trackId}></AddComment>
     </div>
   ) : null;
 
