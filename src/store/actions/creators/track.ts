@@ -223,7 +223,7 @@ export const updateTrackSuccess = (track: Track): UpdateTrackSuccessAction => ({
 });
 
 export type TrackAction =
-  | AddTrackAction
+    AddTrackAction
   | AddTrackErrorAction
   | AddTrackStartAction
   | AddTrackSuccessAction

@@ -54,11 +54,11 @@ export const profileReducer = (
 ) => {
   switch (action.type) {
     case FETCH_PROFILE_ERROR:
-      return fetchProfileError(state, action);
+      return fetchProfileError(state, action as FetchProfileErrorAction);
     case FETCH_PROFILE_START:
       return startLoading(state);
     case FETCH_PROFILE_SUCCESS:
-      return fetchProfileSucces(state, action);
+      return fetchProfileSucces(state, action as FetchProfileSuccessAction);
     default:
       return state;
   }

@@ -144,33 +144,33 @@ export const trackReducer = (
 ): TrackState => {
   switch (action.type) {
     case ADD_TRACK_ERROR:
-      return addTrackError(state, action);
+      return addTrackError(state, action as AddTrackErrorAction);
     case ADD_TRACK_START:
       return startLoading(state);
     case ADD_TRACK_SUCCESS:
-      return addTrackSuccess(state, action);
+      return addTrackSuccess(state, action as AddTrackSuccessAction);
     case CLEAR_TRACK_ERROR:
       return clearTrackError(state);
     case CLEAR_TRACK_LOADING:
       return clearTrackLoading(state);
     case DELETE_TRACK_ERROR:
-      return deleteTrackError(state, action);
+      return deleteTrackError(state, action as DeleteTrackErrorAction);
     case DELETE_TRACK_START:
       return startLoading(state);
     case DELETE_TRACK_SUCCESS:
       return deleteTrackSuccess(state, action);
     case FETCH_TRACK_ERROR:
-      return fetchTrackError(state, action);
+      return fetchTrackError(state, action as FetchTrackErrorAction);
     case FETCH_TRACK_START:
       return startLoading(state);
     case FETCH_TRACK_SUCCESS:
-      return fetchTrackSuccess(state, action);
+      return fetchTrackSuccess(state, action as FetchTrackSuccessAction);
     case UPDATE_TRACK_ERROR:
-      return updateTrackError(state, action);
+      return updateTrackError(state, action as UpdateTrackErrorAction);
     case UPDATE_TRACK_START:
       return startLoading(state);
     case UPDATE_TRACK_SUCCESS:
-      return updateTrackSuccess(state, action);
+      return updateTrackSuccess(state, action as UpdateTrackSuccessAction);
     default:
       return state;
   }

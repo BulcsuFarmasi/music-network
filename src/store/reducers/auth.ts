@@ -48,7 +48,7 @@ const startLoading = (state: AuthState): AuthState => {
 
 const updateUserSucces = (
   state: AuthState,
-  action: UpdateUserSuccessAction
+  action: AuthLoginSuccessAction
 ): AuthState => {
   let user = { ...state.loggedInUser };
   user = updateObject(user, action.user);
@@ -63,7 +63,7 @@ export const authReducer = (
     case AUTH_LOGIN_START:
       return startLoading(state);
     case AUTH_LOGIN_SUCCESS:
-      return authLoginSuccess(state, action);
+      return authLoginSuccess(state, action as AuthLoginSuccessAction);
     case AUTH_LOGOUT_SUCCESS:
       return authLogoutSuccess(state);
     case AUTH_REGISTER_START:
@@ -71,7 +71,7 @@ export const authReducer = (
     case AUTH_REGISTER_SUCCESS:
       return authRegisterSuccess(state);
     case UPDATE_USER_SUCCESS:
-      return updateUserSucces(state, action);
+      return updateUserSucces(state, action as UpdateUserSuccessAction);
   }
   return state;
 };

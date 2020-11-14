@@ -56,7 +56,7 @@ export const fetchProfileSuccess = (
 });
 
 export type ProfileAction =
-  | FetchProfileAction
+    FetchProfileAction
   | FetchProfileErrorAction
   | FetchProfileStartAction
   | FetchProfileSuccessAction;

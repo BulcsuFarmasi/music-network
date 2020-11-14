@@ -1,9 +1,9 @@
 import { Profile } from "./profile";
 
 export interface Comment {
-  id: string;
+  id?: string;
   authorId: string;
-  authorProfile: Profile;
+  authorProfile?: Profile;
   text: string;
   creationTime: number;
 }

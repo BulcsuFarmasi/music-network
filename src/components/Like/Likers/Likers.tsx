@@ -19,7 +19,7 @@ const Likers: FunctionComponent<LikersProps> = (props: LikersProps) => {
   };
 
   const likerList = likers.map((liker: Profile) => (
-    <MiniProfile profile={liker}></MiniProfile>
+    <MiniProfile profile={liker} key={liker.id}></MiniProfile>
   ));
 
   const likerListContainer = likersVisible ? (
