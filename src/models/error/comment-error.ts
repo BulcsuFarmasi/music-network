@@ -1,9 +1,9 @@
-enum CommentErrorType {
+export enum CommentErrorType {
   add,
   fetch,
 }
 
 export interface CommentError {
-  errorType: CommentErrorType;
+  type: CommentErrorType;
   message: string;
 }
