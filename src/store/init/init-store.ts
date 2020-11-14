@@ -10,10 +10,12 @@ import { SagaMiddleware } from "redux-saga";
 
 import { initSagaMiddleware } from "./init-saga";
 import { authReducer } from "../reducers/auth";
+import { commmentReducer } from "../reducers/comment";
 import { profileReducer } from "../reducers/profile";
 import { trackReducer } from "../reducers/track";
 import { watchAuth, watchProfile, watchTrack } from "../sagas";
 import { AppState } from "../../models/state/app-state";
+
 
 declare global {
   interface Window {
@@ -31,6 +33,7 @@ const initStore = (): Store => {
 
   const rootReducer: Reducer<AppState> = combineReducers<AppState>({
     auth: authReducer,
+    comment: commmentReducer,
     profile: profileReducer,
     track: trackReducer,
   });

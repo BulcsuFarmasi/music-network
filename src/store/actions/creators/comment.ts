@@ -2,7 +2,6 @@ import { ADD_COMMENT, ADD_COMMENT_ERROR, ADD_COMMENT_START, ADD_COMMENT_SUCCESS 
 
 import { Comment } from '../../../models/comment';
 import { CommentError } from '../../../models/error/comment-error';
-import { CommentList } from '../../../components/Comment/CommentList/CommentList';
 
 export interface AddCommentAction {
     type: typeof ADD_COMMENT;
@@ -19,7 +18,7 @@ export interface AddCommentStartAction {
     type: typeof ADD_COMMENT_START
 }
 
-export interface AddCommentSuccesAction {
+export interface AddCommentSuccessAction {
     type: typeof ADD_COMMENT_SUCCESS;
     comment: Comment;
 }
