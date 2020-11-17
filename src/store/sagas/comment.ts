@@ -1,7 +1,7 @@
 import { put } from "redux-saga/effects";
 
 
-import { AddCommentAction, addCommentError, addCommentStart, addCommentSuccess } from "../actions/creators/comment";
+import { AddCommentAction, FetchCommentAction, addCommentError, addCommentStart, addCommentSuccess, fetchCommentStart, fetchCommentError, fetchCommentSuccess } from "../actions/creators/comment";
 import { Comment } from "../../models/comment";
 import { CommentErrorType } from "../../models/error/comment-error";
 import { Http } from "../../utils/http";
@@ -29,3 +29,42 @@ export function* addCommentSaga(action: AddCommentAction) {
       );
     }
   }
+
+  export function* fetchCommentSaga(action: FetchCommentAction) {
+    yield put(fetchCommentStart());
+    Http.setDatabaseUrl();
+  
+    try {
+      const requests: Promise<Response>[] = action.trackIds.map((trackId) =>
+        Http.get(`tracks.json?orderBy="authorId"&equalTo="${trackId}"&auth=${action.token}`)
+      );
+  
+      const responses: Response[] = yield Promise.all(requests);
+      const responseDataPromises = responses.map((response: Response) =>
+        response.json()
+      );
+      const responseData: any[] = yield Promise.all(responseDataPromises);
+  
+      const comments:Comment[] = [];
+
+      for (let key in responseData) {
+        const track: Comment = {
+          ...responseData[key],
+          id: key,
+        };
+        comments.push(track);
+      }
+
+  
+      yield put(fetchCommentSuccess(comments));
+    } catch {
+      yield put(
+        fetchCommentError({
+          type: CommentErrorType.fetch,
+          message: "Error during fetching the profiles",
+        })
+      );
+    }
+  }
+  
+
