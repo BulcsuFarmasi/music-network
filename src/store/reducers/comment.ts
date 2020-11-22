@@ -14,22 +14,25 @@ import {
   FETCH_COMMENT_SUCCESS,
 } from "../actions/types/comment";
 import { CommentState } from "../../models/state/comment-state";
+import { LoadingState } from "../../models/state/loading-state";
 import { updateObject } from "../../utils/object-utils";
 import { Comment } from "../../models/comment";
 
+
 const initialState: CommentState = {
   comments: [],
+  loading: LoadingState.initial
 };
 
 const addCommentError = (
   state: CommentState,
   action: AddCommentErrorAction
 ) => {
-  return updateObject(state, { error: action.error });
+  return updateObject(state, { error: action.error, loading: LoadingState.completed });
 };
 
 const addCommentStart = (state: CommentState) => {
-  return updateObject(state, { error: null });
+  return updateObject(state, { error: null, loading: LoadingState.onGoing });
 };
 
 const addCommentSuccess = (
@@ -38,7 +41,7 @@ const addCommentSuccess = (
 ) => {
   const comments: Comment[] = [...state.comments];
   const updatedComments: Comment[] = comments.concat(action.comment);
-  return updateObject(state, { comments: updatedComments });
+  return updateObject(state, { comments: updatedComments, loading: LoadingState.completed });
 };
 
 const fetchCommentError = (
@@ -49,7 +52,7 @@ const fetchCommentError = (
 };
 
 const fetchCommentStart = (state: CommentState) => {
-  return updateObject(state, { error: null });
+  return updateObject(state, { error: null, loading: LoadingState.onGoing });
 };
 
 const fetchCommentSuccess = (
@@ -58,7 +61,7 @@ const fetchCommentSuccess = (
 ) => {
    const comments:Comment[] = [...state.comments];
    const updatedComments:Comment[] = comments.concat(action.comments) 
-  return updateObject(state, { comments: updatedComments });
+  return updateObject(state, { comments: updatedComments, loading: LoadingState.completed });
 };
 
 export const commmentReducer = (

@@ -8,7 +8,7 @@ import {
   updateProfilePictureSaga,
   authRefreshSaga,
 } from "./auth";
-import { addCommentSaga } from "./comment";
+import { addCommentSaga, fetchCommentSaga } from "./comment";
 import { fetchProfileSaga } from "./profile";
 import {
   addTrackSaga,
@@ -20,11 +20,11 @@ import {
   AUTH_LOGIN,
   AUTH_REGISTER,
   CHECK_AUTH,
-  UPDATE_PROFILE_PICTURE,
-  AUTH_LOGOUT,
-  AUTH_REFRESH,
+UPDATE_PROFILE_PICTURE,
+AUTH_LOGOUT,
+AUTH_REFRESH,
 } from "../actions/types/auth";
-import { ADD_COMMENT } from "../actions/types/comment";
+import { ADD_COMMENT, FETCH_COMMENT } from "../actions/types/comment";
 import { FETCH_PROFILE } from "../actions/types/profile";
 import {
   ADD_TRACK,
@@ -44,7 +44,8 @@ export function* watchAuth() {
 }
 
 export function* watchComment() {
-  yield takeEvery(ADD_COMMENT, addCommentSaga)
+  yield takeEvery(ADD_COMMENT, addCommentSaga);
+  yield takeEvery(FETCH_COMMENT, fetchCommentSaga);
 }
 
 export function* watchProfile() {
