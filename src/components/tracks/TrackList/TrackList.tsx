@@ -99,7 +99,7 @@ const TrackList: FunctionComponent<TrackListProps> = (
     updateTracks.forEach((track: Track) => {
       updateTrack(track);
     });
-  }, [comments]);
+  }, [comments, updateTrack]);
 
   // fetch profiles
 

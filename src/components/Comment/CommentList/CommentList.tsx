@@ -1,14 +1,17 @@
 import React, { FunctionComponent, useState } from "react";
 
 import  AddComment  from "../AddComment/AddComment";
+import { SingleComment } from "../SingleComment/SingleComment";
+import { Comment } from "../../../models/comment";
 
 interface CommentListProps  {
+  comments?:Comment[]
   trackId:string
 }
 
 export const CommentList: FunctionComponent<CommentListProps> = (props:CommentListProps) => {
 
-  const { trackId } = props;
+  const { comments, trackId } = props;
 
   const [displayComments, setDisplayComments] = useState<boolean>(false);
 
@@ -18,6 +21,7 @@ export const CommentList: FunctionComponent<CommentListProps> = (props:CommentLi
 
   const commentList = displayComments ? (
     <div>
+      {comments?.map((comment:Comment) => <SingleComment comment={comment} key={comment.id}></SingleComment>)}
       <AddComment trackId={trackId}></AddComment>
     </div>
   ) : null;
