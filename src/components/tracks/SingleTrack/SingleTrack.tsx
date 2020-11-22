@@ -10,6 +10,7 @@ import { Track } from "../../../models/track";
 import { TrackError } from "../../../models/error/track-error";
 
 import styles from "./SingleTrack.module.scss";
+import { formatEpochTime } from "../../../utils/date-time";
 
 interface SingleTrackProps {
   clearError: () => void;
@@ -23,14 +24,8 @@ const SingleTrack: FunctionComponent<SingleTrackProps> = (
 ) => {
   const { clearError, error, track, removeTrack } = props;
 
-  let creationText: string = "";
-
-  if (track.creationTime) {
-    const creationDate = new Date(track.creationTime);
-    creationText = `${creationDate.getFullYear()}. ${
-      creationDate.getMonth() + 1
-    }. ${creationDate.getDate()}. ${creationDate.getHours()}:${creationDate.getMinutes()}`;
-  }
+  let creationText:string = formatEpochTime(track.creationTime ?? 0);
+  
 
   return (
     <div className={styles.track}>

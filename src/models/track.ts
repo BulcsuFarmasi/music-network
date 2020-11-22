@@ -1,3 +1,4 @@
+import { Comment } from "./comment";
 import { File } from "./file";
 import { Profile } from "./profile";
 
