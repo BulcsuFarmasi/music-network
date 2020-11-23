@@ -55,9 +55,8 @@ export interface FetchCommentSuccessAction {
 
 export interface UpdateCommentAction {
   type: typeof UPDATE_COMMENT;
-  comment: Comment;
+  comments: Comment[];
 }
-
 export const addComment = (
   comment: Comment,
   token: string
@@ -113,10 +112,10 @@ export const fetchComment = (
   });
 
   export const updateComment = (
-    comment: Comment
+    comments: Comment[]
   ): UpdateCommentAction => ({
     type: UPDATE_COMMENT,
-    comment,
+    comments,
   });
 
 export type CommentAction =

@@ -68,9 +68,15 @@ const fetchCommentSuccess = (
 
 const updateComment = (state: CommentState, action: UpdateCommentAction) => {
   let updateComments:Comment[] = [...state.comments];
-  let updateCommentIndex:number = updateComments.findIndex((comment:Comment) => comment.id = action.comment.id);
-  const updateComment = updateObject(updateComments[updateCommentIndex], {...action.comment});
-  updateComments[updateCommentIndex] = updateComment;
+  action.comments.forEach((comment:Comment) => {
+    let updateCommentIndex:number = updateComments.findIndex((updateComment:Comment) => updateComment.id === comment.id);
+    const updateComment = updateObject(updateComments[updateCommentIndex], {...comment});
+    updateComments[updateCommentIndex] = updateComment;
+  })
+
+
+
+  
   return updateObject(state, {comments: updateComments}); 
 }
 

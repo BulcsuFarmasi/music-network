@@ -18,7 +18,10 @@ import {
   fetchTrack,
   updateTrackSuccess,
 } from "../../../store/actions/creators/track";
-import { fetchComment } from "../../../store/actions/creators/comment";
+import {
+  fetchComment,
+  updateComment,
+} from "../../../store/actions/creators/comment";
 import { LoadingState } from "../../../models/state/loading-state";
 
 interface TrackListProps {
@@ -34,6 +37,7 @@ interface TrackListProps {
   profiles: Map<string, Profile>;
   tracks: Track[];
   updateTrack: (track: Track) => void;
+  updateComment: (comments: Comment[]) => void;
 }
 
 const TrackList: FunctionComponent<TrackListProps> = (
@@ -52,6 +56,7 @@ const TrackList: FunctionComponent<TrackListProps> = (
     profiles,
     tracks,
     updateTrack,
+    updateComment
   } = props;
 
   // fetch tracks
@@ -83,7 +88,59 @@ const TrackList: FunctionComponent<TrackListProps> = (
     }
   }, [tracks, comments, fetchComment, loggedInUser]);
 
-  // fetch profiles for comments
+  // fetch and update profiles for comments
+
+  useEffect(() => {
+
+
+    let commentAuthorIds: string[] = [];
+    let updateComments:Comment[] = [];
+    
+    comments?.forEach((comment:Comment) => {
+      console.log(comment);
+      
+      if (!comment.authorProfile && !profiles.has(comment.authorId)) {
+        commentAuthorIds.push(comment.authorId ?? "");
+      } else if (!comment.authorProfile && profiles.has(comment.authorId)) {
+       updateComments.push({...comment, authorProfile: profiles.get(comment.authorId)});
+      } 
+    });
+    commentAuthorIds = commentAuthorIds.filter((authorId:string, index:number) => commentAuthorIds.indexOf(authorId) === index);
+
+
+    console.log(commentAuthorIds);
+    console.log(updateComments);
+    
+
+    if (commentAuthorIds.length > 0) {
+      fetchProfile(commentAuthorIds, loggedInUser?.token?.body ?? "");
+    }
+    if (updateComments.length > 0) {
+      updateComment(updateComments);
+    }
+
+  }, [comments, profiles, fetchProfile, loggedInUser, updateComment]);
+
+  useEffect(() => {
+    const updateTracks = new Map<string, Track>();
+
+    comments?.forEach((comment: Comment) => {
+      if (!updateTracks.has(comment.trackId)) {
+        updateTracks.set(comment.trackId, {
+          id: comment.trackId,
+          comments: [],
+        });
+      }
+      const updateTrack = updateTracks.get(comment.trackId);
+      if (updateTrack) {
+        updateTrack.comments = updateTrack?.comments?.concat(comment) ?? [];
+      }
+      updateTracks.set(comment.trackId, updateTrack ?? {});
+    });
+    updateTracks.forEach((track: Track) => {
+      updateTrack(track);
+    });
+  }, [comments, updateTrack]);
 
   // fetch profiles
 
@@ -209,7 +266,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchTrack: (token: string, userId?: string) =>
       dispatch(fetchTrack(token, userId)),
     updateTrack: (track: Track) => dispatch(updateTrackSuccess(track)),
-    updateComment: (comment: Comment) => dispatch(updateComme(comment)),
+    updateComment: (comments: Comment[]) => dispatch(updateComment(comments)),
   };
 };
 
