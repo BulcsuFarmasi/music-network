@@ -7,6 +7,7 @@ import {
   FETCH_COMMENT_ERROR,
   FETCH_COMMENT_START,
   FETCH_COMMENT_SUCCESS,
+  UPDATE_COMMENT,
 } from "../types/comment";
 
 import { Comment } from "../../../models/comment";
@@ -50,6 +51,11 @@ export interface FetchCommentStartAction {
 export interface FetchCommentSuccessAction {
   type: typeof ADD_COMMENT_SUCCESS;
   comments: Comment[];
+}
+
+export interface UpdateCommentAction {
+  type: typeof UPDATE_COMMENT;
+  comment: Comment;
 }
 
 export const addComment = (
@@ -106,6 +112,13 @@ export const fetchComment = (
     comments,
   });
 
+  export const updateComment = (
+    comment: Comment
+  ): UpdateCommentAction => ({
+    type: UPDATE_COMMENT,
+    comment,
+  });
+
 export type CommentAction =
   | AddCommentAction
   | AddCommentErrorAction
@@ -114,4 +127,5 @@ export type CommentAction =
   | FetchCommentAction
   | FetchCommentErrorAction
   | FetchCommentStartAction
-  | FetchCommentSuccessAction;
+  | FetchCommentSuccessAction
+  | UpdateCommentAction

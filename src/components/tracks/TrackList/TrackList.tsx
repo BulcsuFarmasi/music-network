@@ -83,23 +83,7 @@ const TrackList: FunctionComponent<TrackListProps> = (
     }
   }, [tracks, comments, fetchComment, loggedInUser]);
 
-  useEffect(() => {
-    const updateTracks = new Map<string, Track>();
-
-    comments?.forEach((comment: Comment) => {
-      if (!updateTracks.has(comment.trackId)) {
-        updateTracks.set(comment.trackId, { id: comment.trackId, comments: [] });
-      }
-      const updateTrack = updateTracks.get(comment.trackId);
-      if (updateTrack) {
-        updateTrack.comments = updateTrack?.comments?.concat(comment) ?? [];
-      }
-      updateTracks.set(comment.trackId, updateTrack ?? {});
-    });
-    updateTracks.forEach((track: Track) => {
-      updateTrack(track);
-    });
-  }, [comments, updateTrack]);
+  // fetch profiles for comments
 
   // fetch profiles
 
@@ -225,6 +209,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchTrack: (token: string, userId?: string) =>
       dispatch(fetchTrack(token, userId)),
     updateTrack: (track: Track) => dispatch(updateTrackSuccess(track)),
+    updateComment: (comment: Comment) => dispatch(updateComme(comment)),
   };
 };
 

@@ -4,6 +4,7 @@ import {
   AddCommentSuccessAction,
   FetchCommentErrorAction,
   FetchCommentSuccessAction,
+  UpdateCommentAction,
 } from "../actions/creators/comment";
 import {
   ADD_COMMENT_ERROR,
@@ -12,6 +13,7 @@ import {
   FETCH_COMMENT_ERROR,
   FETCH_COMMENT_START,
   FETCH_COMMENT_SUCCESS,
+  UPDATE_COMMENT,
 } from "../actions/types/comment";
 import { CommentState } from "../../models/state/comment-state";
 import { LoadingState } from "../../models/state/loading-state";
@@ -64,6 +66,14 @@ const fetchCommentSuccess = (
   return updateObject(state, { comments: updatedComments, loading: LoadingState.completed });
 };
 
+const updateComment = (state: CommentState, action: UpdateCommentAction) => {
+  let updateComments:Comment[] = [...state.comments];
+  let updateCommentIndex:number = updateComments.findIndex((comment:Comment) => comment.id = action.comment.id);
+  const updateComment = updateObject(updateComments[updateCommentIndex], {...action.comment});
+  updateComments[updateCommentIndex] = updateComment;
+  return updateObject(state, {comments: updateComments}); 
+}
+
 export const commmentReducer = (
   state: CommentState = initialState,
   action: CommentAction
@@ -81,6 +91,8 @@ export const commmentReducer = (
       return fetchCommentStart(state);
     case FETCH_COMMENT_SUCCESS:
       return fetchCommentSuccess(state, action as FetchCommentSuccessAction);
+    case UPDATE_COMMENT:
+      return updateComment(state, action as UpdateCommentAction);
   }
   return state;
 };
