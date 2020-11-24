@@ -31,8 +31,7 @@ const Routes: FunctionComponent<Props> = (props: Props) => {
       <Route path="/" exact component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/add-track" render={() => <AddTrack {...props} />} />
-      <Route path="/profile" exact render={() => <Profile />} />
-      <Redirect to="/profile" />
+      <Route path="/:accountId" exact render={() => <Profile />} />
     </Switch>
   );
 

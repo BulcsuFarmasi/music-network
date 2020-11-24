@@ -21,16 +21,17 @@ interface LoginProps {
   authLogin: (user: User) => void;
   history: History;
   loading: LoadingState;
+  loggedInUser:User;
 }
 
 export const Login: FunctionComponent<LoginProps> = (props: LoginProps) => {
-  const { authed, authLogin, history, loading } = props;
+  const { authed, authLogin, history, loading, loggedInUser } = props;
 
   const [user, setUser] = useState<User>({ email: "", password: "" });
 
   useEffect(() => {
     if (loading === LoadingState.completed && authed) {
-      history.push("/profile");
+      history.push(`/${loggedInUser.id}`);
     }
   }, [authed, history, loading]);
 
@@ -89,6 +90,7 @@ export const Login: FunctionComponent<LoginProps> = (props: LoginProps) => {
 const mapStateToProps = (state: AppState) => {
   return {
     authed: state.auth.authed,
+    loggedInUser: state.auth.loggedInUser,
     loading: state.auth.loading,
   };
 };
