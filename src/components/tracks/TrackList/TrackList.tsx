@@ -78,8 +78,6 @@ const TrackList: FunctionComponent<TrackListProps> = (
     const trackIds: string[] =
       tracks?.map((track: Track) => track.id ?? "") ?? [];
 
-    console.log(trackIds, commentTrackIds);
-
     const notQueriedTrackIds: string[] = trackIds.filter(
       (trackId: string) => commentTrackIds.indexOf(trackId) === -1
     );
@@ -97,7 +95,6 @@ const TrackList: FunctionComponent<TrackListProps> = (
     let updateComments:Comment[] = [];
     
     comments?.forEach((comment:Comment) => {
-      console.log(comment);
       
       if (!comment.authorProfile && !profiles.has(comment.authorId)) {
         commentAuthorIds.push(comment.authorId ?? "");
@@ -107,9 +104,6 @@ const TrackList: FunctionComponent<TrackListProps> = (
     });
     commentAuthorIds = commentAuthorIds.filter((authorId:string, index:number) => commentAuthorIds.indexOf(authorId) === index);
 
-
-    console.log(commentAuthorIds);
-    console.log(updateComments);
     
 
     if (commentAuthorIds.length > 0) {

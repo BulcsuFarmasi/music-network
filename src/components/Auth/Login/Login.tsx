@@ -21,7 +21,7 @@ interface LoginProps {
   authLogin: (user: User) => void;
   history: History;
   loading: LoadingState;
-  loggedInUser:User;
+  loggedInUser?:User;
 }
 
 export const Login: FunctionComponent<LoginProps> = (props: LoginProps) => {
@@ -30,10 +30,10 @@ export const Login: FunctionComponent<LoginProps> = (props: LoginProps) => {
   const [user, setUser] = useState<User>({ email: "", password: "" });
 
   useEffect(() => {
-    if (loading === LoadingState.completed && authed) {
+    if (loading === LoadingState.completed && authed && loggedInUser?.id) {
       history.push(`/${loggedInUser.id}`);
     }
-  }, [authed, history, loading]);
+  }, [authed, history, loading, loggedInUser]);
 
   const login = (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event?.preventDefault();

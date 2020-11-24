@@ -9,9 +9,11 @@ import { AppState } from "../../../models/state/app-state";
 
 import styles from "./ProfilePicture.module.scss";
 import { getExtensionForMimeType } from "../../../utils/file";
+import { Profile } from "../../../models/profile";
 
 interface ProfilePictureProps {
   loggedInUser: User | undefined;
+  profile:Profile
   updateProfilePicture: (
     user: User | undefined,
     file: File,
@@ -22,9 +24,11 @@ interface ProfilePictureProps {
 const ProfilePicture: FunctionComponent<ProfilePictureProps> = (
   props: ProfilePictureProps
 ) => {
-  const { loggedInUser, updateProfilePicture } = props;
+  const { loggedInUser, updateProfilePicture, profile } = props;
 
   const [showUpload, setShowUpload] = useState(false);
+
+  const canUpload = profile.id === loggedInUser?.id;
 
   const toggleUpload = () => {
     setShowUpload(!showUpload);
@@ -41,8 +45,8 @@ const ProfilePicture: FunctionComponent<ProfilePictureProps> = (
     }
   };
 
-  let source = loggedInUser?.profilePicture?.downloadUrl
-    ? loggedInUser.profilePicture.downloadUrl
+  let source = profile?.profilePicture?.downloadUrl
+    ? profile.profilePicture.downloadUrl
     : "images/default-profile.png";
   return (
     <div className={styles.profilePictureContainer}>
@@ -52,7 +56,7 @@ const ProfilePicture: FunctionComponent<ProfilePictureProps> = (
         onClick={toggleUpload}
         className={styles.profilePicture}
       />
-      {showUpload && <input type="file" onChange={updateFile} />}
+      {showUpload && canUpload && <input type="file" onChange={updateFile} />}
     </div>
   );
 };

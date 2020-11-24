@@ -8,7 +8,7 @@ import Login from "../Auth/Login/Login";
 import Register from "../Auth/Register/Register";
 import { AppState } from "../../models/state/app-state";
 
-const Profile = lazy(() => import("../Profile/Profile/Profile"));
+const Profile = lazy(() => import("../Profile/ProfilePage/ProfilePage"));
 const AddTrack = lazy(() => import("../Tracks/AddTrack/AddTrack"));
 
 interface Props {
