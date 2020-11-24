@@ -8,7 +8,7 @@ import Login from "../Auth/Login/Login";
 import Register from "../Auth/Register/Register";
 import { AppState } from "../../models/state/app-state";
 
-const Profile = lazy(() => import("../Profile/ProfilePage/ProfilePage"));
+const ProfilePage = lazy(() => import("../Profile/ProfilePage/ProfilePage"));
 const AddTrack = lazy(() => import("../Tracks/AddTrack/AddTrack"));
 
 interface Props {
@@ -31,7 +31,7 @@ const Routes: FunctionComponent<Props> = (props: Props) => {
       <Route path="/" exact component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/add-track" render={() => <AddTrack {...props} />} />
-      <Route path="/:accountId" exact render={() => <Profile />} />
+      <Route path="/:accountId" exact render={() => <ProfilePage />} />
     </Switch>
   );
 
