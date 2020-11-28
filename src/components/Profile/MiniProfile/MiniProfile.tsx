@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+import { Link } from "react-router-dom";
 
 import { Profile } from "../../../models/profile";
 
@@ -16,12 +17,14 @@ export const MiniProfile: FunctionComponent<MiniProfileProps> = (
     profile.profilePicture?.downloadUrl ?? "images/default-profile.png";
   return (
     <div className={styles.miniProfile}>
+      <Link to={`/${profile.id}`}>
       <img
         src={profilePictureSource}
         alt={profile.username}
         className={styles.miniProfileImage}
       />
       <p className={styles.miniProfileName}>{profile.username}</p>
+      </Link>
     </div>
   );
 };

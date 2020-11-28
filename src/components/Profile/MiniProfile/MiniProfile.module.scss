@@ -1,6 +1,8 @@
 .miniProfile {
-  display: flex;
-  align-items: center;
+  a {
+    display: flex;
+    align-items: center;
+  }
   .miniProfileImage {
     width: 40px;
     border-radius: 50%;

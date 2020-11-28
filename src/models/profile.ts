@@ -4,5 +4,7 @@ export interface Profile {
   id?: string;
   username?: string;
   profilePicture?: File;
-  [key: string]: string | undefined | File;
+  followers?:string[];
+  followings?:string[];
+  [key: string]: string | string [] | undefined | File;
 }

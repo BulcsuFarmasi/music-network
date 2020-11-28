@@ -8,6 +8,8 @@ export interface User {
   password?: string;
   username?: string;
   profilePicture?: File;
+  followers?:string[];
+  followings?:string[];
   token?: Token;
-  [key: string]: string | undefined | File | Token;
+  [key: string]: string | string[] | undefined | File | Token;
 }
